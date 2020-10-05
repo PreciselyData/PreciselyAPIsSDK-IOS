@@ -12,13 +12,11 @@ Method | HTTP request | Description
 # **getIdentityByAddress**
 ```objc
 -(NSNumber*) getIdentityByAddressWithAddress: (NSString*) address
-    givenName: (NSString*) givenName
-    familyName: (NSString*) familyName
     confidence: (NSString*) confidence
     maxCandidates: (NSString*) maxCandidates
     theme: (NSString*) theme
     filter: (NSString*) filter
-        completionHandler: (void (^)(PBGeoIdentityResponse* output, NSError* error)) handler;
+        completionHandler: (void (^)(PBIdentityResponse* output, NSError* error)) handler;
 ```
 
 Identities By Address
@@ -34,8 +32,6 @@ PBConfiguration *apiConfig = [PBConfiguration sharedConfig];
 
 
 NSString* address = @"address_example"; // free form address text
-NSString* givenName = @"givenName_example"; // This filters all the associated identities of address by given Name (optional)
-NSString* familyName = @"familyName_example"; // This filters all the associated identities of address by family Name (optional)
 NSString* confidence = @"confidence_example"; // To adjust quality threshold of data returned. Default is HIGH (optional)
 NSString* maxCandidates = @"maxCandidates_example"; // Number of identities returned in response (optional)
 NSString* theme = @"theme_example"; // theme parameter for filtering results (optional)
@@ -45,13 +41,11 @@ PBIdentityProfilesServiceApi*apiInstance = [[PBIdentityProfilesServiceApi alloc]
 
 // Identities By Address
 [apiInstance getIdentityByAddressWithAddress:address
-              givenName:givenName
-              familyName:familyName
               confidence:confidence
               maxCandidates:maxCandidates
               theme:theme
               filter:filter
-          completionHandler: ^(PBGeoIdentityResponse* output, NSError* error) {
+          completionHandler: ^(PBIdentityResponse* output, NSError* error) {
                         if (output) {
                             NSLog(@"%@", output);
                         }
@@ -66,8 +60,6 @@ PBIdentityProfilesServiceApi*apiInstance = [[PBIdentityProfilesServiceApi alloc]
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **address** | **NSString***| free form address text | 
- **givenName** | **NSString***| This filters all the associated identities of address by given Name | [optional] 
- **familyName** | **NSString***| This filters all the associated identities of address by family Name | [optional] 
  **confidence** | **NSString***| To adjust quality threshold of data returned. Default is HIGH | [optional] 
  **maxCandidates** | **NSString***| Number of identities returned in response | [optional] 
  **theme** | **NSString***| theme parameter for filtering results | [optional] 
@@ -75,7 +67,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**PBGeoIdentityResponse***](PBGeoIdentityResponse.md)
+[**PBIdentityResponse***](PBIdentityResponse.md)
 
 ### Authorization
 
@@ -84,7 +76,7 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
  - **Content-Type**: application/json, application/xml
- - **Accept**: application/xml, application/json
+ - **Accept**: application/json, application/xml
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -151,7 +143,7 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
  - **Content-Type**: application/json, application/xml
- - **Accept**: application/xml, application/json
+ - **Accept**: application/json, application/xml
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

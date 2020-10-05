@@ -4,69 +4,9 @@ All URIs are relative to *https://api.precisely.com*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**getDeviceStatus**](PBGeolocationServiceApi.md#getdevicestatus) | **GET** /geolocation/v1/devicestatus | Location By Device Status.
 [**getLocationByIPAddress**](PBGeolocationServiceApi.md#getlocationbyipaddress) | **GET** /geolocation/v1/location/byipaddress | Location By IP Address.
 [**getLocationByWiFiAccessPoint**](PBGeolocationServiceApi.md#getlocationbywifiaccesspoint) | **GET** /geolocation/v1/location/byaccesspoint | Location by WiFi Access Point.
 
-
-# **getDeviceStatus**
-```objc
--(NSNumber*) getDeviceStatusWithDeviceId: (NSString*) deviceId
-    includeNetworkInfo_: (NSString*) includeNetworkInfo_
-        completionHandler: (void (^)(PBGeoLocationDeviceSatus* output, NSError* error)) handler;
-```
-
-Location By Device Status.
-
-This service accepts a phone number as input and returns details distinguishing landline and wireless numbers and also checks if a wireless number can be located.
-
-### Example 
-```objc
-PBConfiguration *apiConfig = [PBConfiguration sharedConfig];
-
-// Configure OAuth2 access token for authorization: (authentication scheme: oAuth2Password)
-[apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
-
-
-NSString* deviceId = @"deviceId_example"; // Unique identifier for the intended device. Supported identifiers are fixed line and mobile number.
-NSString* includeNetworkInfo_ = @"includeNetworkInfo__example"; // Y or N (default is Y) – if it is N, then network/carrier details will not be added in the response. (optional)
-
-PBGeolocationServiceApi*apiInstance = [[PBGeolocationServiceApi alloc] init];
-
-// Location By Device Status.
-[apiInstance getDeviceStatusWithDeviceId:deviceId
-              includeNetworkInfo_:includeNetworkInfo_
-          completionHandler: ^(PBGeoLocationDeviceSatus* output, NSError* error) {
-                        if (output) {
-                            NSLog(@"%@", output);
-                        }
-                        if (error) {
-                            NSLog(@"Error calling PBGeolocationServiceApi->getDeviceStatus: %@", error);
-                        }
-                    }];
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **deviceId** | **NSString***| Unique identifier for the intended device. Supported identifiers are fixed line and mobile number. | 
- **includeNetworkInfo_** | **NSString***| Y or N (default is Y) – if it is N, then network/carrier details will not be added in the response. | [optional] 
-
-### Return type
-
-[**PBGeoLocationDeviceSatus***](PBGeoLocationDeviceSatus.md)
-
-### Authorization
-
-[oAuth2Password](../README.md#oAuth2Password)
-
-### HTTP request headers
-
- - **Content-Type**: application/json, application/xml
- - **Accept**: application/xml, application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **getLocationByIPAddress**
 ```objc

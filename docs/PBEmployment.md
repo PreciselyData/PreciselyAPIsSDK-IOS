@@ -4,7 +4,6 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **name** | **NSString*** |  | [optional] 
-**domain** | **NSString*** |  | [optional] 
 **current** | **NSNumber*** |  | [optional] [default to @0]
 **title** | **NSString*** |  | [optional] 
 **start** | [**PBStart***](PBStart.md) |  | [optional] 

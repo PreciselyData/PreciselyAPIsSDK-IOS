@@ -1,6 +1,5 @@
 #import "PBGeolocationServiceApi.h"
 #import "PBQueryParamCollection.h"
-#import "PBGeoLocationDeviceSatus.h"
 #import "PBGeoLocationIpAddr.h"
 #import "PBGeoLocationAccessPoint.h"
 
@@ -70,84 +69,6 @@ NSInteger kPBGeolocationServiceApiMissingParamErrorCode = 234513;
 }
 
 #pragma mark - Api Methods
-
-///
-/// Location By Device Status.
-/// This service accepts a phone number as input and returns details distinguishing landline and wireless numbers and also checks if a wireless number can be located.
-///  @param deviceId Unique identifier for the intended device. Supported identifiers are fixed line and mobile number. 
-///
-///  @param includeNetworkInfo_ Y or N (default is Y) – if it is N, then network/carrier details will not be added in the response. (optional)
-///
-///  @returns PBGeoLocationDeviceSatus*
-///
--(NSNumber*) getDeviceStatusWithDeviceId: (NSString*) deviceId
-    includeNetworkInfo_: (NSString*) includeNetworkInfo_
-    completionHandler: (void (^)(PBGeoLocationDeviceSatus* output, NSError* error)) handler {
-    // verify the required parameter 'deviceId' is set
-    if (deviceId == nil) {
-        NSParameterAssert(deviceId);
-        if(handler) {
-            NSDictionary * userInfo = @{NSLocalizedDescriptionKey : [NSString stringWithFormat:NSLocalizedString(@"Missing required parameter '%@'", nil),@"deviceId"] };
-            NSError* error = [NSError errorWithDomain:kPBGeolocationServiceApiErrorDomain code:kPBGeolocationServiceApiMissingParamErrorCode userInfo:userInfo];
-            handler(nil, error);
-        }
-        return nil;
-    }
-
-    NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/geolocation/v1/devicestatus"];
-
-    // remove format in URL if needed
-    [resourcePath replaceOccurrencesOfString:@".{format}" withString:@".json" options:0 range:NSMakeRange(0,resourcePath.length)];
-
-    NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
-
-    NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
-    if (deviceId != nil) {
-        queryParams[@"deviceId"] = deviceId;
-    }
-    if (includeNetworkInfo_ != nil) {
-        queryParams[@"includeNetworkInfo "] = includeNetworkInfo_;
-    }
-    NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.apiClient.configuration.defaultHeaders];
-    [headerParams addEntriesFromDictionary:self.defaultHeaders];
-    // HTTP header `Accept`
-    NSString *acceptHeader = [self.apiClient.sanitizer selectHeaderAccept:@[@"application/xml", @"application/json"]];
-    if(acceptHeader.length > 0) {
-        headerParams[@"Accept"] = acceptHeader;
-    }
-
-    // response content type
-    NSString *responseContentType = [[acceptHeader componentsSeparatedByString:@", "] firstObject] ?: @"";
-
-    // request content type
-    NSString *requestContentType = [self.apiClient.sanitizer selectHeaderContentType:@[@"application/json", @"application/xml"]];
-
-    // Authentication setting
-    NSArray *authSettings = @[@"oAuth2Password"];
-
-    id bodyParam = nil;
-    NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
-    NSMutableDictionary *localVarFiles = [[NSMutableDictionary alloc] init];
-
-    return [self.apiClient requestWithPath: resourcePath
-                                    method: @"GET"
-                                pathParams: pathParams
-                               queryParams: queryParams
-                                formParams: formParams
-                                     files: localVarFiles
-                                      body: bodyParam
-                              headerParams: headerParams
-                              authSettings: authSettings
-                        requestContentType: requestContentType
-                       responseContentType: responseContentType
-                              responseType: @"PBGeoLocationDeviceSatus*"
-                           completionBlock: ^(id data, NSError *error) {
-                                if(handler) {
-                                    handler((PBGeoLocationDeviceSatus*)data, error);
-                                }
-                           }
-          ];
-}
 
 ///
 /// Location By IP Address.

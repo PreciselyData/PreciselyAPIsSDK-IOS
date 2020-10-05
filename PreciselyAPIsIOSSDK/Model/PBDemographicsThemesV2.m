@@ -17,7 +17,7 @@
  * This method is used by `JSONModel`.
  */
 + (JSONKeyMapper *)keyMapper {
-  return [[JSONKeyMapper alloc] initWithDictionary:@{ @"populationTheme": @"populationTheme", @"raceAndEthnicityTheme": @"raceAndEthnicityTheme", @"healthTheme": @"healthTheme", @"educationTheme": @"educationTheme", @"incomeTheme": @"incomeTheme", @"assetsAndWealthTheme": @"assetsAndWealthTheme", @"householdsTheme": @"householdsTheme", @"housingTheme": @"housingTheme", @"employmentTheme": @"employmentTheme", @"expenditureTheme": @"expenditureTheme", @"supplyAndDemandTheme": @"supplyAndDemandTheme" }];
+  return [[JSONKeyMapper alloc] initWithDictionary:@{ @"boundaryId": @"boundaryId", @"populationTheme": @"populationTheme", @"raceAndEthnicityTheme": @"raceAndEthnicityTheme", @"healthTheme": @"healthTheme", @"educationTheme": @"educationTheme", @"incomeTheme": @"incomeTheme", @"assetsAndWealthTheme": @"assetsAndWealthTheme", @"householdsTheme": @"householdsTheme", @"housingTheme": @"housingTheme", @"employmentTheme": @"employmentTheme", @"expenditureTheme": @"expenditureTheme", @"supplyAndDemandTheme": @"supplyAndDemandTheme" }];
 }
 
 /**
@@ -27,7 +27,7 @@
  */
 + (BOOL)propertyIsOptional:(NSString *)propertyName {
 
-  NSArray *optionalProperties = @[@"populationTheme", @"raceAndEthnicityTheme", @"healthTheme", @"educationTheme", @"incomeTheme", @"assetsAndWealthTheme", @"householdsTheme", @"housingTheme", @"employmentTheme", @"expenditureTheme", @"supplyAndDemandTheme"];
+  NSArray *optionalProperties = @[@"boundaryId", @"populationTheme", @"raceAndEthnicityTheme", @"healthTheme", @"educationTheme", @"incomeTheme", @"assetsAndWealthTheme", @"householdsTheme", @"housingTheme", @"employmentTheme", @"expenditureTheme", @"supplyAndDemandTheme"];
   return [optionalProperties containsObject:propertyName];
 }
 

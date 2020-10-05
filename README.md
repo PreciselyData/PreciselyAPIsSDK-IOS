@@ -1,71 +1,12 @@
-![Precisely](/precisely_logo_purple.jpg)
-
-# Precisely APIs
-
-### Description
-[Precisely APIs ](https://developer.precisely.com/) Enrich your data, and enhance your applications, business processes and workflows with dozens of powerful location & identity APIs.
-
-### Precisely APIs:
-
-* [Geocode](https://developer.precisely.com/apis/geocode): Accurate Geocoding. Convert individual or batch collections of addresses to latitude & longitude coordinates and vice versa. Useful for enhancing & enriching your customer addresses.
-
-* [Typeahead](https://developer.precisely.com/apis/typeahead): Address Autocomplete. Build Address typeahead into your websites. The Typeahead API returns an autocompleted list of addresses based on the input of a partial address. Useful for any local search, checkout, shipping, or billing experiences on your website. Increase e-commerce conversion by 3-6%!
-
-* [Maps](https://developer.precisely.com/apis/maps): Beautiful Visualization. Add your data and/or Precisely data atop beautiful maps for visualizations. Choose from three map styles - Bronze, Iron, and Steel.
-
-* [Zones](https://developer.precisely.com/apis/zones): Smart Zones. The Zones API returns geographic zones by Radius, Drive Distance, Drive Time and highly localized geofence zones with the input of Location Coordinates or Addresses. Useful for anyone wanting to create smarter geofence zones for Local Engagement and Analysis.
-
-* [Routing](https://developer.precisely.com/apis/routing): Accurate Routing. The Routing API returns Point-to-Point and Multi-Point Travel Directions by Various Travel Modes. Critical for any Simple or Complex Routing Requirement.
-
-* [Streets](https://developer.precisely.com/apis/streets): Global Street Information. Enrich your applications, business processes, and workflows with global street information including nearest intersections and speed limits. The Streets API accepts an address or location and returns nearest intersection information. The speed limit method accepts a series of locations and returns speed limits along a street segment.
-
-* [Places](https://developer.precisely.com/apis/places) : Global Place Data. Enrich your applications, business processes, and workflows with over 180 million of global retail businesses and landmark points-of-interest. The Places API accepts multiple powerful inputs & filtering options and returns thousands of records in a single API request. The Places API also supports global typeahead place search. Useful for enriching your data and/or analytics processes with rich commercial business information and place names.
-
-* [Risks](https://developer.precisely.com/apis/risks): Risks Insights. Capture Crime, Earthquake, Flood, Fire, Fire Station and Distance-to-Flood-Hazard risk data for Analysis, Planning, Claims, and Mitigation. The Risks API returns risk intelligence with the input of Location Coordinates or Addresses. Critical for any impact analysis involving threats to lives or property.
-
-* [911/PSAP](https://developer.precisely.com/apis/911): Emergency call handling. Integrate Public Safety Answering Point (PSAP) administrative call routing information plus Authority Having Jurisdiction (AHJ) phone numbers into your emergency services products and services. The 911/PSAP API retrieves 10-digit phone numbers and local contact info with the input of a location coordinate. Useful for emergency services administrators, call handlers, and dispatchers.
-
-* [Demographics](https://developer.precisely.com/apis/demographics) : Audience Enrichment. Add local demographics and lifestyle segmentation to your people profiles. The Demographics & Lifestyle API returns household demographics and lifestyle characteristics with the input of an address or location coordinate. Know more about your customers and their customers.
-
-* [Local Tax](https://developer.precisely.com/apis/localtax): Local Tax. Add hyperlocal tax rates to your applications, business processes, and workflows. The Local Tax API returns local tax rates with the input of location coordinates or addresses. Critical for any billing, commerce, payment, or payroll application or service.
-
-* [Telecomm Info](https://developer.precisely.com/apis/telecomm): Service Provider Intelligence. Identify Local Exchange Carrier presence, area codes, exchanges, and more within a Rate Center area. The Telecomm Info API retrieves Incumbent Local Exchange Carrier (ILEC) doing-business-as names along with NPA/NXX, LATA, and phone number ranges with the input of an address or location coordinates. Useful for local telecommunications competitive intelligence, partnerships, and provisioning subscribers.
-
-* [Time Zone](https://developer.precisely.com/apis/timezone): Local time. The Time Zone API returns time zones and UTC offsets with the input of a location coordinate or address. Useful for do-not-call, logistics, and customer engagement applications, business processes and workflows.
-
-* [Geolocation](https://developer.precisely.com/apis/geolocation): Device Location. The Geolocation API returns location coordinates based on the input of an IP Address or Wi-Fi Access point MAC address. Useful for a variety of applications, business processes and workflows in eCommerce, Fraud Detection, Physical-Digital interactions, Field Service and more.
-
-* [Identity Profiles](https://developer.precisely.com/apis/identityprofiles): Rich Identity Profiles. Powerful, local socio-economic & affinity insights about your customer. Enrich shipping addresses with rich, localized Identity profiles, demographics, lifestyle segmentations, neighborhood names, property ownership & values, and social affinity insights. The Identity Profiles API returns all these data with the input of a Physical Address, Email Address, or Twitter handle. Useful for enhancing & enriching a wide variety of applications, business processes, or workflows.
-
-* [Schools](https://developer.precisely.com/apis/schools): School Listings. Gather local multiple school listings, types, districts and education levels for your applications. The Schools API accepts multiple powerful inputs & geographic filtering options and returns nearby school listings and additional data a single API request. Useful for enriching your applications and websites.
-
-* [Neighborhoods](https://developer.precisely.com/apis/neighborhoods): Neighborhood Insights. Integrate global neighborhood names and classification information into your applications and enrich other data. The Neighborhood API accepts latitude & longitude coordinates and returns the corresponding neighborhood name & type. Useful for a wide range of data enrichment use cases.
-
-* [Property Information](https://developer.precisely.com/apis/property): Property Insights. Integrate extensive residential & commercial property information into your applications. The Property Information API returns property parcel boundaries and hundreds of property attributes for millions of US properties with the input of Location Coordinates or Addresses. Useful for Real Estate use cases or those involving risk assessments.
-
-* [Address Verification](https://developer.precisely.com/apis/addressverification): Real, accurate and complete address. Eliminate errors in address data, improve customer experience. The Address Verification API makes communication easier, faster and effortless by enriching customer details, keeping it up-to-date and maintaining its accuracy and consistency. It eliminates redundancy in reaching out to customers and makes it easy for distinct functional areas to work seamlessly in improving customer relationship.
-
-* [Email Verification](https://developer.precisely.com/apis/emailverification): Email address validation and protection. The Email Verification API corrects and validates your email addresses to protect your database from invalid, toxic and undesirable email addresses. We help you avoid a damaged sender reputations by flagging those bouncing emails, spam trap hits, honeypots, stale lists and do-not-contact list before you have a chance to use them.
-
-
-The following platforms are supported by Precisely SDKs:
-*	[Android](https://developer.precisely.com/apis/docs/index.html#Android%20SDK/android_intro.html)
-*	[NodeJS](https://developer.precisely.com/apis/docs/index.html#NodeJS/node.js_sdk.html) 
-*	[iOS](https://developer.precisely.com/apis/docs/index.html#iOS%20SDK/ios_intro.html)
-*	[Java](https://developer.precisely.com/apis/docs/index.html#Java%20SDK/java_intro.html)
-*	[C#](https://developer.precisely.com/apis/docs/index.html#C_sdk/java_intro.html)  
-
-[Click here](https://developer.precisely.com/apis/docs/index.html) for detailed Documentation on Precisely APIs 
-
 # PreciselyAPIsIOSSDK
 
 Enhance & enrich your data, applications, business processes, and workflows with rich location, information, and identify APIs.
 
 This ObjC package is automatically generated by the [Swagger Codegen](https://github.com/swagger-api/swagger-codegen) project:
 
-- API version: 9.0.0
-- Package version: 9.0.0
-- Build date: 2020-05-28T14:56:18.724+05:30
+- API version: 9.5.0
+- Package version: 9.5.0
+- Build date: 2020-10-01T17:45:37.540+05:30
 - Build package: class io.swagger.codegen.languages.ObjcClientCodegen
 
 ## Requirements
@@ -108,6 +49,12 @@ Import the following:
 #import <PreciselyAPIsIOSSDK/PBAccuracy.h>
 #import <PreciselyAPIsIOSSDK/PBAddress.h>
 #import <PreciselyAPIsIOSSDK/PBAddressTime.h>
+#import <PreciselyAPIsIOSSDK/PBAddressType.h>
+#import <PreciselyAPIsIOSSDK/PBAddressesByBoundaryRequest.h>
+#import <PreciselyAPIsIOSSDK/PBAddressesCount.h>
+#import <PreciselyAPIsIOSSDK/PBAddressesDTO.h>
+#import <PreciselyAPIsIOSSDK/PBAddressesPreferences.h>
+#import <PreciselyAPIsIOSSDK/PBAddressesResponse.h>
 #import <PreciselyAPIsIOSSDK/PBAge.h>
 #import <PreciselyAPIsIOSSDK/PBAgeTheme.h>
 #import <PreciselyAPIsIOSSDK/PBArea.h>
@@ -118,7 +65,6 @@ Import the following:
 #import <PreciselyAPIsIOSSDK/PBBaseFloodElevation.h>
 #import <PreciselyAPIsIOSSDK/PBBasicBoundary.h>
 #import <PreciselyAPIsIOSSDK/PBBasicBoundaryAddress.h>
-#import <PreciselyAPIsIOSSDK/PBBirthday.h>
 #import <PreciselyAPIsIOSSDK/PBBoundaries.h>
 #import <PreciselyAPIsIOSSDK/PBBoundary.h>
 #import <PreciselyAPIsIOSSDK/PBBoundaryBuffer.h>
@@ -168,9 +114,11 @@ Import the following:
 #import <PreciselyAPIsIOSSDK/PBCustomObjectMember.h>
 #import <PreciselyAPIsIOSSDK/PBCustomPreferences.h>
 #import <PreciselyAPIsIOSSDK/PBDateTimeEarthQuake.h>
+#import <PreciselyAPIsIOSSDK/PBDemographics.h>
+#import <PreciselyAPIsIOSSDK/PBDemographicsAdvancedPreferences.h>
+#import <PreciselyAPIsIOSSDK/PBDemographicsAdvancedRequest.h>
 #import <PreciselyAPIsIOSSDK/PBDemographicsThemes.h>
 #import <PreciselyAPIsIOSSDK/PBDemographicsThemesV2.h>
-#import <PreciselyAPIsIOSSDK/PBDemographicsV2.h>
 #import <PreciselyAPIsIOSSDK/PBDepth.h>
 #import <PreciselyAPIsIOSSDK/PBDeviceStatusNetwork.h>
 #import <PreciselyAPIsIOSSDK/PBDictionary.h>
@@ -239,12 +187,8 @@ Import the following:
 #import <PreciselyAPIsIOSSDK/PBGenderTheme.h>
 #import <PreciselyAPIsIOSSDK/PBGeoEnrichMetadataResponse.h>
 #import <PreciselyAPIsIOSSDK/PBGeoEnrichResponse.h>
-#import <PreciselyAPIsIOSSDK/PBGeoIdentityName.h>
-#import <PreciselyAPIsIOSSDK/PBGeoIdentityPlace.h>
-#import <PreciselyAPIsIOSSDK/PBGeoIdentityResponse.h>
 #import <PreciselyAPIsIOSSDK/PBGeoLocationAccessPoint.h>
 #import <PreciselyAPIsIOSSDK/PBGeoLocationCountry.h>
-#import <PreciselyAPIsIOSSDK/PBGeoLocationDeviceSatus.h>
 #import <PreciselyAPIsIOSSDK/PBGeoLocationFixedLine.h>
 #import <PreciselyAPIsIOSSDK/PBGeoLocationFixedLineCountry.h>
 #import <PreciselyAPIsIOSSDK/PBGeoLocationIpAddr.h>
@@ -291,14 +235,16 @@ Import the following:
 #import <PreciselyAPIsIOSSDK/PBGreatschools.h>
 #import <PreciselyAPIsIOSSDK/PBGrid.h>
 #import <PreciselyAPIsIOSSDK/PBHealthTheme.h>
-#import <PreciselyAPIsIOSSDK/PBHouseholdFinance.h>
 #import <PreciselyAPIsIOSSDK/PBHouseholdSizeTheme.h>
 #import <PreciselyAPIsIOSSDK/PBHouseholdsTheme.h>
 #import <PreciselyAPIsIOSSDK/PBHousingTheme.h>
 #import <PreciselyAPIsIOSSDK/PBIPDTaxByAddressBatchRequest.h>
 #import <PreciselyAPIsIOSSDK/PBIPDTaxJurisdiction.h>
 #import <PreciselyAPIsIOSSDK/PBIdentity.h>
+#import <PreciselyAPIsIOSSDK/PBIdentityDemographics.h>
 #import <PreciselyAPIsIOSSDK/PBIdentityDetail.h>
+#import <PreciselyAPIsIOSSDK/PBIdentityName.h>
+#import <PreciselyAPIsIOSSDK/PBIdentityResponse.h>
 #import <PreciselyAPIsIOSSDK/PBIncomeTheme.h>
 #import <PreciselyAPIsIOSSDK/PBIncomeThemeV2.h>
 #import <PreciselyAPIsIOSSDK/PBIndexVariable.h>
@@ -314,7 +260,6 @@ Import the following:
 #import <PreciselyAPIsIOSSDK/PBKeys.h>
 #import <PreciselyAPIsIOSSDK/PBLatLongFields.h>
 #import <PreciselyAPIsIOSSDK/PBLifeStyleTheme.h>
-#import <PreciselyAPIsIOSSDK/PBLifestyle.h>
 #import <PreciselyAPIsIOSSDK/PBLocation.h>
 #import <PreciselyAPIsIOSSDK/PBLocationTime.h>
 #import <PreciselyAPIsIOSSDK/PBMagnitude.h>
@@ -323,7 +268,6 @@ Import the following:
 #import <PreciselyAPIsIOSSDK/PBMatchedAddress.h>
 #import <PreciselyAPIsIOSSDK/PBMatrix.h>
 #import <PreciselyAPIsIOSSDK/PBMcd.h>
-#import <PreciselyAPIsIOSSDK/PBNeighborhood.h>
 #import <PreciselyAPIsIOSSDK/PBNetwork.h>
 #import <PreciselyAPIsIOSSDK/PBOperation.h>
 #import <PreciselyAPIsIOSSDK/PBOrganizationType.h>
@@ -342,6 +286,7 @@ Import the following:
 #import <PreciselyAPIsIOSSDK/PBParcelBoundary.h>
 #import <PreciselyAPIsIOSSDK/PBParentBusiness.h>
 #import <PreciselyAPIsIOSSDK/PBPbKey.h>
+#import <PreciselyAPIsIOSSDK/PBPhoneVerification.h>
 #import <PreciselyAPIsIOSSDK/PBPhoto.h>
 #import <PreciselyAPIsIOSSDK/PBPlaceByLocations.h>
 #import <PreciselyAPIsIOSSDK/PBPlaceByLocationsLocation.h>
@@ -362,8 +307,8 @@ Import the following:
 #import <PreciselyAPIsIOSSDK/PBPreferences.h>
 #import <PreciselyAPIsIOSSDK/PBPrimaryZone.h>
 #import <PreciselyAPIsIOSSDK/PBProfile.h>
+#import <PreciselyAPIsIOSSDK/PBProfiles.h>
 #import <PreciselyAPIsIOSSDK/PBProperties.h>
-#import <PreciselyAPIsIOSSDK/PBProperty.h>
 #import <PreciselyAPIsIOSSDK/PBProxy.h>
 #import <PreciselyAPIsIOSSDK/PBPurchasingBehaviorTheme.h>
 #import <PreciselyAPIsIOSSDK/PBRaceAndEthnicityTheme.h>
@@ -484,6 +429,7 @@ Import the following:
 #import <PreciselyAPIsIOSSDK/PBWaterBodyResponse.h>
 // load API classes for accessing endpoints
 #import <PreciselyAPIsIOSSDK/PBAddressVerificationServiceApi.h>
+#import <PreciselyAPIsIOSSDK/PBAddressesAPIServiceApi.h>
 #import <PreciselyAPIsIOSSDK/PBDemographicsServiceApi.h>
 #import <PreciselyAPIsIOSSDK/PBEmailVerificationServiceApi.h>
 #import <PreciselyAPIsIOSSDK/PBGeocodeServiceApi.h>
@@ -491,6 +437,7 @@ Import the following:
 #import <PreciselyAPIsIOSSDK/PBIdentityProfilesServiceApi.h>
 #import <PreciselyAPIsIOSSDK/PBLocalTaxServiceApi.h>
 #import <PreciselyAPIsIOSSDK/PBNeighborhoodsServiceApi.h>
+#import <PreciselyAPIsIOSSDK/PBPhoneVerificationServiceApi.h>
 #import <PreciselyAPIsIOSSDK/PBPlacesServiceApi.h>
 #import <PreciselyAPIsIOSSDK/PBPropertyInformationServiceApi.h>
 #import <PreciselyAPIsIOSSDK/PBRisksServiceApi.h>
@@ -550,7 +497,14 @@ Class | Method | HTTP request | Description
 *PBAddressVerificationServiceApi* | [**validateMailingAddressPremium**](docs/PBAddressVerificationServiceApi.md#validatemailingaddresspremium) | **POST** /addressverification/v1/validatemailingaddresspremium/results.json | ValidateMailingAddressPremium
 *PBAddressVerificationServiceApi* | [**validateMailingAddressPro**](docs/PBAddressVerificationServiceApi.md#validatemailingaddresspro) | **POST** /addressverification/v1/validatemailingaddresspro/results.json | ValidateMailingAddressPro
 *PBAddressVerificationServiceApi* | [**validateMailingAddressUSCAN**](docs/PBAddressVerificationServiceApi.md#validatemailingaddressuscan) | **POST** /addressverification/v1/validatemailingaddressuscan/results.json | ValidateMailingAddressUSCAN
+*PBAddressesAPIServiceApi* | [**getAddressesByBoundaryName**](docs/PBAddressesAPIServiceApi.md#getaddressesbyboundaryname) | **GET** /addresses/v1/address/byboundaryname | Addresses By Boundary Area.
+*PBAddressesAPIServiceApi* | [**getAddressesCountByBoundary**](docs/PBAddressesAPIServiceApi.md#getaddressescountbyboundary) | **POST** /addresses/v1/addresscount/byboundary | Address Counts by Boundary.
+*PBAddressesAPIServiceApi* | [**getAddressesCountByBoundaryName**](docs/PBAddressesAPIServiceApi.md#getaddressescountbyboundaryname) | **GET** /addresses/v1/addresscount/byboundaryname | Address Counts by Boundary Name.
+*PBAddressesAPIServiceApi* | [**getAddressesbyBoundary**](docs/PBAddressesAPIServiceApi.md#getaddressesbyboundary) | **POST** /addresses/v1/address/byboundary | Addresses by Boundary.
+*PBDemographicsServiceApi* | [**getDemographicsAdvanced**](docs/PBDemographicsServiceApi.md#getdemographicsadvanced) | **POST** /demographics-segmentation/v1/advanced/demographics | Demographics Advanced Endpoint
+*PBDemographicsServiceApi* | [**getDemographicsBasic**](docs/PBDemographicsServiceApi.md#getdemographicsbasic) | **GET** /demographics-segmentation/v1/basic/demographics | Demographics Basic
 *PBDemographicsServiceApi* | [**getDemographicsByAddressV2**](docs/PBDemographicsServiceApi.md#getdemographicsbyaddressv2) | **GET** /demographics-segmentation/v1/demographics/byaddress | Demographics By Address.
+*PBDemographicsServiceApi* | [**getDemographicsByBoundaryIds**](docs/PBDemographicsServiceApi.md#getdemographicsbyboundaryids) | **GET** /demographics-segmentation/v1/demographics/byboundaryids | Demographics By Boundaryids.
 *PBDemographicsServiceApi* | [**getDemographicsByLocationV2**](docs/PBDemographicsServiceApi.md#getdemographicsbylocationv2) | **GET** /demographics-segmentation/v1/demographics/bylocation | Demographics By Location.
 *PBDemographicsServiceApi* | [**getSegmentationByAddress**](docs/PBDemographicsServiceApi.md#getsegmentationbyaddress) | **GET** /demographics-segmentation/v1/segmentation/byaddress | Segmentation By Address.
 *PBDemographicsServiceApi* | [**getSegmentationByLocation**](docs/PBDemographicsServiceApi.md#getsegmentationbylocation) | **GET** /demographics-segmentation/v1/segmentation/bylocation | Segmentation By Location.
@@ -565,7 +519,6 @@ Class | Method | HTTP request | Description
 *PBGeocodeServiceApi* | [**keyLookupBatch**](docs/PBGeocodeServiceApi.md#keylookupbatch) | **POST** /geocode/v1/keylookup | Post Key Lookup
 *PBGeocodeServiceApi* | [**reverseGeocodBatch**](docs/PBGeocodeServiceApi.md#reversegeocodbatch) | **POST** /geocode/v1/{datapackBundle}/reverseGeocode | Post Reverse Geocode
 *PBGeocodeServiceApi* | [**reverseGeocode**](docs/PBGeocodeServiceApi.md#reversegeocode) | **GET** /geocode/v1/{datapackBundle}/reverseGeocode | Get Reverse Geocode
-*PBGeolocationServiceApi* | [**getDeviceStatus**](docs/PBGeolocationServiceApi.md#getdevicestatus) | **GET** /geolocation/v1/devicestatus | Location By Device Status.
 *PBGeolocationServiceApi* | [**getLocationByIPAddress**](docs/PBGeolocationServiceApi.md#getlocationbyipaddress) | **GET** /geolocation/v1/location/byipaddress | Location By IP Address.
 *PBGeolocationServiceApi* | [**getLocationByWiFiAccessPoint**](docs/PBGeolocationServiceApi.md#getlocationbywifiaccesspoint) | **GET** /geolocation/v1/location/byaccesspoint | Location by WiFi Access Point.
 *PBIdentityProfilesServiceApi* | [**getIdentityByAddress**](docs/PBIdentityProfilesServiceApi.md#getidentitybyaddress) | **GET** /identityprofiles/v1/identity/byaddress | Identities By Address
@@ -582,6 +535,7 @@ Class | Method | HTTP request | Description
 *PBLocalTaxServiceApi* | [**getSpecificTaxRateByAddress**](docs/PBLocalTaxServiceApi.md#getspecifictaxratebyaddress) | **GET** /localtax/v1/taxrate/{taxRateTypeId}/byaddress | Get Taxrate By Address
 *PBLocalTaxServiceApi* | [**getSpecificTaxRateByLocation**](docs/PBLocalTaxServiceApi.md#getspecifictaxratebylocation) | **GET** /localtax/v1/taxrate/{taxRateTypeId}/bylocation | Get Taxrate By Location
 *PBNeighborhoodsServiceApi* | [**getPlaceByLocation**](docs/PBNeighborhoodsServiceApi.md#getplacebylocation) | **GET** /neighborhoods/v1/place/bylocation | Place By Location.
+*PBPhoneVerificationServiceApi* | [**phoneVerification**](docs/PBPhoneVerificationServiceApi.md#phoneverification) | **GET** /phoneverification/v1/phoneverification | Phone verification.
 *PBPlacesServiceApi* | [**getCategoryCodeMetadata**](docs/PBPlacesServiceApi.md#getcategorycodemetadata) | **GET** /places/v1/metadata/category | Returns Category Codes with their sub-categories (if exist), descriptions and SIC Codes mapping
 *PBPlacesServiceApi* | [**getPOIById**](docs/PBPlacesServiceApi.md#getpoibyid) | **GET** /places/v1/poi/{id} | Points Of Interest Details By Id
 *PBPlacesServiceApi* | [**getPOIsByAddress**](docs/PBPlacesServiceApi.md#getpoisbyaddress) | **GET** /places/v1/poi/byaddress | Points of Interest By Address.
@@ -657,6 +611,12 @@ Class | Method | HTTP request | Description
  - [PBAccuracy](docs/PBAccuracy.md)
  - [PBAddress](docs/PBAddress.md)
  - [PBAddressTime](docs/PBAddressTime.md)
+ - [PBAddressType](docs/PBAddressType.md)
+ - [PBAddressesByBoundaryRequest](docs/PBAddressesByBoundaryRequest.md)
+ - [PBAddressesCount](docs/PBAddressesCount.md)
+ - [PBAddressesDTO](docs/PBAddressesDTO.md)
+ - [PBAddressesPreferences](docs/PBAddressesPreferences.md)
+ - [PBAddressesResponse](docs/PBAddressesResponse.md)
  - [PBAge](docs/PBAge.md)
  - [PBAgeTheme](docs/PBAgeTheme.md)
  - [PBArea](docs/PBArea.md)
@@ -667,7 +627,6 @@ Class | Method | HTTP request | Description
  - [PBBaseFloodElevation](docs/PBBaseFloodElevation.md)
  - [PBBasicBoundary](docs/PBBasicBoundary.md)
  - [PBBasicBoundaryAddress](docs/PBBasicBoundaryAddress.md)
- - [PBBirthday](docs/PBBirthday.md)
  - [PBBoundaries](docs/PBBoundaries.md)
  - [PBBoundary](docs/PBBoundary.md)
  - [PBBoundaryBuffer](docs/PBBoundaryBuffer.md)
@@ -717,9 +676,11 @@ Class | Method | HTTP request | Description
  - [PBCustomObjectMember](docs/PBCustomObjectMember.md)
  - [PBCustomPreferences](docs/PBCustomPreferences.md)
  - [PBDateTimeEarthQuake](docs/PBDateTimeEarthQuake.md)
+ - [PBDemographics](docs/PBDemographics.md)
+ - [PBDemographicsAdvancedPreferences](docs/PBDemographicsAdvancedPreferences.md)
+ - [PBDemographicsAdvancedRequest](docs/PBDemographicsAdvancedRequest.md)
  - [PBDemographicsThemes](docs/PBDemographicsThemes.md)
  - [PBDemographicsThemesV2](docs/PBDemographicsThemesV2.md)
- - [PBDemographicsV2](docs/PBDemographicsV2.md)
  - [PBDepth](docs/PBDepth.md)
  - [PBDeviceStatusNetwork](docs/PBDeviceStatusNetwork.md)
  - [PBDictionary](docs/PBDictionary.md)
@@ -788,12 +749,8 @@ Class | Method | HTTP request | Description
  - [PBGenderTheme](docs/PBGenderTheme.md)
  - [PBGeoEnrichMetadataResponse](docs/PBGeoEnrichMetadataResponse.md)
  - [PBGeoEnrichResponse](docs/PBGeoEnrichResponse.md)
- - [PBGeoIdentityName](docs/PBGeoIdentityName.md)
- - [PBGeoIdentityPlace](docs/PBGeoIdentityPlace.md)
- - [PBGeoIdentityResponse](docs/PBGeoIdentityResponse.md)
  - [PBGeoLocationAccessPoint](docs/PBGeoLocationAccessPoint.md)
  - [PBGeoLocationCountry](docs/PBGeoLocationCountry.md)
- - [PBGeoLocationDeviceSatus](docs/PBGeoLocationDeviceSatus.md)
  - [PBGeoLocationFixedLine](docs/PBGeoLocationFixedLine.md)
  - [PBGeoLocationFixedLineCountry](docs/PBGeoLocationFixedLineCountry.md)
  - [PBGeoLocationIpAddr](docs/PBGeoLocationIpAddr.md)
@@ -840,14 +797,16 @@ Class | Method | HTTP request | Description
  - [PBGreatschools](docs/PBGreatschools.md)
  - [PBGrid](docs/PBGrid.md)
  - [PBHealthTheme](docs/PBHealthTheme.md)
- - [PBHouseholdFinance](docs/PBHouseholdFinance.md)
  - [PBHouseholdSizeTheme](docs/PBHouseholdSizeTheme.md)
  - [PBHouseholdsTheme](docs/PBHouseholdsTheme.md)
  - [PBHousingTheme](docs/PBHousingTheme.md)
  - [PBIPDTaxByAddressBatchRequest](docs/PBIPDTaxByAddressBatchRequest.md)
  - [PBIPDTaxJurisdiction](docs/PBIPDTaxJurisdiction.md)
  - [PBIdentity](docs/PBIdentity.md)
+ - [PBIdentityDemographics](docs/PBIdentityDemographics.md)
  - [PBIdentityDetail](docs/PBIdentityDetail.md)
+ - [PBIdentityName](docs/PBIdentityName.md)
+ - [PBIdentityResponse](docs/PBIdentityResponse.md)
  - [PBIncomeTheme](docs/PBIncomeTheme.md)
  - [PBIncomeThemeV2](docs/PBIncomeThemeV2.md)
  - [PBIndexVariable](docs/PBIndexVariable.md)
@@ -863,7 +822,6 @@ Class | Method | HTTP request | Description
  - [PBKeys](docs/PBKeys.md)
  - [PBLatLongFields](docs/PBLatLongFields.md)
  - [PBLifeStyleTheme](docs/PBLifeStyleTheme.md)
- - [PBLifestyle](docs/PBLifestyle.md)
  - [PBLocation](docs/PBLocation.md)
  - [PBLocationTime](docs/PBLocationTime.md)
  - [PBMagnitude](docs/PBMagnitude.md)
@@ -872,7 +830,6 @@ Class | Method | HTTP request | Description
  - [PBMatchedAddress](docs/PBMatchedAddress.md)
  - [PBMatrix](docs/PBMatrix.md)
  - [PBMcd](docs/PBMcd.md)
- - [PBNeighborhood](docs/PBNeighborhood.md)
  - [PBNetwork](docs/PBNetwork.md)
  - [PBOperation](docs/PBOperation.md)
  - [PBOrganizationType](docs/PBOrganizationType.md)
@@ -891,6 +848,7 @@ Class | Method | HTTP request | Description
  - [PBParcelBoundary](docs/PBParcelBoundary.md)
  - [PBParentBusiness](docs/PBParentBusiness.md)
  - [PBPbKey](docs/PBPbKey.md)
+ - [PBPhoneVerification](docs/PBPhoneVerification.md)
  - [PBPhoto](docs/PBPhoto.md)
  - [PBPlaceByLocations](docs/PBPlaceByLocations.md)
  - [PBPlaceByLocationsLocation](docs/PBPlaceByLocationsLocation.md)
@@ -911,8 +869,8 @@ Class | Method | HTTP request | Description
  - [PBPreferences](docs/PBPreferences.md)
  - [PBPrimaryZone](docs/PBPrimaryZone.md)
  - [PBProfile](docs/PBProfile.md)
+ - [PBProfiles](docs/PBProfiles.md)
  - [PBProperties](docs/PBProperties.md)
- - [PBProperty](docs/PBProperty.md)
  - [PBProxy](docs/PBProxy.md)
  - [PBPurchasingBehaviorTheme](docs/PBPurchasingBehaviorTheme.md)
  - [PBRaceAndEthnicityTheme](docs/PBRaceAndEthnicityTheme.md)

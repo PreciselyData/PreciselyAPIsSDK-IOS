@@ -1,6 +1,6 @@
 #import "PBIdentityProfilesServiceApi.h"
 #import "PBQueryParamCollection.h"
-#import "PBGeoIdentityResponse.h"
+#import "PBIdentityResponse.h"
 #import "PBIdentity.h"
 
 
@@ -75,10 +75,6 @@ NSInteger kPBIdentityProfilesServiceApiMissingParamErrorCode = 234513;
 /// Accepts an Address as input and returns rich localized Identity profiles, demographics, lifestyle segmentations, neighborhood names, property ownership & values, and social affinity insights from twitter, linkedin, and more along with education, job history and other identity information.
 ///  @param address free form address text 
 ///
-///  @param givenName This filters all the associated identities of address by given Name (optional)
-///
-///  @param familyName This filters all the associated identities of address by family Name (optional)
-///
 ///  @param confidence To adjust quality threshold of data returned. Default is HIGH (optional)
 ///
 ///  @param maxCandidates Number of identities returned in response (optional)
@@ -87,16 +83,14 @@ NSInteger kPBIdentityProfilesServiceApiMissingParamErrorCode = 234513;
 ///
 ///  @param filter filter params (optional)
 ///
-///  @returns PBGeoIdentityResponse*
+///  @returns PBIdentityResponse*
 ///
 -(NSNumber*) getIdentityByAddressWithAddress: (NSString*) address
-    givenName: (NSString*) givenName
-    familyName: (NSString*) familyName
     confidence: (NSString*) confidence
     maxCandidates: (NSString*) maxCandidates
     theme: (NSString*) theme
     filter: (NSString*) filter
-    completionHandler: (void (^)(PBGeoIdentityResponse* output, NSError* error)) handler {
+    completionHandler: (void (^)(PBIdentityResponse* output, NSError* error)) handler {
     // verify the required parameter 'address' is set
     if (address == nil) {
         NSParameterAssert(address);
@@ -119,12 +113,6 @@ NSInteger kPBIdentityProfilesServiceApiMissingParamErrorCode = 234513;
     if (address != nil) {
         queryParams[@"address"] = address;
     }
-    if (givenName != nil) {
-        queryParams[@"givenName"] = givenName;
-    }
-    if (familyName != nil) {
-        queryParams[@"familyName"] = familyName;
-    }
     if (confidence != nil) {
         queryParams[@"confidence"] = confidence;
     }
@@ -140,7 +128,7 @@ NSInteger kPBIdentityProfilesServiceApiMissingParamErrorCode = 234513;
     NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.apiClient.configuration.defaultHeaders];
     [headerParams addEntriesFromDictionary:self.defaultHeaders];
     // HTTP header `Accept`
-    NSString *acceptHeader = [self.apiClient.sanitizer selectHeaderAccept:@[@"application/xml", @"application/json"]];
+    NSString *acceptHeader = [self.apiClient.sanitizer selectHeaderAccept:@[@"application/json", @"application/xml"]];
     if(acceptHeader.length > 0) {
         headerParams[@"Accept"] = acceptHeader;
     }
@@ -169,10 +157,10 @@ NSInteger kPBIdentityProfilesServiceApiMissingParamErrorCode = 234513;
                               authSettings: authSettings
                         requestContentType: requestContentType
                        responseContentType: responseContentType
-                              responseType: @"PBGeoIdentityResponse*"
+                              responseType: @"PBIdentityResponse*"
                            completionBlock: ^(id data, NSError *error) {
                                 if(handler) {
-                                    handler((PBGeoIdentityResponse*)data, error);
+                                    handler((PBIdentityResponse*)data, error);
                                 }
                            }
           ];
@@ -230,7 +218,7 @@ NSInteger kPBIdentityProfilesServiceApiMissingParamErrorCode = 234513;
     NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.apiClient.configuration.defaultHeaders];
     [headerParams addEntriesFromDictionary:self.defaultHeaders];
     // HTTP header `Accept`
-    NSString *acceptHeader = [self.apiClient.sanitizer selectHeaderAccept:@[@"application/xml", @"application/json"]];
+    NSString *acceptHeader = [self.apiClient.sanitizer selectHeaderAccept:@[@"application/json", @"application/xml"]];
     if(acceptHeader.length > 0) {
         headerParams[@"Accept"] = acceptHeader;
     }

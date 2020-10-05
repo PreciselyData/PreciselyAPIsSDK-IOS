@@ -3,7 +3,6 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**birthday** | [**PBBirthday***](PBBirthday.md) |  | [optional] 
 **range** | **NSString*** |  | [optional] 
 **value** | **NSNumber*** |  | [optional] 
 

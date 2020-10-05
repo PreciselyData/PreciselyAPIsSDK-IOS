@@ -3,6 +3,7 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**boundaryId** | **NSString*** |  | [optional] 
 **populationTheme** | [**PBPopulationTheme***](PBPopulationTheme.md) |  | [optional] 
 **raceAndEthnicityTheme** | [**PBRaceAndEthnicityTheme***](PBRaceAndEthnicityTheme.md) |  | [optional] 
 **healthTheme** | [**PBHealthTheme***](PBHealthTheme.md) |  | [optional] 

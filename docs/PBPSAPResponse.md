@@ -3,6 +3,7 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**psapId** | **NSString*** |  | [optional] 
 **fccId** | **NSString*** |  | [optional] 
 **type** | **NSString*** |  | [optional] 
 **count** | **NSNumber*** |  | [optional] 
