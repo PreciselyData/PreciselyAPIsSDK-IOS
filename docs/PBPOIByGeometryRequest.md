@@ -10,6 +10,8 @@ Name | Type | Description | Notes
 **maxCandidates** | **NSString*** |  | [optional] 
 **fuzzyOnName** | **NSString*** |  | [optional] 
 **page** | **NSString*** |  | [optional] 
+**matchMode** | **NSString*** |  | [optional] 
+**specificMatchOn** | **NSString*** |  | [optional] 
 **geometry** | [**PBCommonGeometry***](PBCommonGeometry.md) |  | [optional] 
 **geometryAsText** | **NSString*** |  | [optional] 
 

@@ -11,6 +11,7 @@ Name | Type | Description | Notes
 **time** | **NSNumber*** |  | [optional] 
 **geometry** | [**PBRouteGeometry***](PBRouteGeometry.md) |  | [optional] 
 **routeDirections** | [**PBRouteDirections***](PBRouteDirections.md) |  | [optional] 
+**intermediatePoints** | [**PBIntermediatePoints***](PBIntermediatePoints.md) |  | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

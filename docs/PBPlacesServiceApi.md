@@ -148,6 +148,8 @@ Name | Type | Description  | Notes
     sortBy: (NSString*) sortBy
     fuzzyOnName: (NSString*) fuzzyOnName
     page: (NSString*) page
+    matchMode: (NSString*) matchMode
+    specificMatchOn: (NSString*) specificMatchOn
         completionHandler: (void (^)(PBGeoEnrichResponse* output, NSError* error)) handler;
 ```
 
@@ -180,6 +182,8 @@ NSString* travelMode = @"travelMode_example"; // Specifies the available mode of
 NSString* sortBy = @"distance"; // Specifies the order in which POIs are retrieved. (optional) (default to distance)
 NSString* fuzzyOnName = @"fuzzyOnName_example"; // Allowed values are Y/N. If N, the search on name will not allow fuzziness. (optional)
 NSString* page = @"page_example"; // Will support pagination, by default 1st page with maxCandidates results are returned. (optional)
+NSString* matchMode = @"matchMode_example"; //  (optional)
+NSString* specificMatchOn = @"specificMatchOn_example"; //  (optional)
 
 PBPlacesServiceApi*apiInstance = [[PBPlacesServiceApi alloc] init];
 
@@ -201,6 +205,8 @@ PBPlacesServiceApi*apiInstance = [[PBPlacesServiceApi alloc] init];
               sortBy:sortBy
               fuzzyOnName:fuzzyOnName
               page:page
+              matchMode:matchMode
+              specificMatchOn:specificMatchOn
           completionHandler: ^(PBGeoEnrichResponse* output, NSError* error) {
                         if (output) {
                             NSLog(@"%@", output);
@@ -232,6 +238,8 @@ Name | Type | Description  | Notes
  **sortBy** | **NSString***| Specifies the order in which POIs are retrieved. | [optional] [default to distance]
  **fuzzyOnName** | **NSString***| Allowed values are Y/N. If N, the search on name will not allow fuzziness. | [optional] 
  **page** | **NSString***| Will support pagination, by default 1st page with maxCandidates results are returned. | [optional] 
+ **matchMode** | **NSString***|  | [optional] 
+ **specificMatchOn** | **NSString***|  | [optional] 
 
 ### Return type
 
@@ -261,6 +269,8 @@ Name | Type | Description  | Notes
     maxCandidates: (NSString*) maxCandidates
     fuzzyOnName: (NSString*) fuzzyOnName
     page: (NSString*) page
+    matchMode: (NSString*) matchMode
+    specificMatchOn: (NSString*) specificMatchOn
         completionHandler: (void (^)(PBGeoEnrichResponse* output, NSError* error)) handler;
 ```
 
@@ -287,6 +297,8 @@ NSString* sicCode = @"sicCode_example"; // Specific SIC Codes/Codes for the desi
 NSString* maxCandidates = @"maxCandidates_example"; // Maximum number of POIs that can be retrieved. (optional)
 NSString* fuzzyOnName = @"fuzzyOnName_example"; // Allowed values are Y/N. If N, the search on name will not allow fuzziness. (optional)
 NSString* page = @"page_example"; // Will support pagination, by default 1st page with maxCandidates results are returned. (optional)
+NSString* matchMode = @"matchMode_example"; //  (optional)
+NSString* specificMatchOn = @"specificMatchOn_example"; //  (optional)
 
 PBPlacesServiceApi*apiInstance = [[PBPlacesServiceApi alloc] init];
 
@@ -302,6 +314,8 @@ PBPlacesServiceApi*apiInstance = [[PBPlacesServiceApi alloc] init];
               maxCandidates:maxCandidates
               fuzzyOnName:fuzzyOnName
               page:page
+              matchMode:matchMode
+              specificMatchOn:specificMatchOn
           completionHandler: ^(PBGeoEnrichResponse* output, NSError* error) {
                         if (output) {
                             NSLog(@"%@", output);
@@ -327,6 +341,8 @@ Name | Type | Description  | Notes
  **maxCandidates** | **NSString***| Maximum number of POIs that can be retrieved. | [optional] 
  **fuzzyOnName** | **NSString***| Allowed values are Y/N. If N, the search on name will not allow fuzziness. | [optional] 
  **page** | **NSString***| Will support pagination, by default 1st page with maxCandidates results are returned. | [optional] 
+ **matchMode** | **NSString***|  | [optional] 
+ **specificMatchOn** | **NSString***|  | [optional] 
 
 ### Return type
 
@@ -426,6 +442,8 @@ Name | Type | Description  | Notes
     fuzzyOnName: (NSString*) fuzzyOnName
     page: (NSString*) page
     searchOnNameOnly: (NSString*) searchOnNameOnly
+    matchMode: (NSString*) matchMode
+    specificMatchOn: (NSString*) specificMatchOn
         completionHandler: (void (^)(PBGeoEnrichResponse* output, NSError* error)) handler;
 ```
 
@@ -459,6 +477,8 @@ NSString* sortBy = @"distance"; // Specifies the order in which POIs are retriev
 NSString* fuzzyOnName = @"fuzzyOnName_example"; // Allowed values are Y/N. If N, the search on name will not allow fuzziness. (optional)
 NSString* page = @"page_example"; // Will support pagination, by default 1st page with maxCandidates results are returned. (optional)
 NSString* searchOnNameOnly = @"searchOnNameOnly_example"; // search name description (optional)
+NSString* matchMode = @"matchMode_example"; //  (optional)
+NSString* specificMatchOn = @"specificMatchOn_example"; //  (optional)
 
 PBPlacesServiceApi*apiInstance = [[PBPlacesServiceApi alloc] init];
 
@@ -481,6 +501,8 @@ PBPlacesServiceApi*apiInstance = [[PBPlacesServiceApi alloc] init];
               fuzzyOnName:fuzzyOnName
               page:page
               searchOnNameOnly:searchOnNameOnly
+              matchMode:matchMode
+              specificMatchOn:specificMatchOn
           completionHandler: ^(PBGeoEnrichResponse* output, NSError* error) {
                         if (output) {
                             NSLog(@"%@", output);
@@ -513,6 +535,8 @@ Name | Type | Description  | Notes
  **fuzzyOnName** | **NSString***| Allowed values are Y/N. If N, the search on name will not allow fuzziness. | [optional] 
  **page** | **NSString***| Will support pagination, by default 1st page with maxCandidates results are returned. | [optional] 
  **searchOnNameOnly** | **NSString***| search name description | [optional] 
+ **matchMode** | **NSString***|  | [optional] 
+ **specificMatchOn** | **NSString***|  | [optional] 
 
 ### Return type
 
@@ -672,6 +696,8 @@ Name | Type | Description  | Notes
     maxCandidates: (NSString*) maxCandidates
     sortBy: (NSString*) sortBy
     searchOnNameOnly: (NSString*) searchOnNameOnly
+    matchMode: (NSString*) matchMode
+    specificMatchOn: (NSString*) specificMatchOn
         completionHandler: (void (^)(PBGeoEnrichResponse* output, NSError* error)) handler;
 ```
 
@@ -710,6 +736,8 @@ NSString* sicCode = @"sicCode_example"; // Specific SIC Codes/Codes for the desi
 NSString* maxCandidates = @"maxCandidates_example"; // Maximum number of POIs that can be retrieved. (optional)
 NSString* sortBy = @"distance"; // Specifies the order in which POIs are retrieved. (optional) (default to distance)
 NSString* searchOnNameOnly = @"searchOnNameOnly_example"; // specifies search on name (optional)
+NSString* matchMode = @"matchMode_example"; //  (optional)
+NSString* specificMatchOn = @"specificMatchOn_example"; //  (optional)
 
 PBPlacesServiceApi*apiInstance = [[PBPlacesServiceApi alloc] init];
 
@@ -737,6 +765,8 @@ PBPlacesServiceApi*apiInstance = [[PBPlacesServiceApi alloc] init];
               maxCandidates:maxCandidates
               sortBy:sortBy
               searchOnNameOnly:searchOnNameOnly
+              matchMode:matchMode
+              specificMatchOn:specificMatchOn
           completionHandler: ^(PBGeoEnrichResponse* output, NSError* error) {
                         if (output) {
                             NSLog(@"%@", output);
@@ -774,6 +804,8 @@ Name | Type | Description  | Notes
  **maxCandidates** | **NSString***| Maximum number of POIs that can be retrieved. | [optional] 
  **sortBy** | **NSString***| Specifies the order in which POIs are retrieved. | [optional] [default to distance]
  **searchOnNameOnly** | **NSString***| specifies search on name | [optional] 
+ **matchMode** | **NSString***|  | [optional] 
+ **specificMatchOn** | **NSString***|  | [optional] 
 
 ### Return type
 

@@ -133,6 +133,8 @@ NSInteger kPBRoutingServiceApiMissingParamErrorCode = 234513;
 ///
 ///  @param widthUnit The unit of width eg. m(meter), km(kilometer), yd(yard), ft(foot), mi(mile) (optional, default to ft)
 ///
+///  @param returnIntermediatePoints Specifies whether Intermediate points needs to be part of response. (optional, default to false)
+///
 ///  @returns PBGeoRouteResponse*
 ///
 -(NSNumber*) getRouteByAddressWithStartAddress: (NSString*) startAddress
@@ -165,6 +167,7 @@ NSInteger kPBRoutingServiceApiMissingParamErrorCode = 234513;
     lengthUnit: (NSString*) lengthUnit
     width: (NSString*) width
     widthUnit: (NSString*) widthUnit
+    returnIntermediatePoints: (NSString*) returnIntermediatePoints
     completionHandler: (void (^)(PBGeoRouteResponse* output, NSError* error)) handler {
     // verify the required parameter 'startAddress' is set
     if (startAddress == nil) {
@@ -286,6 +289,9 @@ NSInteger kPBRoutingServiceApiMissingParamErrorCode = 234513;
     if (widthUnit != nil) {
         queryParams[@"widthUnit"] = widthUnit;
     }
+    if (returnIntermediatePoints != nil) {
+        queryParams[@"returnIntermediatePoints"] = returnIntermediatePoints;
+    }
     NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.apiClient.configuration.defaultHeaders];
     [headerParams addEntriesFromDictionary:self.defaultHeaders];
     // HTTP header `Accept`
@@ -388,6 +394,8 @@ NSInteger kPBRoutingServiceApiMissingParamErrorCode = 234513;
 ///
 ///  @param widthUnit The unit of width eg. m(meter), km(kilometer), yd(yard), ft(foot), mi(mile) (optional, default to ft)
 ///
+///  @param returnIntermediatePoints Specifies whether Intermediate points needs to be part of response. (optional, default to false)
+///
 ///  @returns PBGeoRouteResponse*
 ///
 -(NSNumber*) getRouteByLocationWithStartPoint: (NSString*) startPoint
@@ -419,6 +427,7 @@ NSInteger kPBRoutingServiceApiMissingParamErrorCode = 234513;
     lengthUnit: (NSString*) lengthUnit
     width: (NSString*) width
     widthUnit: (NSString*) widthUnit
+    returnIntermediatePoints: (NSString*) returnIntermediatePoints
     completionHandler: (void (^)(PBGeoRouteResponse* output, NSError* error)) handler {
     // verify the required parameter 'startPoint' is set
     if (startPoint == nil) {
@@ -536,6 +545,9 @@ NSInteger kPBRoutingServiceApiMissingParamErrorCode = 234513;
     }
     if (widthUnit != nil) {
         queryParams[@"widthUnit"] = widthUnit;
+    }
+    if (returnIntermediatePoints != nil) {
+        queryParams[@"returnIntermediatePoints"] = returnIntermediatePoints;
     }
     NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.apiClient.configuration.defaultHeaders];
     [headerParams addEntriesFromDictionary:self.defaultHeaders];

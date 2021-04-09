@@ -42,6 +42,7 @@ Method | HTTP request | Description
     lengthUnit: (NSString*) lengthUnit
     width: (NSString*) width
     widthUnit: (NSString*) widthUnit
+    returnIntermediatePoints: (NSString*) returnIntermediatePoints
         completionHandler: (void (^)(PBGeoRouteResponse* output, NSError* error)) handler;
 ```
 
@@ -87,6 +88,7 @@ NSString* length = @"length_example"; // Specifies the maximum length of a vehic
 NSString* lengthUnit = @"ft"; // The unit of length eg. m(meter), km(kilometer), yd(yard), ft(foot), mi(mile) (optional) (default to ft)
 NSString* width = @"width_example"; // Specifies the maximum width of a vehicle. Any vehicles over this value will be restricted when determining the route. (optional)
 NSString* widthUnit = @"ft"; // The unit of width eg. m(meter), km(kilometer), yd(yard), ft(foot), mi(mile) (optional) (default to ft)
+NSString* returnIntermediatePoints = @"false"; // Specifies whether Intermediate points needs to be part of response. (optional) (default to false)
 
 PBRoutingServiceApi*apiInstance = [[PBRoutingServiceApi alloc] init];
 
@@ -121,6 +123,7 @@ PBRoutingServiceApi*apiInstance = [[PBRoutingServiceApi alloc] init];
               lengthUnit:lengthUnit
               width:width
               widthUnit:widthUnit
+              returnIntermediatePoints:returnIntermediatePoints
           completionHandler: ^(PBGeoRouteResponse* output, NSError* error) {
                         if (output) {
                             NSLog(@"%@", output);
@@ -165,6 +168,7 @@ Name | Type | Description  | Notes
  **lengthUnit** | **NSString***| The unit of length eg. m(meter), km(kilometer), yd(yard), ft(foot), mi(mile) | [optional] [default to ft]
  **width** | **NSString***| Specifies the maximum width of a vehicle. Any vehicles over this value will be restricted when determining the route. | [optional] 
  **widthUnit** | **NSString***| The unit of width eg. m(meter), km(kilometer), yd(yard), ft(foot), mi(mile) | [optional] [default to ft]
+ **returnIntermediatePoints** | **NSString***| Specifies whether Intermediate points needs to be part of response. | [optional] [default to false]
 
 ### Return type
 
@@ -212,6 +216,7 @@ Name | Type | Description  | Notes
     lengthUnit: (NSString*) lengthUnit
     width: (NSString*) width
     widthUnit: (NSString*) widthUnit
+    returnIntermediatePoints: (NSString*) returnIntermediatePoints
         completionHandler: (void (^)(PBGeoRouteResponse* output, NSError* error)) handler;
 ```
 
@@ -256,6 +261,7 @@ NSString* length = @"length_example"; // Specifies the maximum length of a vehic
 NSString* lengthUnit = @"ft"; // The unit of length eg. m(meter), km(kilometer), yd(yard), ft(foot), mi(mile) (optional) (default to ft)
 NSString* width = @"width_example"; // Specifies the maximum width of a vehicle. Any vehicles over this value will be restricted when determining the route. (optional)
 NSString* widthUnit = @"ft"; // The unit of width eg. m(meter), km(kilometer), yd(yard), ft(foot), mi(mile) (optional) (default to ft)
+NSString* returnIntermediatePoints = @"false"; // Specifies whether Intermediate points needs to be part of response. (optional) (default to false)
 
 PBRoutingServiceApi*apiInstance = [[PBRoutingServiceApi alloc] init];
 
@@ -289,6 +295,7 @@ PBRoutingServiceApi*apiInstance = [[PBRoutingServiceApi alloc] init];
               lengthUnit:lengthUnit
               width:width
               widthUnit:widthUnit
+              returnIntermediatePoints:returnIntermediatePoints
           completionHandler: ^(PBGeoRouteResponse* output, NSError* error) {
                         if (output) {
                             NSLog(@"%@", output);
@@ -332,6 +339,7 @@ Name | Type | Description  | Notes
  **lengthUnit** | **NSString***| The unit of length eg. m(meter), km(kilometer), yd(yard), ft(foot), mi(mile) | [optional] [default to ft]
  **width** | **NSString***| Specifies the maximum width of a vehicle. Any vehicles over this value will be restricted when determining the route. | [optional] 
  **widthUnit** | **NSString***| The unit of width eg. m(meter), km(kilometer), yd(yard), ft(foot), mi(mile) | [optional] [default to ft]
+ **returnIntermediatePoints** | **NSString***| Specifies whether Intermediate points needs to be part of response. | [optional] [default to false]
 
 ### Return type
 

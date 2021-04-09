@@ -251,6 +251,10 @@ NSInteger kPBPlacesServiceApiMissingParamErrorCode = 234513;
 ///
 ///  @param page Will support pagination, by default 1st page with maxCandidates results are returned. (optional)
 ///
+///  @param matchMode  (optional)
+///
+///  @param specificMatchOn  (optional)
+///
 ///  @returns PBGeoEnrichResponse*
 ///
 -(NSNumber*) getPOIsByAddressWithAddress: (NSString*) address
@@ -270,6 +274,8 @@ NSInteger kPBPlacesServiceApiMissingParamErrorCode = 234513;
     sortBy: (NSString*) sortBy
     fuzzyOnName: (NSString*) fuzzyOnName
     page: (NSString*) page
+    matchMode: (NSString*) matchMode
+    specificMatchOn: (NSString*) specificMatchOn
     completionHandler: (void (^)(PBGeoEnrichResponse* output, NSError* error)) handler {
     // verify the required parameter 'address' is set
     if (address == nil) {
@@ -341,6 +347,12 @@ NSInteger kPBPlacesServiceApiMissingParamErrorCode = 234513;
     if (page != nil) {
         queryParams[@"page"] = page;
     }
+    if (matchMode != nil) {
+        queryParams[@"matchMode"] = matchMode;
+    }
+    if (specificMatchOn != nil) {
+        queryParams[@"specificMatchOn"] = specificMatchOn;
+    }
     NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.apiClient.configuration.defaultHeaders];
     [headerParams addEntriesFromDictionary:self.defaultHeaders];
     // HTTP header `Accept`
@@ -407,6 +419,10 @@ NSInteger kPBPlacesServiceApiMissingParamErrorCode = 234513;
 ///
 ///  @param page Will support pagination, by default 1st page with maxCandidates results are returned. (optional)
 ///
+///  @param matchMode  (optional)
+///
+///  @param specificMatchOn  (optional)
+///
 ///  @returns PBGeoEnrichResponse*
 ///
 -(NSNumber*) getPOIsByAreaWithCountry: (NSString*) country
@@ -420,6 +436,8 @@ NSInteger kPBPlacesServiceApiMissingParamErrorCode = 234513;
     maxCandidates: (NSString*) maxCandidates
     fuzzyOnName: (NSString*) fuzzyOnName
     page: (NSString*) page
+    matchMode: (NSString*) matchMode
+    specificMatchOn: (NSString*) specificMatchOn
     completionHandler: (void (^)(PBGeoEnrichResponse* output, NSError* error)) handler {
     // verify the required parameter 'country' is set
     if (country == nil) {
@@ -472,6 +490,12 @@ NSInteger kPBPlacesServiceApiMissingParamErrorCode = 234513;
     }
     if (page != nil) {
         queryParams[@"page"] = page;
+    }
+    if (matchMode != nil) {
+        queryParams[@"matchMode"] = matchMode;
+    }
+    if (specificMatchOn != nil) {
+        queryParams[@"specificMatchOn"] = specificMatchOn;
     }
     NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.apiClient.configuration.defaultHeaders];
     [headerParams addEntriesFromDictionary:self.defaultHeaders];
@@ -624,6 +648,10 @@ NSInteger kPBPlacesServiceApiMissingParamErrorCode = 234513;
 ///
 ///  @param searchOnNameOnly search name description (optional)
 ///
+///  @param matchMode  (optional)
+///
+///  @param specificMatchOn  (optional)
+///
 ///  @returns PBGeoEnrichResponse*
 ///
 -(NSNumber*) getPOIsByLocationWithLongitude: (NSString*) longitude
@@ -644,6 +672,8 @@ NSInteger kPBPlacesServiceApiMissingParamErrorCode = 234513;
     fuzzyOnName: (NSString*) fuzzyOnName
     page: (NSString*) page
     searchOnNameOnly: (NSString*) searchOnNameOnly
+    matchMode: (NSString*) matchMode
+    specificMatchOn: (NSString*) specificMatchOn
     completionHandler: (void (^)(PBGeoEnrichResponse* output, NSError* error)) handler {
     // verify the required parameter 'longitude' is set
     if (longitude == nil) {
@@ -728,6 +758,12 @@ NSInteger kPBPlacesServiceApiMissingParamErrorCode = 234513;
     }
     if (searchOnNameOnly != nil) {
         queryParams[@"searchOnNameOnly"] = searchOnNameOnly;
+    }
+    if (matchMode != nil) {
+        queryParams[@"matchMode"] = matchMode;
+    }
+    if (specificMatchOn != nil) {
+        queryParams[@"specificMatchOn"] = specificMatchOn;
     }
     NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.apiClient.configuration.defaultHeaders];
     [headerParams addEntriesFromDictionary:self.defaultHeaders];
@@ -951,6 +987,10 @@ NSInteger kPBPlacesServiceApiMissingParamErrorCode = 234513;
 ///
 ///  @param searchOnNameOnly specifies search on name (optional)
 ///
+///  @param matchMode  (optional)
+///
+///  @param specificMatchOn  (optional)
+///
 ///  @returns PBGeoEnrichResponse*
 ///
 -(NSNumber*) poisAutocompleteWithLongitude: (NSString*) longitude
@@ -976,6 +1016,8 @@ NSInteger kPBPlacesServiceApiMissingParamErrorCode = 234513;
     maxCandidates: (NSString*) maxCandidates
     sortBy: (NSString*) sortBy
     searchOnNameOnly: (NSString*) searchOnNameOnly
+    matchMode: (NSString*) matchMode
+    specificMatchOn: (NSString*) specificMatchOn
     completionHandler: (void (^)(PBGeoEnrichResponse* output, NSError* error)) handler {
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/places/v1/poi/autocomplete"];
 
@@ -1053,6 +1095,12 @@ NSInteger kPBPlacesServiceApiMissingParamErrorCode = 234513;
     }
     if (searchOnNameOnly != nil) {
         queryParams[@"searchOnNameOnly"] = searchOnNameOnly;
+    }
+    if (matchMode != nil) {
+        queryParams[@"matchMode"] = matchMode;
+    }
+    if (specificMatchOn != nil) {
+        queryParams[@"specificMatchOn"] = specificMatchOn;
     }
     NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.apiClient.configuration.defaultHeaders];
     [headerParams addEntriesFromDictionary:self.defaultHeaders];
