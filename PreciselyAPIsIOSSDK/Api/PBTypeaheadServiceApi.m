@@ -104,6 +104,8 @@ NSInteger kPBTypeaheadServiceApiMissingParamErrorCode = 234513;
 ///
 ///  @param searchType Preference to control search type of interactive requests. (optional, default to ADDRESS)
 ///
+///  @param searchOnAddressNumber if value set 'Y' then display searchOnAddressNumber (optional, default to N)
+///
 ///  @returns PBGeosearchLocations*
 ///
 -(NSNumber*) searchWithSearchText: (NSString*) searchText
@@ -122,6 +124,7 @@ NSInteger kPBTypeaheadServiceApiMissingParamErrorCode = 234513;
     returnAdminAreasOnly: (NSString*) returnAdminAreasOnly
     includeRangesDetails: (NSString*) includeRangesDetails
     searchType: (NSString*) searchType
+    searchOnAddressNumber: (NSString*) searchOnAddressNumber
     completionHandler: (void (^)(PBGeosearchLocations* output, NSError* error)) handler {
     // verify the required parameter 'searchText' is set
     if (searchText == nil) {
@@ -190,10 +193,13 @@ NSInteger kPBTypeaheadServiceApiMissingParamErrorCode = 234513;
     if (searchType != nil) {
         queryParams[@"searchType"] = searchType;
     }
+    if (searchOnAddressNumber != nil) {
+        queryParams[@"searchOnAddressNumber"] = searchOnAddressNumber;
+    }
     NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.apiClient.configuration.defaultHeaders];
     [headerParams addEntriesFromDictionary:self.defaultHeaders];
     // HTTP header `Accept`
-    NSString *acceptHeader = [self.apiClient.sanitizer selectHeaderAccept:@[@"application/xml", @"application/json"]];
+    NSString *acceptHeader = [self.apiClient.sanitizer selectHeaderAccept:@[@"application/json", @"application/xml"]];
     if(acceptHeader.length > 0) {
         headerParams[@"Accept"] = acceptHeader;
     }
