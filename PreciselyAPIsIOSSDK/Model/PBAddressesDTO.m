@@ -17,7 +17,7 @@
  * This method is used by `JSONModel`.
  */
 + (JSONKeyMapper *)keyMapper {
-  return [[JSONKeyMapper alloc] initWithDictionary:@{ @"pbKey": @"pbKey", @"addressNumber": @"addressNumber", @"streetName": @"streetName", @"unitType": @"unitType", @"unitValue": @"unitValue", @"type": @"type", @"areaName1": @"areaName1", @"areaName2": @"areaName2", @"areaName3": @"areaName3", @"areaName4": @"areaName4", @"postCode": @"postCode", @"postCodeExt": @"postCodeExt", @"country": @"country" }];
+  return [[JSONKeyMapper alloc] initWithDictionary:@{ @"pbKey": @"pbKey", @"addressNumber": @"addressNumber", @"streetName": @"streetName", @"unitType": @"unitType", @"unitValue": @"unitValue", @"type": @"type", @"areaName1": @"areaName1", @"areaName2": @"areaName2", @"areaName3": @"areaName3", @"areaName4": @"areaName4", @"postCode": @"postCode", @"postCodeExt": @"postCodeExt", @"country": @"country", @"geometry": @"geometry", @"propertyType": @"propertyType", @"propertyTypeDescription": @"propertyTypeDescription", @"parentPbKey": @"parentPbKey", @"geoId": @"geoId" }];
 }
 
 /**
@@ -27,7 +27,7 @@
  */
 + (BOOL)propertyIsOptional:(NSString *)propertyName {
 
-  NSArray *optionalProperties = @[@"pbKey", @"addressNumber", @"streetName", @"unitType", @"unitValue", @"type", @"areaName1", @"areaName2", @"areaName3", @"areaName4", @"postCode", @"postCodeExt", @"country"];
+  NSArray *optionalProperties = @[@"pbKey", @"addressNumber", @"streetName", @"unitType", @"unitValue", @"type", @"areaName1", @"areaName2", @"areaName3", @"areaName4", @"postCode", @"postCodeExt", @"country", @"geometry", @"propertyType", @"propertyTypeDescription", @"parentPbKey", @"geoId"];
   return [optionalProperties containsObject:propertyName];
 }
 

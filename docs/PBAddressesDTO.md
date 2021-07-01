@@ -16,6 +16,11 @@ Name | Type | Description | Notes
 **postCode** | **NSString*** |  | [optional] 
 **postCodeExt** | **NSString*** |  | [optional] 
 **country** | **NSString*** |  | [optional] 
+**geometry** | [**PBCommonGeometry***](PBCommonGeometry.md) |  | [optional] 
+**propertyType** | **NSString*** |  | [optional] 
+**propertyTypeDescription** | **NSString*** |  | [optional] 
+**parentPbKey** | **NSString*** |  | [optional] 
+**geoId** | **NSString*** |  | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 
