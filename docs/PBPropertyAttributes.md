@@ -28,6 +28,7 @@ Name | Type | Description | Notes
 **taxAmount** | **NSString*** |  | [optional] 
 **taxExemptions** | [**NSArray&lt;PBTaxExemption&gt;***](PBTaxExemption.md) |  | [optional] 
 **caExemptions** | [**PBCaExemptions***](PBCaExemptions.md) |  | [optional] 
+**stories** | [**PBStories***](PBStories.md) |  | [optional] 
 **salesDate** | **NSString*** |  | [optional] 
 **priorSaleDate** | **NSString*** |  | [optional] 
 **priorSalesPrice** | **NSString*** |  | [optional] 
