@@ -32,6 +32,13 @@ Name | Type | Description | Notes
 **salesDate** | **NSString*** |  | [optional] 
 **priorSaleDate** | **NSString*** |  | [optional] 
 **priorSalesPrice** | **NSString*** |  | [optional] 
+**livingSqft** | **NSString*** |  | [optional] 
+**roofFrameType** | [**PBRoofFrameType***](PBRoofFrameType.md) |  | [optional] 
+**foundation** | [**PBFoundation***](PBFoundation.md) |  | [optional] 
+**buildgCondition** | [**PBBuildgCondition***](PBBuildgCondition.md) |  | [optional] 
+**buildgCount** | **NSString*** |  | [optional] 
+**buildgUnitNo** | **NSString*** |  | [optional] 
+**buildgFeaturesSqft** | [**NSArray&lt;PBBuildgFeaturesSqft&gt;***](PBBuildgFeaturesSqft.md) |  | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

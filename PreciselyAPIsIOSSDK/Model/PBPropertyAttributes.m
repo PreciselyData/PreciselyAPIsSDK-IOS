@@ -17,7 +17,7 @@
  * This method is used by `JSONModel`.
  */
 + (JSONKeyMapper *)keyMapper {
-  return [[JSONKeyMapper alloc] initWithDictionary:@{ @"pbKey": @"pbKey", @"propApn": @"propApn", @"propType": @"propType", @"propSqFt": @"propSqFt", @"buildgSqFt": @"buildgSqFt", @"buildgSqSource": @"buildgSqSource", @"landUse": @"landUse", @"construction": @"construction", @"roofType": @"roofType", @"subdivision": @"subdivision", @"geometry": @"geometry", @"builtYear": @"builtYear", @"bedrooms": @"bedrooms", @"baths": @"baths", @"pool": @"pool", @"firePlace": @"firePlace", @"mobileHome": @"mobileHome", @"heatingType": @"heatingType", @"coolingType": @"coolingType", @"assessedValue": @"assessedValue", @"marketValue": @"marketValue", @"appraisedValue": @"appraisedValue", @"taxAmount": @"taxAmount", @"taxExemptions": @"taxExemptions", @"caExemptions": @"caExemptions", @"stories": @"stories", @"salesDate": @"salesDate", @"priorSaleDate": @"priorSaleDate", @"priorSalesPrice": @"priorSalesPrice" }];
+  return [[JSONKeyMapper alloc] initWithDictionary:@{ @"pbKey": @"pbKey", @"propApn": @"propApn", @"propType": @"propType", @"propSqFt": @"propSqFt", @"buildgSqFt": @"buildgSqFt", @"buildgSqSource": @"buildgSqSource", @"landUse": @"landUse", @"construction": @"construction", @"roofType": @"roofType", @"subdivision": @"subdivision", @"geometry": @"geometry", @"builtYear": @"builtYear", @"bedrooms": @"bedrooms", @"baths": @"baths", @"pool": @"pool", @"firePlace": @"firePlace", @"mobileHome": @"mobileHome", @"heatingType": @"heatingType", @"coolingType": @"coolingType", @"assessedValue": @"assessedValue", @"marketValue": @"marketValue", @"appraisedValue": @"appraisedValue", @"taxAmount": @"taxAmount", @"taxExemptions": @"taxExemptions", @"caExemptions": @"caExemptions", @"stories": @"stories", @"salesDate": @"salesDate", @"priorSaleDate": @"priorSaleDate", @"priorSalesPrice": @"priorSalesPrice", @"livingSqft": @"livingSqft", @"roofFrameType": @"roofFrameType", @"foundation": @"foundation", @"buildgCondition": @"buildgCondition", @"buildgCount": @"buildgCount", @"buildgUnitNo": @"buildgUnitNo", @"buildgFeaturesSqft": @"buildgFeaturesSqft" }];
 }
 
 /**
@@ -27,7 +27,7 @@
  */
 + (BOOL)propertyIsOptional:(NSString *)propertyName {
 
-  NSArray *optionalProperties = @[@"pbKey", @"propApn", @"propType", @"propSqFt", @"buildgSqFt", @"buildgSqSource", @"landUse", @"construction", @"roofType", @"subdivision", @"geometry", @"builtYear", @"bedrooms", @"baths", @"pool", @"firePlace", @"mobileHome", @"heatingType", @"coolingType", @"assessedValue", @"marketValue", @"appraisedValue", @"taxAmount", @"taxExemptions", @"caExemptions", @"stories", @"salesDate", @"priorSaleDate", @"priorSalesPrice"];
+  NSArray *optionalProperties = @[@"pbKey", @"propApn", @"propType", @"propSqFt", @"buildgSqFt", @"buildgSqSource", @"landUse", @"construction", @"roofType", @"subdivision", @"geometry", @"builtYear", @"bedrooms", @"baths", @"pool", @"firePlace", @"mobileHome", @"heatingType", @"coolingType", @"assessedValue", @"marketValue", @"appraisedValue", @"taxAmount", @"taxExemptions", @"caExemptions", @"stories", @"salesDate", @"priorSaleDate", @"priorSalesPrice", @"livingSqft", @"roofFrameType", @"foundation", @"buildgCondition", @"buildgCount", @"buildgUnitNo", @"buildgFeaturesSqft"];
   return [optionalProperties containsObject:propertyName];
 }
 
