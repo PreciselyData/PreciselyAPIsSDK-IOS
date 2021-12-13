@@ -125,7 +125,7 @@ No authorization required
 # **getPropertyAttributesByAddress**
 ```objc
 -(NSNumber*) getPropertyAttributesByAddressWithAddress: (NSString*) address
-    attributeFilter: (NSString*) attributeFilter
+    attributes: (NSString*) attributes
         completionHandler: (void (^)(PBPropertyInfoResponse* output, NSError* error)) handler;
 ```
 
@@ -142,13 +142,13 @@ PBConfiguration *apiConfig = [PBConfiguration sharedConfig];
 
 
 NSString* address = @"address_example"; // free form address text (optional)
-NSString* attributeFilter = @"attributeFilter_example"; // Case-insensitive comma separated values of property attributes. Response will contain only the input attributes. (optional)
+NSString* attributes = @"attributes_example"; // Case-insensitive comma separated values of property attributes. Response will contain only the input attributes. (optional)
 
 PBPropertyInformationServiceApi*apiInstance = [[PBPropertyInformationServiceApi alloc] init];
 
 // PropertyV2 Attributes By Address.
 [apiInstance getPropertyAttributesByAddressWithAddress:address
-              attributeFilter:attributeFilter
+              attributes:attributes
           completionHandler: ^(PBPropertyInfoResponse* output, NSError* error) {
                         if (output) {
                             NSLog(@"%@", output);
@@ -164,7 +164,7 @@ PBPropertyInformationServiceApi*apiInstance = [[PBPropertyInformationServiceApi 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **address** | **NSString***| free form address text | [optional] 
- **attributeFilter** | **NSString***| Case-insensitive comma separated values of property attributes. Response will contain only the input attributes. | [optional] 
+ **attributes** | **NSString***| Case-insensitive comma separated values of property attributes. Response will contain only the input attributes. | [optional] 
 
 ### Return type
 

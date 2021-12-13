@@ -251,12 +251,12 @@ NSInteger kPBPropertyInformationServiceApiMissingParamErrorCode = 234513;
 /// GetPropertyAttributesbyAddress Endpoint will take address as an input and will return key property attributes in response. Optionally user will have the option to filter the attributes and will pay for only returned attributes.
 ///  @param address free form address text (optional)
 ///
-///  @param attributeFilter Case-insensitive comma separated values of property attributes. Response will contain only the input attributes. (optional)
+///  @param attributes Case-insensitive comma separated values of property attributes. Response will contain only the input attributes. (optional)
 ///
 ///  @returns PBPropertyInfoResponse*
 ///
 -(NSNumber*) getPropertyAttributesByAddressWithAddress: (NSString*) address
-    attributeFilter: (NSString*) attributeFilter
+    attributes: (NSString*) attributes
     completionHandler: (void (^)(PBPropertyInfoResponse* output, NSError* error)) handler {
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/property/v2/attributes/byaddress"];
 
@@ -269,8 +269,8 @@ NSInteger kPBPropertyInformationServiceApiMissingParamErrorCode = 234513;
     if (address != nil) {
         queryParams[@"address"] = address;
     }
-    if (attributeFilter != nil) {
-        queryParams[@"attributeFilter"] = attributeFilter;
+    if (attributes != nil) {
+        queryParams[@"attributes"] = attributes;
     }
     NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.apiClient.configuration.defaultHeaders];
     [headerParams addEntriesFromDictionary:self.defaultHeaders];
