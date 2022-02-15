@@ -7,7 +7,7 @@ Name | Type | Description | Notes
 **sic** | **NSString*** |  | [optional] 
 **tradeDivision** | **NSString*** |  | [optional] 
 **tradeGroup** | **NSString*** |  | [optional] 
-**class** | **NSString*** |  | [optional] 
+**_class** | **NSString*** |  | [optional] 
 **subClass** | **NSString*** |  | [optional] 
 **_description** | **NSString*** |  | [optional] 
 

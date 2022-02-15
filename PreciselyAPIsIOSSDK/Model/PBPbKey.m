@@ -1,6 +1,6 @@
-#import "PBPbKey.h"
+#import "PBPbkey.h"
 
-@implementation PBPbKey
+@implementation PBPbkey
 
 - (instancetype)init {
   self = [super init];
@@ -17,7 +17,7 @@
  * This method is used by `JSONModel`.
  */
 + (JSONKeyMapper *)keyMapper {
-  return [[JSONKeyMapper alloc] initWithDictionary:@{ @"objectId": @"objectId", @"key": @"key", @"matchedAddress": @"matchedAddress" }];
+  return [[JSONKeyMapper alloc] initWithModelToJSONDictionary:@{ @"objectId": @"objectId", @"key": @"key", @"matchedAddress": @"matchedAddress" }];
 }
 
 /**

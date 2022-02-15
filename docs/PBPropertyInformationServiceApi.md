@@ -12,8 +12,7 @@ Method | HTTP request | Description
 
 # **getParcelBoundaryByAddress**
 ```objc
--(NSNumber*) getParcelBoundaryByAddressWithAddress: (NSString*) address
-    accept: (NSString*) accept
+-(NSURLSessionTask*) getParcelBoundaryByAddressWithAddress: (NSString*) address
         completionHandler: (void (^)(PBParcelBoundary* output, NSError* error)) handler;
 ```
 
@@ -21,17 +20,20 @@ Get Parcel Boundary By Address
 
 Accepts address as input and returns property parcel boundary around that address.
 
-### Example 
+### Example
 ```objc
+PBDefaultConfiguration *apiConfig = [PBDefaultConfiguration sharedConfig];
+
+// Configure OAuth2 access token for authorization: (authentication scheme: oAuth2Password)
+[apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
+
 
 NSString* address = @"address_example"; // free form address text
-NSString* accept = @"accept_example"; //  (optional)
 
 PBPropertyInformationServiceApi*apiInstance = [[PBPropertyInformationServiceApi alloc] init];
 
 // Get Parcel Boundary By Address
 [apiInstance getParcelBoundaryByAddressWithAddress:address
-              accept:accept
           completionHandler: ^(PBParcelBoundary* output, NSError* error) {
                         if (output) {
                             NSLog(@"%@", output);
@@ -47,7 +49,6 @@ PBPropertyInformationServiceApi*apiInstance = [[PBPropertyInformationServiceApi 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **address** | **NSString***| free form address text | 
- **accept** | **NSString***|  | [optional] 
 
 ### Return type
 
@@ -55,20 +56,19 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[oAuth2Password](../README.md#oAuth2Password)
 
 ### HTTP request headers
 
- - **Content-Type**: application/json, application/xml
+ - **Content-Type**: Not defined
  - **Accept**: application/json, application/xml
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **getParcelBoundaryByLocation**
 ```objc
--(NSNumber*) getParcelBoundaryByLocationWithLongitude: (NSString*) longitude
+-(NSURLSessionTask*) getParcelBoundaryByLocationWithLongitude: (NSString*) longitude
     latitude: (NSString*) latitude
-    accept: (NSString*) accept
         completionHandler: (void (^)(PBParcelBoundary* output, NSError* error)) handler;
 ```
 
@@ -76,19 +76,22 @@ Get Parcel Boundary By Location
 
 Accepts latitude/longitude as input and returns property parcel boundary around that location.
 
-### Example 
+### Example
 ```objc
+PBDefaultConfiguration *apiConfig = [PBDefaultConfiguration sharedConfig];
+
+// Configure OAuth2 access token for authorization: (authentication scheme: oAuth2Password)
+[apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
+
 
 NSString* longitude = @"longitude_example"; // Longitude of Location
 NSString* latitude = @"latitude_example"; // Latitude of Location
-NSString* accept = @"accept_example"; //  (optional)
 
 PBPropertyInformationServiceApi*apiInstance = [[PBPropertyInformationServiceApi alloc] init];
 
 // Get Parcel Boundary By Location
 [apiInstance getParcelBoundaryByLocationWithLongitude:longitude
               latitude:latitude
-              accept:accept
           completionHandler: ^(PBParcelBoundary* output, NSError* error) {
                         if (output) {
                             NSLog(@"%@", output);
@@ -105,7 +108,6 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **longitude** | **NSString***| Longitude of Location | 
  **latitude** | **NSString***| Latitude of Location | 
- **accept** | **NSString***|  | [optional] 
 
 ### Return type
 
@@ -113,18 +115,18 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[oAuth2Password](../README.md#oAuth2Password)
 
 ### HTTP request headers
 
- - **Content-Type**: application/json, application/xml
+ - **Content-Type**: Not defined
  - **Accept**: application/json, application/xml
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **getPropertyAttributesByAddress**
 ```objc
--(NSNumber*) getPropertyAttributesByAddressWithAddress: (NSString*) address
+-(NSURLSessionTask*) getPropertyAttributesByAddressWithAddress: (NSString*) address
     attributes: (NSString*) attributes
         completionHandler: (void (^)(PBPropertyInfoResponse* output, NSError* error)) handler;
 ```
@@ -133,9 +135,9 @@ PropertyV2 Attributes By Address.
 
 GetPropertyAttributesbyAddress Endpoint will take address as an input and will return key property attributes in response. Optionally user will have the option to filter the attributes and will pay for only returned attributes.
 
-### Example 
+### Example
 ```objc
-PBConfiguration *apiConfig = [PBConfiguration sharedConfig];
+PBDefaultConfiguration *apiConfig = [PBDefaultConfiguration sharedConfig];
 
 // Configure OAuth2 access token for authorization: (authentication scheme: oAuth2Password)
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
@@ -176,14 +178,14 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json, application/xml
+ - **Content-Type**: Not defined
  - **Accept**: application/json, application/xml
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **getPropertyAttributesByAddressBatch**
 ```objc
--(NSNumber*) getPropertyAttributesByAddressBatchWithBody: (PBPropertyInfoAddressRequest*) body
+-(NSURLSessionTask*) getPropertyAttributesByAddressBatchWithPropertyInfoAddressRequest: (PBPropertyInfoAddressRequest*) propertyInfoAddressRequest
         completionHandler: (void (^)(PBPropertyInfoResponses* output, NSError* error)) handler;
 ```
 
@@ -191,20 +193,20 @@ PropertyV2 Attributes By Address Batch.
 
 GetPropertyAttributesbyAddressBatch Endpoint will take the list of addresses as an input and will return key property attributes for the given addresses in response. Optionally user will have the option to filter the attributes and will pay for only returned attributes.
 
-### Example 
+### Example
 ```objc
-PBConfiguration *apiConfig = [PBConfiguration sharedConfig];
+PBDefaultConfiguration *apiConfig = [PBDefaultConfiguration sharedConfig];
 
 // Configure OAuth2 access token for authorization: (authentication scheme: oAuth2Password)
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
 
 
-PBPropertyInfoAddressRequest* body = [[PBPropertyInfoAddressRequest alloc] init]; //  (optional)
+PBPropertyInfoAddressRequest* propertyInfoAddressRequest = [[PBPropertyInfoAddressRequest alloc] init]; // 
 
 PBPropertyInformationServiceApi*apiInstance = [[PBPropertyInformationServiceApi alloc] init];
 
 // PropertyV2 Attributes By Address Batch.
-[apiInstance getPropertyAttributesByAddressBatchWithBody:body
+[apiInstance getPropertyAttributesByAddressBatchWithPropertyInfoAddressRequest:propertyInfoAddressRequest
           completionHandler: ^(PBPropertyInfoResponses* output, NSError* error) {
                         if (output) {
                             NSLog(@"%@", output);
@@ -219,7 +221,7 @@ PBPropertyInformationServiceApi*apiInstance = [[PBPropertyInformationServiceApi 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**PBPropertyInfoAddressRequest***](PBPropertyInfoAddressRequest*.md)|  | [optional] 
+ **propertyInfoAddressRequest** | [**PBPropertyInfoAddressRequest***](PBPropertyInfoAddressRequest.md)|  | 
 
 ### Return type
 
@@ -231,8 +233,8 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json, application/xml
- - **Accept**: application/xml, application/json
+ - **Content-Type**: application/json
+ - **Accept**: application/json, application/xml
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

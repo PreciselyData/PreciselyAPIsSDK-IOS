@@ -13,7 +13,7 @@ Name | Type | Description | Notes
 **construction** | [**PBConstruction***](PBConstruction.md) |  | [optional] 
 **roofCoverType** | [**PBRoofCoverType***](PBRoofCoverType.md) |  | [optional] 
 **subdivision** | **NSString*** |  | [optional] 
-**geometry** | [**PBGeometry***](PBGeometry.md) |  | [optional] 
+**geometry** | [**PBPropertyGeometry***](PBPropertyGeometry.md) |  | [optional] 
 **builtYear** | **NSString*** |  | [optional] 
 **bedrooms** | **NSString*** |  | [optional] 
 **baths** | **NSString*** |  | [optional] 

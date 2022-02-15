@@ -1,15 +1,16 @@
 #import "PBPropertyInformationServiceApi.h"
 #import "PBQueryParamCollection.h"
-#import "PBParcelBoundary.h"
+#import "PBApiClient.h"
 #import "PBErrorInfo.h"
+#import "PBParcelBoundary.h"
+#import "PBPropertyInfoAddressRequest.h"
 #import "PBPropertyInfoResponse.h"
 #import "PBPropertyInfoResponses.h"
-#import "PBPropertyInfoAddressRequest.h"
 
 
 @interface PBPropertyInformationServiceApi ()
 
-@property (nonatomic, strong) NSMutableDictionary *defaultHeaders;
+@property (nonatomic, strong, readwrite) NSMutableDictionary *mutableDefaultHeaders;
 
 @end
 
@@ -23,52 +24,31 @@ NSInteger kPBPropertyInformationServiceApiMissingParamErrorCode = 234513;
 #pragma mark - Initialize methods
 
 - (instancetype) init {
-    self = [super init];
-    if (self) {
-        PBConfiguration *config = [PBConfiguration sharedConfig];
-        if (config.apiClient == nil) {
-            config.apiClient = [[PBApiClient alloc] init];
-        }
-        _apiClient = config.apiClient;
-        _defaultHeaders = [NSMutableDictionary dictionary];
-    }
-    return self;
+    return [self initWithApiClient:[PBApiClient sharedClient]];
 }
 
-- (id) initWithApiClient:(PBApiClient *)apiClient {
+
+-(instancetype) initWithApiClient:(PBApiClient *)apiClient {
     self = [super init];
     if (self) {
         _apiClient = apiClient;
-        _defaultHeaders = [NSMutableDictionary dictionary];
+        _mutableDefaultHeaders = [NSMutableDictionary dictionary];
     }
     return self;
 }
 
 #pragma mark -
 
-+ (instancetype)sharedAPI {
-    static PBPropertyInformationServiceApi *sharedAPI;
-    static dispatch_once_t once;
-    dispatch_once(&once, ^{
-        sharedAPI = [[self alloc] init];
-    });
-    return sharedAPI;
-}
-
 -(NSString*) defaultHeaderForKey:(NSString*)key {
-    return self.defaultHeaders[key];
-}
-
--(void) addHeader:(NSString*)value forKey:(NSString*)key {
-    [self setDefaultHeaderValue:value forKey:key];
+    return self.mutableDefaultHeaders[key];
 }
 
 -(void) setDefaultHeaderValue:(NSString*) value forKey:(NSString*)key {
-    [self.defaultHeaders setValue:value forKey:key];
+    [self.mutableDefaultHeaders setValue:value forKey:key];
 }
 
--(NSUInteger) requestQueueSize {
-    return [PBApiClient requestQueueSize];
+-(NSDictionary *)defaultHeaders {
+    return self.mutableDefaultHeaders;
 }
 
 #pragma mark - Api Methods
@@ -78,12 +58,9 @@ NSInteger kPBPropertyInformationServiceApiMissingParamErrorCode = 234513;
 /// Accepts address as input and returns property parcel boundary around that address.
 ///  @param address free form address text 
 ///
-///  @param accept  (optional)
-///
 ///  @returns PBParcelBoundary*
 ///
--(NSNumber*) getParcelBoundaryByAddressWithAddress: (NSString*) address
-    accept: (NSString*) accept
+-(NSURLSessionTask*) getParcelBoundaryByAddressWithAddress: (NSString*) address
     completionHandler: (void (^)(PBParcelBoundary* output, NSError* error)) handler {
     // verify the required parameter 'address' is set
     if (address == nil) {
@@ -98,9 +75,6 @@ NSInteger kPBPropertyInformationServiceApiMissingParamErrorCode = 234513;
 
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/property/v1/parcelboundary/byaddress"];
 
-    // remove format in URL if needed
-    [resourcePath replaceOccurrencesOfString:@".{format}" withString:@".json" options:0 range:NSMakeRange(0,resourcePath.length)];
-
     NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
 
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
@@ -109,9 +83,6 @@ NSInteger kPBPropertyInformationServiceApiMissingParamErrorCode = 234513;
     }
     NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.apiClient.configuration.defaultHeaders];
     [headerParams addEntriesFromDictionary:self.defaultHeaders];
-    if (accept != nil) {
-        headerParams[@"Accept"] = accept;
-    }
     // HTTP header `Accept`
     NSString *acceptHeader = [self.apiClient.sanitizer selectHeaderAccept:@[@"application/json", @"application/xml"]];
     if(acceptHeader.length > 0) {
@@ -122,10 +93,10 @@ NSInteger kPBPropertyInformationServiceApiMissingParamErrorCode = 234513;
     NSString *responseContentType = [[acceptHeader componentsSeparatedByString:@", "] firstObject] ?: @"";
 
     // request content type
-    NSString *requestContentType = [self.apiClient.sanitizer selectHeaderContentType:@[@"application/json", @"application/xml"]];
+    NSString *requestContentType = [self.apiClient.sanitizer selectHeaderContentType:@[]];
 
     // Authentication setting
-    NSArray *authSettings = @[];
+    NSArray *authSettings = @[@"oAuth2Password"];
 
     id bodyParam = nil;
     NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
@@ -147,8 +118,7 @@ NSInteger kPBPropertyInformationServiceApiMissingParamErrorCode = 234513;
                                 if(handler) {
                                     handler((PBParcelBoundary*)data, error);
                                 }
-                           }
-          ];
+                            }];
 }
 
 ///
@@ -158,13 +128,10 @@ NSInteger kPBPropertyInformationServiceApiMissingParamErrorCode = 234513;
 ///
 ///  @param latitude Latitude of Location 
 ///
-///  @param accept  (optional)
-///
 ///  @returns PBParcelBoundary*
 ///
--(NSNumber*) getParcelBoundaryByLocationWithLongitude: (NSString*) longitude
+-(NSURLSessionTask*) getParcelBoundaryByLocationWithLongitude: (NSString*) longitude
     latitude: (NSString*) latitude
-    accept: (NSString*) accept
     completionHandler: (void (^)(PBParcelBoundary* output, NSError* error)) handler {
     // verify the required parameter 'longitude' is set
     if (longitude == nil) {
@@ -190,9 +157,6 @@ NSInteger kPBPropertyInformationServiceApiMissingParamErrorCode = 234513;
 
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/property/v1/parcelboundary/bylocation"];
 
-    // remove format in URL if needed
-    [resourcePath replaceOccurrencesOfString:@".{format}" withString:@".json" options:0 range:NSMakeRange(0,resourcePath.length)];
-
     NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
 
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
@@ -204,9 +168,6 @@ NSInteger kPBPropertyInformationServiceApiMissingParamErrorCode = 234513;
     }
     NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.apiClient.configuration.defaultHeaders];
     [headerParams addEntriesFromDictionary:self.defaultHeaders];
-    if (accept != nil) {
-        headerParams[@"Accept"] = accept;
-    }
     // HTTP header `Accept`
     NSString *acceptHeader = [self.apiClient.sanitizer selectHeaderAccept:@[@"application/json", @"application/xml"]];
     if(acceptHeader.length > 0) {
@@ -217,10 +178,10 @@ NSInteger kPBPropertyInformationServiceApiMissingParamErrorCode = 234513;
     NSString *responseContentType = [[acceptHeader componentsSeparatedByString:@", "] firstObject] ?: @"";
 
     // request content type
-    NSString *requestContentType = [self.apiClient.sanitizer selectHeaderContentType:@[@"application/json", @"application/xml"]];
+    NSString *requestContentType = [self.apiClient.sanitizer selectHeaderContentType:@[]];
 
     // Authentication setting
-    NSArray *authSettings = @[];
+    NSArray *authSettings = @[@"oAuth2Password"];
 
     id bodyParam = nil;
     NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
@@ -242,8 +203,7 @@ NSInteger kPBPropertyInformationServiceApiMissingParamErrorCode = 234513;
                                 if(handler) {
                                     handler((PBParcelBoundary*)data, error);
                                 }
-                           }
-          ];
+                            }];
 }
 
 ///
@@ -255,13 +215,10 @@ NSInteger kPBPropertyInformationServiceApiMissingParamErrorCode = 234513;
 ///
 ///  @returns PBPropertyInfoResponse*
 ///
--(NSNumber*) getPropertyAttributesByAddressWithAddress: (NSString*) address
+-(NSURLSessionTask*) getPropertyAttributesByAddressWithAddress: (NSString*) address
     attributes: (NSString*) attributes
     completionHandler: (void (^)(PBPropertyInfoResponse* output, NSError* error)) handler {
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/property/v2/attributes/byaddress"];
-
-    // remove format in URL if needed
-    [resourcePath replaceOccurrencesOfString:@".{format}" withString:@".json" options:0 range:NSMakeRange(0,resourcePath.length)];
 
     NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
 
@@ -284,7 +241,7 @@ NSInteger kPBPropertyInformationServiceApiMissingParamErrorCode = 234513;
     NSString *responseContentType = [[acceptHeader componentsSeparatedByString:@", "] firstObject] ?: @"";
 
     // request content type
-    NSString *requestContentType = [self.apiClient.sanitizer selectHeaderContentType:@[@"application/json", @"application/xml"]];
+    NSString *requestContentType = [self.apiClient.sanitizer selectHeaderContentType:@[]];
 
     // Authentication setting
     NSArray *authSettings = @[@"oAuth2Password"];
@@ -309,23 +266,30 @@ NSInteger kPBPropertyInformationServiceApiMissingParamErrorCode = 234513;
                                 if(handler) {
                                     handler((PBPropertyInfoResponse*)data, error);
                                 }
-                           }
-          ];
+                            }];
 }
 
 ///
 /// PropertyV2 Attributes By Address Batch.
 /// GetPropertyAttributesbyAddressBatch Endpoint will take the list of addresses as an input and will return key property attributes for the given addresses in response. Optionally user will have the option to filter the attributes and will pay for only returned attributes.
-///  @param body  (optional)
+///  @param propertyInfoAddressRequest  
 ///
 ///  @returns PBPropertyInfoResponses*
 ///
--(NSNumber*) getPropertyAttributesByAddressBatchWithBody: (PBPropertyInfoAddressRequest*) body
+-(NSURLSessionTask*) getPropertyAttributesByAddressBatchWithPropertyInfoAddressRequest: (PBPropertyInfoAddressRequest*) propertyInfoAddressRequest
     completionHandler: (void (^)(PBPropertyInfoResponses* output, NSError* error)) handler {
-    NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/property/v2/attributes/byaddress"];
+    // verify the required parameter 'propertyInfoAddressRequest' is set
+    if (propertyInfoAddressRequest == nil) {
+        NSParameterAssert(propertyInfoAddressRequest);
+        if(handler) {
+            NSDictionary * userInfo = @{NSLocalizedDescriptionKey : [NSString stringWithFormat:NSLocalizedString(@"Missing required parameter '%@'", nil),@"propertyInfoAddressRequest"] };
+            NSError* error = [NSError errorWithDomain:kPBPropertyInformationServiceApiErrorDomain code:kPBPropertyInformationServiceApiMissingParamErrorCode userInfo:userInfo];
+            handler(nil, error);
+        }
+        return nil;
+    }
 
-    // remove format in URL if needed
-    [resourcePath replaceOccurrencesOfString:@".{format}" withString:@".json" options:0 range:NSMakeRange(0,resourcePath.length)];
+    NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/property/v2/attributes/byaddress"];
 
     NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
 
@@ -333,7 +297,7 @@ NSInteger kPBPropertyInformationServiceApiMissingParamErrorCode = 234513;
     NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.apiClient.configuration.defaultHeaders];
     [headerParams addEntriesFromDictionary:self.defaultHeaders];
     // HTTP header `Accept`
-    NSString *acceptHeader = [self.apiClient.sanitizer selectHeaderAccept:@[@"application/xml", @"application/json"]];
+    NSString *acceptHeader = [self.apiClient.sanitizer selectHeaderAccept:@[@"application/json", @"application/xml"]];
     if(acceptHeader.length > 0) {
         headerParams[@"Accept"] = acceptHeader;
     }
@@ -342,7 +306,7 @@ NSInteger kPBPropertyInformationServiceApiMissingParamErrorCode = 234513;
     NSString *responseContentType = [[acceptHeader componentsSeparatedByString:@", "] firstObject] ?: @"";
 
     // request content type
-    NSString *requestContentType = [self.apiClient.sanitizer selectHeaderContentType:@[@"application/json", @"application/xml"]];
+    NSString *requestContentType = [self.apiClient.sanitizer selectHeaderContentType:@[@"application/json"]];
 
     // Authentication setting
     NSArray *authSettings = @[@"oAuth2Password"];
@@ -350,7 +314,7 @@ NSInteger kPBPropertyInformationServiceApiMissingParamErrorCode = 234513;
     id bodyParam = nil;
     NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
     NSMutableDictionary *localVarFiles = [[NSMutableDictionary alloc] init];
-    bodyParam = body;
+    bodyParam = propertyInfoAddressRequest;
 
     return [self.apiClient requestWithPath: resourcePath
                                     method: @"POST"
@@ -368,8 +332,7 @@ NSInteger kPBPropertyInformationServiceApiMissingParamErrorCode = 234513;
                                 if(handler) {
                                     handler((PBPropertyInfoResponses*)data, error);
                                 }
-                           }
-          ];
+                            }];
 }
 
 

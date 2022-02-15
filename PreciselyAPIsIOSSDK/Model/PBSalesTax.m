@@ -6,7 +6,6 @@
   self = [super init];
   if (self) {
     // initialize property's default value, if any
-    self.specialTaxRulesApplied = @0;
     
   }
   return self;
@@ -18,7 +17,7 @@
  * This method is used by `JSONModel`.
  */
 + (JSONKeyMapper *)keyMapper {
-  return [[JSONKeyMapper alloc] initWithDictionary:@{ @"totalTax": @"totalTax", @"totalTaxRate": @"totalTaxRate", @"totalTaxAmount": @"totalTaxAmount", @"stateTax": @"stateTax", @"stateTaxRate": @"stateTaxRate", @"stateTaxAmount": @"stateTaxAmount", @"countyTax": @"countyTax", @"countyTaxRate": @"countyTaxRate", @"countyTaxAmount": @"countyTaxAmount", @"municipalTax": @"municipalTax", @"municipalTaxRate": @"municipalTaxRate", @"municipalTaxAmount": @"municipalTaxAmount", @"spdsTax": @"spdsTax", @"specialTaxRulesApplied": @"specialTaxRulesApplied", @"specialTaxRulesDescriptor": @"specialTaxRulesDescriptor" }];
+  return [[JSONKeyMapper alloc] initWithModelToJSONDictionary:@{ @"specialTaxRulesApplied": @"specialTaxRulesApplied", @"specialTaxRulesDescriptor": @"specialTaxRulesDescriptor", @"totalTaxRate": @"totalTaxRate", @"totalTaxAmount": @"totalTaxAmount", @"stateTaxRate": @"stateTaxRate", @"stateTaxAmount": @"stateTaxAmount", @"countyTaxRate": @"countyTaxRate", @"countyTaxAmount": @"countyTaxAmount", @"municipalTaxRate": @"municipalTaxRate", @"municipalTaxAmount": @"municipalTaxAmount", @"spdsTax": @"spdsTax" }];
 }
 
 /**
@@ -28,7 +27,7 @@
  */
 + (BOOL)propertyIsOptional:(NSString *)propertyName {
 
-  NSArray *optionalProperties = @[@"totalTax", @"totalTaxRate", @"totalTaxAmount", @"stateTax", @"stateTaxRate", @"stateTaxAmount", @"countyTax", @"countyTaxRate", @"countyTaxAmount", @"municipalTax", @"municipalTaxRate", @"municipalTaxAmount", @"spdsTax", @"specialTaxRulesApplied", @"specialTaxRulesDescriptor"];
+  NSArray *optionalProperties = @[@"specialTaxRulesApplied", @"specialTaxRulesDescriptor", @"totalTaxRate", @"totalTaxAmount", @"stateTaxRate", @"stateTaxAmount", @"countyTaxRate", @"countyTaxAmount", @"municipalTaxRate", @"municipalTaxAmount", @"spdsTax"];
   return [optionalProperties containsObject:propertyName];
 }
 

@@ -3,7 +3,7 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**userFields** | [**NSArray&lt;PBValidateMailingAddressInputRowUserFields&gt;***](PBValidateMailingAddressInputRowUserFields.md) | These fields are returned, unmodified, in the user_fields section of the response. | [optional] 
+**userFields** | [**NSArray&lt;PBGetPostalCodesAPIOutputUserFields&gt;***](PBGetPostalCodesAPIOutputUserFields.md) | These fields are returned, unmodified, in the user_fields section of the response. | [optional] 
 **addressLine1** | **NSString*** | The first line of the validated address. | [optional] 
 **addressLine2** | **NSString*** | The second line of the validated address. | [optional] 
 **firmName** | **NSString*** | The validated firm or company name. | [optional] 

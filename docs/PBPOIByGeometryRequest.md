@@ -12,7 +12,7 @@ Name | Type | Description | Notes
 **page** | **NSString*** |  | [optional] 
 **matchMode** | **NSString*** |  | [optional] 
 **specificMatchOn** | **NSString*** |  | [optional] 
-**geometry** | [**PBCommonGeometry***](PBCommonGeometry.md) |  | [optional] 
+**geometry** | [**PBGeometry***](PBGeometry.md) |  | [optional] 
 **geometryAsText** | **NSString*** |  | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

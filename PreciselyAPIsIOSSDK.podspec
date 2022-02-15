@@ -9,7 +9,7 @@
 
 Pod::Spec.new do |s|
     s.name             = "PreciselyAPIsIOSSDK"
-    s.version          = "11.8.0"
+    s.version          = "11.9.2"
 
     s.summary          = "Precisely APIs"
     s.description      = <<-DESC
@@ -21,10 +21,10 @@ Pod::Spec.new do |s|
 
     s.framework    = 'SystemConfiguration'
 
-    s.homepage     = "https://github.com/swagger-api/swagger-codegen"
-    s.license      = "Apache License, Version 2.0"
-    s.source       = { :git => "https://github.com/swagger-api/swagger-codegen.git", :tag => "#{s.version}" }
-    s.author       = { "Precisely" => "" }
+    s.homepage     = "https://github.com/openapitools/openapi-generator"
+    s.license      = "Proprietary"
+    s.source       = { :git => "https://github.com/openapitools/openapi-generator.git", :tag => "#{s.version}" }
+    s.author       = { "OpenAPI" => "team@openapitools.org" }
 
     s.source_files = 'PreciselyAPIsIOSSDK/**/*.{m,h}'
     s.public_header_files = 'PreciselyAPIsIOSSDK/**/*.h'
@@ -32,6 +32,5 @@ Pod::Spec.new do |s|
 
     s.dependency 'AFNetworking', '~> 3'
     s.dependency 'JSONModel', '~> 1.2'
-    s.dependency 'ISO8601', '~> 0.5'
+    s.dependency 'ISO8601', '~> 0.6'
 end
-

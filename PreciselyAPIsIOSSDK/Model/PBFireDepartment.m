@@ -6,7 +6,6 @@
   self = [super init];
   if (self) {
     // initialize property's default value, if any
-    self.administrativeOfficeOnly = @0;
     
   }
   return self;
@@ -18,7 +17,7 @@
  * This method is used by `JSONModel`.
  */
 + (JSONKeyMapper *)keyMapper {
-  return [[JSONKeyMapper alloc] initWithDictionary:@{ @"name": @"name", @"type": @"type", @"numberOfStations": @"numberOfStations", @"administrativeOfficeOnly": @"administrativeOfficeOnly", @"contactDetails": @"contactDetails" }];
+  return [[JSONKeyMapper alloc] initWithModelToJSONDictionary:@{ @"name": @"name", @"type": @"type", @"numberOfStations": @"numberOfStations", @"administrativeOfficeOnly": @"administrativeOfficeOnly", @"contactDetails": @"contactDetails" }];
 }
 
 /**

@@ -1,11 +1,13 @@
 #import "PBNeighborhoodsServiceApi.h"
 #import "PBQueryParamCollection.h"
-#import "PBPlaceByLocations.h"
+#import "PBApiClient.h"
+#import "PBErrorInfo.h"
+#import "PBNeighborhoodsResponse.h"
 
 
 @interface PBNeighborhoodsServiceApi ()
 
-@property (nonatomic, strong) NSMutableDictionary *defaultHeaders;
+@property (nonatomic, strong, readwrite) NSMutableDictionary *mutableDefaultHeaders;
 
 @end
 
@@ -19,97 +21,51 @@ NSInteger kPBNeighborhoodsServiceApiMissingParamErrorCode = 234513;
 #pragma mark - Initialize methods
 
 - (instancetype) init {
-    self = [super init];
-    if (self) {
-        PBConfiguration *config = [PBConfiguration sharedConfig];
-        if (config.apiClient == nil) {
-            config.apiClient = [[PBApiClient alloc] init];
-        }
-        _apiClient = config.apiClient;
-        _defaultHeaders = [NSMutableDictionary dictionary];
-    }
-    return self;
+    return [self initWithApiClient:[PBApiClient sharedClient]];
 }
 
-- (id) initWithApiClient:(PBApiClient *)apiClient {
+
+-(instancetype) initWithApiClient:(PBApiClient *)apiClient {
     self = [super init];
     if (self) {
         _apiClient = apiClient;
-        _defaultHeaders = [NSMutableDictionary dictionary];
+        _mutableDefaultHeaders = [NSMutableDictionary dictionary];
     }
     return self;
 }
 
 #pragma mark -
 
-+ (instancetype)sharedAPI {
-    static PBNeighborhoodsServiceApi *sharedAPI;
-    static dispatch_once_t once;
-    dispatch_once(&once, ^{
-        sharedAPI = [[self alloc] init];
-    });
-    return sharedAPI;
-}
-
 -(NSString*) defaultHeaderForKey:(NSString*)key {
-    return self.defaultHeaders[key];
-}
-
--(void) addHeader:(NSString*)value forKey:(NSString*)key {
-    [self setDefaultHeaderValue:value forKey:key];
+    return self.mutableDefaultHeaders[key];
 }
 
 -(void) setDefaultHeaderValue:(NSString*) value forKey:(NSString*)key {
-    [self.defaultHeaders setValue:value forKey:key];
+    [self.mutableDefaultHeaders setValue:value forKey:key];
 }
 
--(NSUInteger) requestQueueSize {
-    return [PBApiClient requestQueueSize];
+-(NSDictionary *)defaultHeaders {
+    return self.mutableDefaultHeaders;
 }
 
 #pragma mark - Api Methods
 
 ///
 /// Place By Location.
-/// Identifies and retrieves the nearest neighborhood around a specific location. This Places service accepts latitude & longitude as input and returns a place name.
-///  @param longitude Longitude of the location. 
+/// Identifies and retrieves the nearest neighborhood around a specific location. This service accepts latitude & longitude as input and returns a place name.
+///  @param longitude Longitude of the location. (optional)
 ///
-///  @param latitude Latitude of the location. 
+///  @param latitude Latitude of the location. (optional)
 ///
 ///  @param levelHint Numeric code of geographic hierarchy level which is classified at six levels.Allowed values 1,2,3,4,5,6 (optional)
 ///
-///  @returns PBPlaceByLocations*
+///  @returns PBNeighborhoodsResponse*
 ///
--(NSNumber*) getPlaceByLocationWithLongitude: (NSString*) longitude
+-(NSURLSessionTask*) getPlaceByLocationWithLongitude: (NSString*) longitude
     latitude: (NSString*) latitude
     levelHint: (NSString*) levelHint
-    completionHandler: (void (^)(PBPlaceByLocations* output, NSError* error)) handler {
-    // verify the required parameter 'longitude' is set
-    if (longitude == nil) {
-        NSParameterAssert(longitude);
-        if(handler) {
-            NSDictionary * userInfo = @{NSLocalizedDescriptionKey : [NSString stringWithFormat:NSLocalizedString(@"Missing required parameter '%@'", nil),@"longitude"] };
-            NSError* error = [NSError errorWithDomain:kPBNeighborhoodsServiceApiErrorDomain code:kPBNeighborhoodsServiceApiMissingParamErrorCode userInfo:userInfo];
-            handler(nil, error);
-        }
-        return nil;
-    }
-
-    // verify the required parameter 'latitude' is set
-    if (latitude == nil) {
-        NSParameterAssert(latitude);
-        if(handler) {
-            NSDictionary * userInfo = @{NSLocalizedDescriptionKey : [NSString stringWithFormat:NSLocalizedString(@"Missing required parameter '%@'", nil),@"latitude"] };
-            NSError* error = [NSError errorWithDomain:kPBNeighborhoodsServiceApiErrorDomain code:kPBNeighborhoodsServiceApiMissingParamErrorCode userInfo:userInfo];
-            handler(nil, error);
-        }
-        return nil;
-    }
-
+    completionHandler: (void (^)(PBNeighborhoodsResponse* output, NSError* error)) handler {
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/neighborhoods/v1/place/bylocation"];
-
-    // remove format in URL if needed
-    [resourcePath replaceOccurrencesOfString:@".{format}" withString:@".json" options:0 range:NSMakeRange(0,resourcePath.length)];
 
     NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
 
@@ -126,7 +82,7 @@ NSInteger kPBNeighborhoodsServiceApiMissingParamErrorCode = 234513;
     NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.apiClient.configuration.defaultHeaders];
     [headerParams addEntriesFromDictionary:self.defaultHeaders];
     // HTTP header `Accept`
-    NSString *acceptHeader = [self.apiClient.sanitizer selectHeaderAccept:@[@"application/xml", @"application/json"]];
+    NSString *acceptHeader = [self.apiClient.sanitizer selectHeaderAccept:@[@"application/json", @"application/xml"]];
     if(acceptHeader.length > 0) {
         headerParams[@"Accept"] = acceptHeader;
     }
@@ -135,7 +91,7 @@ NSInteger kPBNeighborhoodsServiceApiMissingParamErrorCode = 234513;
     NSString *responseContentType = [[acceptHeader componentsSeparatedByString:@", "] firstObject] ?: @"";
 
     // request content type
-    NSString *requestContentType = [self.apiClient.sanitizer selectHeaderContentType:@[@"application/json", @"application/xml"]];
+    NSString *requestContentType = [self.apiClient.sanitizer selectHeaderContentType:@[]];
 
     // Authentication setting
     NSArray *authSettings = @[@"oAuth2Password"];
@@ -155,13 +111,12 @@ NSInteger kPBNeighborhoodsServiceApiMissingParamErrorCode = 234513;
                               authSettings: authSettings
                         requestContentType: requestContentType
                        responseContentType: responseContentType
-                              responseType: @"PBPlaceByLocations*"
+                              responseType: @"PBNeighborhoodsResponse*"
                            completionBlock: ^(id data, NSError *error) {
                                 if(handler) {
-                                    handler((PBPlaceByLocations*)data, error);
+                                    handler((PBNeighborhoodsResponse*)data, error);
                                 }
-                           }
-          ];
+                            }];
 }
 
 

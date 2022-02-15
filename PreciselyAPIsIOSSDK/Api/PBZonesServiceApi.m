@@ -1,17 +1,18 @@
 #import "PBZonesServiceApi.h"
 #import "PBQueryParamCollection.h"
-#import "PBBasicBoundaryAddress.h"
+#import "PBApiClient.h"
 #import "PBBasicBoundary.h"
-#import "PBPoiBoundary.h"
-#import "PBPOIBoundaryResponse.h"
+#import "PBErrorInfo.h"
 #import "PBPOIBoundaryAddressRequest.h"
 #import "PBPOIBoundaryLocationRequest.h"
+#import "PBPOIBoundaryResponse.h"
+#import "PBPoiBoundary.h"
 #import "PBTravelBoundaries.h"
 
 
 @interface PBZonesServiceApi ()
 
-@property (nonatomic, strong) NSMutableDictionary *defaultHeaders;
+@property (nonatomic, strong, readwrite) NSMutableDictionary *mutableDefaultHeaders;
 
 @end
 
@@ -25,80 +26,59 @@ NSInteger kPBZonesServiceApiMissingParamErrorCode = 234513;
 #pragma mark - Initialize methods
 
 - (instancetype) init {
-    self = [super init];
-    if (self) {
-        PBConfiguration *config = [PBConfiguration sharedConfig];
-        if (config.apiClient == nil) {
-            config.apiClient = [[PBApiClient alloc] init];
-        }
-        _apiClient = config.apiClient;
-        _defaultHeaders = [NSMutableDictionary dictionary];
-    }
-    return self;
+    return [self initWithApiClient:[PBApiClient sharedClient]];
 }
 
-- (id) initWithApiClient:(PBApiClient *)apiClient {
+
+-(instancetype) initWithApiClient:(PBApiClient *)apiClient {
     self = [super init];
     if (self) {
         _apiClient = apiClient;
-        _defaultHeaders = [NSMutableDictionary dictionary];
+        _mutableDefaultHeaders = [NSMutableDictionary dictionary];
     }
     return self;
 }
 
 #pragma mark -
 
-+ (instancetype)sharedAPI {
-    static PBZonesServiceApi *sharedAPI;
-    static dispatch_once_t once;
-    dispatch_once(&once, ^{
-        sharedAPI = [[self alloc] init];
-    });
-    return sharedAPI;
-}
-
 -(NSString*) defaultHeaderForKey:(NSString*)key {
-    return self.defaultHeaders[key];
-}
-
--(void) addHeader:(NSString*)value forKey:(NSString*)key {
-    [self setDefaultHeaderValue:value forKey:key];
+    return self.mutableDefaultHeaders[key];
 }
 
 -(void) setDefaultHeaderValue:(NSString*) value forKey:(NSString*)key {
-    [self.defaultHeaders setValue:value forKey:key];
+    [self.mutableDefaultHeaders setValue:value forKey:key];
 }
 
--(NSUInteger) requestQueueSize {
-    return [PBApiClient requestQueueSize];
+-(NSDictionary *)defaultHeaders {
+    return self.mutableDefaultHeaders;
 }
 
 #pragma mark - Api Methods
 
 ///
-/// Gets Basic Boundary by Address
-/// Gets Basic Boundary by Address
+/// Gets Basic Boundary by Address.
+/// Gets Basic Boundary by Address.
 ///  @param address Address around which Basic Boundary is requested 
 ///
-///  @param distance This is width of the buffer (in a complete circular buffer, it would be radius of the buffer). This has to be a positive number. 
+///  @param country Three digit ISO country code (optional)
 ///
-///  @param country Three digit ISO country code (optional, default to USA)
+///  @param distance  (optional)
 ///
-///  @param distanceUnit Longitude around which Basic Boundary is requested (optional, default to feet)
+///  @param distanceUnit  (optional)
 ///
 ///  @param resolution This is resolution of the buffer. Curves generated in buffer are approximated by line segments and it is measured in segments per circle. The higher the resolution, the smoother the curves of the buffer but more points would be required in the boundary geometry. Number greater than 0 and in multiple of 4. If not in 4, then it is approximated to nearest multiple of 4. (optional)
 ///
-///  @param responseSrs The spatial reference system to express the response in. By default, it would be epsg:4326 (optional, default to epsg:4326)
+///  @param responseSrs  (optional)
 ///
-///  @returns PBBasicBoundaryAddress*
+///  @returns PBBasicBoundary*
 ///
--(NSNumber*) getBasicBoundaryByAddressWithAddress: (NSString*) address
-    distance: (NSString*) distance
+-(NSURLSessionTask*) getBasicBoundaryByAddressWithAddress: (NSString*) address
     country: (NSString*) country
+    distance: (NSString*) distance
     distanceUnit: (NSString*) distanceUnit
     resolution: (NSString*) resolution
     responseSrs: (NSString*) responseSrs
-    completionHandler: (void (^)(PBBasicBoundaryAddress* output, NSError* error)) handler {
+    completionHandler: (void (^)(PBBasicBoundary* output, NSError* error)) handler {
     // verify the required parameter 'address' is set
     if (address == nil) {
         NSParameterAssert(address);
@@ -110,21 +90,7 @@ NSInteger kPBZonesServiceApiMissingParamErrorCode = 234513;
         return nil;
     }
 
-    // verify the required parameter 'distance' is set
-    if (distance == nil) {
-        NSParameterAssert(distance);
-        if(handler) {
-            NSDictionary * userInfo = @{NSLocalizedDescriptionKey : [NSString stringWithFormat:NSLocalizedString(@"Missing required parameter '%@'", nil),@"distance"] };
-            NSError* error = [NSError errorWithDomain:kPBZonesServiceApiErrorDomain code:kPBZonesServiceApiMissingParamErrorCode userInfo:userInfo];
-            handler(nil, error);
-        }
-        return nil;
-    }
-
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/zones/v1/basicboundary/byaddress"];
-
-    // remove format in URL if needed
-    [resourcePath replaceOccurrencesOfString:@".{format}" withString:@".json" options:0 range:NSMakeRange(0,resourcePath.length)];
 
     NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
 
@@ -159,7 +125,7 @@ NSInteger kPBZonesServiceApiMissingParamErrorCode = 234513;
     NSString *responseContentType = [[acceptHeader componentsSeparatedByString:@", "] firstObject] ?: @"";
 
     // request content type
-    NSString *requestContentType = [self.apiClient.sanitizer selectHeaderContentType:@[@"application/json"]];
+    NSString *requestContentType = [self.apiClient.sanitizer selectHeaderContentType:@[]];
 
     // Authentication setting
     NSArray *authSettings = @[@"oAuth2Password"];
@@ -179,35 +145,34 @@ NSInteger kPBZonesServiceApiMissingParamErrorCode = 234513;
                               authSettings: authSettings
                         requestContentType: requestContentType
                        responseContentType: responseContentType
-                              responseType: @"PBBasicBoundaryAddress*"
+                              responseType: @"PBBasicBoundary*"
                            completionBlock: ^(id data, NSError *error) {
                                 if(handler) {
-                                    handler((PBBasicBoundaryAddress*)data, error);
+                                    handler((PBBasicBoundary*)data, error);
                                 }
-                           }
-          ];
+                            }];
 }
 
 ///
-/// Gets Basic Boundary by Location
-/// Gets Basic Boundary by Location
+/// Gets Basic Boundary by Location.
+/// Gets Basic Boundary by Location.
 ///  @param latitude Latitude around which Basic Boundary is requested 
 ///
 ///  @param longitude Longitude around which Basic Boundary is requested 
 ///
 ///  @param distance This is width of the buffer (in a complete circular buffer, it would be radius of the buffer). This has to be a positive number. 
 ///
-///  @param distanceUnit Longitude around which Basic Boundary is requested (optional, default to feet)
+///  @param distanceUnit  (optional)
 ///
 ///  @param resolution This is resolution of the buffer. Curves generated in buffer are approximated by line segments and it is measured in segments per circle. The higher the resolution, the smoother the curves of the buffer but more points would be required in the boundary geometry. Number greater than 0 and in multiple of 4. If not in 4, then it is approximated to nearest multiple of 4. (optional)
 ///
-///  @param responseSrs The spatial reference system to express the response in. By default, it would be epsg:4326 (optional, default to epsg:4326)
+///  @param responseSrs  (optional)
 ///
-///  @param srsName The spatial reference system for input. By default, it would be epsg:4326 (optional, default to epsg:4326)
+///  @param srsName  (optional)
 ///
 ///  @returns PBBasicBoundary*
 ///
--(NSNumber*) getBasicBoundaryByLocationWithLatitude: (NSString*) latitude
+-(NSURLSessionTask*) getBasicBoundaryByLocationWithLatitude: (NSString*) latitude
     longitude: (NSString*) longitude
     distance: (NSString*) distance
     distanceUnit: (NSString*) distanceUnit
@@ -250,9 +215,6 @@ NSInteger kPBZonesServiceApiMissingParamErrorCode = 234513;
 
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/zones/v1/basicboundary/bylocation"];
 
-    // remove format in URL if needed
-    [resourcePath replaceOccurrencesOfString:@".{format}" withString:@".json" options:0 range:NSMakeRange(0,resourcePath.length)];
-
     NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
 
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
@@ -289,7 +251,7 @@ NSInteger kPBZonesServiceApiMissingParamErrorCode = 234513;
     NSString *responseContentType = [[acceptHeader componentsSeparatedByString:@", "] firstObject] ?: @"";
 
     // request content type
-    NSString *requestContentType = [self.apiClient.sanitizer selectHeaderContentType:@[@"application/json"]];
+    NSString *requestContentType = [self.apiClient.sanitizer selectHeaderContentType:@[]];
 
     // Authentication setting
     NSArray *authSettings = @[@"oAuth2Password"];
@@ -314,13 +276,12 @@ NSInteger kPBZonesServiceApiMissingParamErrorCode = 234513;
                                 if(handler) {
                                     handler((PBBasicBoundary*)data, error);
                                 }
-                           }
-          ];
+                            }];
 }
 
 ///
-/// Get Point of Interests Boundary by Address
-/// Gets Point of Interests Boundary by Address
+/// Gets Point of Interests Boundary by Address.
+/// Gets Point of Interests Boundary by Address.
 ///  @param address Address around which POI Boundary is requested 
 ///
 ///  @param categoryCode Specific Category/Categories Codes for the desired POIs. Accepts a mix of 4 digit (Top Category), 6 digit (Second-Level Category) and 11 digit (Low-Level Category) Category Codes. (optional)
@@ -331,7 +292,7 @@ NSInteger kPBZonesServiceApiMissingParamErrorCode = 234513;
 ///
 ///  @returns PBPoiBoundary*
 ///
--(NSNumber*) getPOIBoundaryByAddressWithAddress: (NSString*) address
+-(NSURLSessionTask*) getPOIBoundaryByAddressWithAddress: (NSString*) address
     categoryCode: (NSString*) categoryCode
     sicCode: (NSString*) sicCode
     naicsCode: (NSString*) naicsCode
@@ -348,9 +309,6 @@ NSInteger kPBZonesServiceApiMissingParamErrorCode = 234513;
     }
 
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/zones/v1/poiboundary/byaddress"];
-
-    // remove format in URL if needed
-    [resourcePath replaceOccurrencesOfString:@".{format}" withString:@".json" options:0 range:NSMakeRange(0,resourcePath.length)];
 
     NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
 
@@ -379,7 +337,7 @@ NSInteger kPBZonesServiceApiMissingParamErrorCode = 234513;
     NSString *responseContentType = [[acceptHeader componentsSeparatedByString:@", "] firstObject] ?: @"";
 
     // request content type
-    NSString *requestContentType = [self.apiClient.sanitizer selectHeaderContentType:@[@"application/json"]];
+    NSString *requestContentType = [self.apiClient.sanitizer selectHeaderContentType:@[]];
 
     // Authentication setting
     NSArray *authSettings = @[@"oAuth2Password"];
@@ -404,23 +362,30 @@ NSInteger kPBZonesServiceApiMissingParamErrorCode = 234513;
                                 if(handler) {
                                     handler((PBPoiBoundary*)data, error);
                                 }
-                           }
-          ];
+                            }];
 }
 
 ///
-/// Batch method for getting Point of Interests Boundary by Address
-/// Batch method for getting Point of Interests Boundary by Address
-///  @param body  (optional)
+/// Batch method for getting Point of Interests Boundary by Address.
+/// Batch method for getting Point of Interests Boundary by Address.
+///  @param pOIBoundaryAddressRequest  
 ///
 ///  @returns PBPOIBoundaryResponse*
 ///
--(NSNumber*) getPOIBoundaryByAddressBatchWithBody: (PBPOIBoundaryAddressRequest*) body
+-(NSURLSessionTask*) getPOIBoundaryByAddressBatchWithPOIBoundaryAddressRequest: (PBPOIBoundaryAddressRequest*) pOIBoundaryAddressRequest
     completionHandler: (void (^)(PBPOIBoundaryResponse* output, NSError* error)) handler {
-    NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/zones/v1/poiboundary/byaddress"];
+    // verify the required parameter 'pOIBoundaryAddressRequest' is set
+    if (pOIBoundaryAddressRequest == nil) {
+        NSParameterAssert(pOIBoundaryAddressRequest);
+        if(handler) {
+            NSDictionary * userInfo = @{NSLocalizedDescriptionKey : [NSString stringWithFormat:NSLocalizedString(@"Missing required parameter '%@'", nil),@"pOIBoundaryAddressRequest"] };
+            NSError* error = [NSError errorWithDomain:kPBZonesServiceApiErrorDomain code:kPBZonesServiceApiMissingParamErrorCode userInfo:userInfo];
+            handler(nil, error);
+        }
+        return nil;
+    }
 
-    // remove format in URL if needed
-    [resourcePath replaceOccurrencesOfString:@".{format}" withString:@".json" options:0 range:NSMakeRange(0,resourcePath.length)];
+    NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/zones/v1/poiboundary/byaddress"];
 
     NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
 
@@ -437,7 +402,7 @@ NSInteger kPBZonesServiceApiMissingParamErrorCode = 234513;
     NSString *responseContentType = [[acceptHeader componentsSeparatedByString:@", "] firstObject] ?: @"";
 
     // request content type
-    NSString *requestContentType = [self.apiClient.sanitizer selectHeaderContentType:@[@"application/json", @"application/xml"]];
+    NSString *requestContentType = [self.apiClient.sanitizer selectHeaderContentType:@[@"application/json"]];
 
     // Authentication setting
     NSArray *authSettings = @[@"oAuth2Password"];
@@ -445,7 +410,7 @@ NSInteger kPBZonesServiceApiMissingParamErrorCode = 234513;
     id bodyParam = nil;
     NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
     NSMutableDictionary *localVarFiles = [[NSMutableDictionary alloc] init];
-    bodyParam = body;
+    bodyParam = pOIBoundaryAddressRequest;
 
     return [self.apiClient requestWithPath: resourcePath
                                     method: @"POST"
@@ -463,13 +428,12 @@ NSInteger kPBZonesServiceApiMissingParamErrorCode = 234513;
                                 if(handler) {
                                     handler((PBPOIBoundaryResponse*)data, error);
                                 }
-                           }
-          ];
+                            }];
 }
 
 ///
-/// Get Point of Interests Boundary by Location
-/// Get Point of Interests Boundary by Location
+/// Get Point of Interests Boundary by Location.
+/// Get Point of Interests Boundary by Location.
 ///  @param latitude Latitude around which POI Boundary is requested 
 ///
 ///  @param longitude Longitude around which POI Boundary is requested 
@@ -482,7 +446,7 @@ NSInteger kPBZonesServiceApiMissingParamErrorCode = 234513;
 ///
 ///  @returns PBPoiBoundary*
 ///
--(NSNumber*) getPOIBoundaryByLocationWithLatitude: (NSString*) latitude
+-(NSURLSessionTask*) getPOIBoundaryByLocationWithLatitude: (NSString*) latitude
     longitude: (NSString*) longitude
     categoryCode: (NSString*) categoryCode
     sicCode: (NSString*) sicCode
@@ -511,9 +475,6 @@ NSInteger kPBZonesServiceApiMissingParamErrorCode = 234513;
     }
 
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/zones/v1/poiboundary/bylocation"];
-
-    // remove format in URL if needed
-    [resourcePath replaceOccurrencesOfString:@".{format}" withString:@".json" options:0 range:NSMakeRange(0,resourcePath.length)];
 
     NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
 
@@ -545,7 +506,7 @@ NSInteger kPBZonesServiceApiMissingParamErrorCode = 234513;
     NSString *responseContentType = [[acceptHeader componentsSeparatedByString:@", "] firstObject] ?: @"";
 
     // request content type
-    NSString *requestContentType = [self.apiClient.sanitizer selectHeaderContentType:@[@"application/json"]];
+    NSString *requestContentType = [self.apiClient.sanitizer selectHeaderContentType:@[]];
 
     // Authentication setting
     NSArray *authSettings = @[@"oAuth2Password"];
@@ -570,23 +531,30 @@ NSInteger kPBZonesServiceApiMissingParamErrorCode = 234513;
                                 if(handler) {
                                     handler((PBPoiBoundary*)data, error);
                                 }
-                           }
-          ];
+                            }];
 }
 
 ///
-/// Batch method for getting Point of Interests Boundary by Location
-/// Batch method for getting Point of Interests Boundary by Location
-///  @param body  (optional)
+/// Batch method for getting Point of Interests Boundary by Location.
+/// Batch method for getting Point of Interests Boundary by Location.
+///  @param pOIBoundaryLocationRequest  
 ///
 ///  @returns PBPOIBoundaryResponse*
 ///
--(NSNumber*) getPOIBoundaryByLocationBatchWithBody: (PBPOIBoundaryLocationRequest*) body
+-(NSURLSessionTask*) getPOIBoundaryByLocationBatchWithPOIBoundaryLocationRequest: (PBPOIBoundaryLocationRequest*) pOIBoundaryLocationRequest
     completionHandler: (void (^)(PBPOIBoundaryResponse* output, NSError* error)) handler {
-    NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/zones/v1/poiboundary/bylocation"];
+    // verify the required parameter 'pOIBoundaryLocationRequest' is set
+    if (pOIBoundaryLocationRequest == nil) {
+        NSParameterAssert(pOIBoundaryLocationRequest);
+        if(handler) {
+            NSDictionary * userInfo = @{NSLocalizedDescriptionKey : [NSString stringWithFormat:NSLocalizedString(@"Missing required parameter '%@'", nil),@"pOIBoundaryLocationRequest"] };
+            NSError* error = [NSError errorWithDomain:kPBZonesServiceApiErrorDomain code:kPBZonesServiceApiMissingParamErrorCode userInfo:userInfo];
+            handler(nil, error);
+        }
+        return nil;
+    }
 
-    // remove format in URL if needed
-    [resourcePath replaceOccurrencesOfString:@".{format}" withString:@".json" options:0 range:NSMakeRange(0,resourcePath.length)];
+    NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/zones/v1/poiboundary/bylocation"];
 
     NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
 
@@ -603,7 +571,7 @@ NSInteger kPBZonesServiceApiMissingParamErrorCode = 234513;
     NSString *responseContentType = [[acceptHeader componentsSeparatedByString:@", "] firstObject] ?: @"";
 
     // request content type
-    NSString *requestContentType = [self.apiClient.sanitizer selectHeaderContentType:@[@"application/json", @"application/xml"]];
+    NSString *requestContentType = [self.apiClient.sanitizer selectHeaderContentType:@[@"application/json"]];
 
     // Authentication setting
     NSArray *authSettings = @[@"oAuth2Password"];
@@ -611,7 +579,7 @@ NSInteger kPBZonesServiceApiMissingParamErrorCode = 234513;
     id bodyParam = nil;
     NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
     NSMutableDictionary *localVarFiles = [[NSMutableDictionary alloc] init];
-    bodyParam = body;
+    bodyParam = pOIBoundaryLocationRequest;
 
     return [self.apiClient requestWithPath: resourcePath
                                     method: @"POST"
@@ -629,24 +597,23 @@ NSInteger kPBZonesServiceApiMissingParamErrorCode = 234513;
                                 if(handler) {
                                     handler((PBPOIBoundaryResponse*)data, error);
                                 }
-                           }
-          ];
+                            }];
 }
 
 ///
-/// Gets travel Boundary by Distance
+/// Get TravelBoundary By Distance.
 /// Returns the travel boundary based on travel distance.
-///  @param costs Travel distance(s) 
+///  @param point Starting point from where the travel boundary is calculated. Point in Lat,Long,coordsys format (optional)
 ///
-///  @param point Starting point from where the travel boundary is calculated. Point in 'Lat,Long,coordsys' format (optional)
+///  @param address Address around which Basic Boundary is requested. (optional)
 ///
-///  @param address Starting address from where the travel boundary is calculated. (optional)
+///  @param costs Travel time used to calculate the travel boundary. (optional)
 ///
-///  @param costUnit Travel distance such as ft(Foot), km(Kilometer), mi(Mile), m(Meter) or yd(Yard). (optional, default to m)
+///  @param costUnit Travel time unit such as min(Minute), h(Hour), s(Second) or msec(Millisecond). (optional)
 ///
-///  @param db Mode of commute. (optional, default to driving)
+///  @param db Mode of commute. (optional)
 ///
-///  @param country Three digit ISO country code. (optional, default to USA)
+///  @param country 3 character ISO code or country name. (optional)
 ///
 ///  @param maxOffroadDistance Maximum distance to allow travel off the road network. (optional)
 ///
@@ -654,27 +621,27 @@ NSInteger kPBZonesServiceApiMissingParamErrorCode = 234513;
 ///
 ///  @param destinationSrs Desired coordinate system of the travel boundary. (optional)
 ///
-///  @param majorRoads Whether to include all roads in the calculation or just major roads. (optional, default to false)
+///  @param majorRoads Whether to include all roads in the calculation or just major roads. (optional, default to @"true")
 ///
-///  @param returnHoles Whether to return holes, which are areas within the larger boundary that cannot be reached within the desired distance. (optional, default to false)
+///  @param returnHoles Whether to return holes, which are areas within the larger boundary that cannot be reached within the desired time (optional)
 ///
-///  @param returnIslands Whether to return islands, which are small areas outside the main boundary that can be reached within the desired distance. (optional, default to false)
+///  @param returnIslands Whether to return islands, which are small areas outside the main boundary that can be reached within the desired time (optional)
 ///
-///  @param simplificationFactor Number between 0.0 and 1.0 where 0.0 is very simple and 1.0 means the most complex. (optional, default to 0.5)
+///  @param simplificationFactor Number between 0.0 and 1.0 where 0.0 is very simple and 1.0 means the most complex (optional)
 ///
-///  @param bandingStyle Style of banding to be used in the result. (optional, default to Donut)
+///  @param bandingStyle Style of banding to be used in the result (optional)
 ///
-///  @param historicTrafficTimeBucket Whether routing calculation uses the historic traffic speeds. (optional, default to None)
+///  @param historicTrafficTimeBucket Whether routing calculation uses the historic traffic speeds (optional)
 ///
 ///  @param defaultAmbientSpeed The speed to travel when going off a network road to find the travel boundary (for all road types). (optional)
 ///
-///  @param ambientSpeedUnit The unit of measure to use to calculate the ambient speed. (optional, default to MPH)
+///  @param ambientSpeedUnit The unit of measure to use to calculate the ambient speed. (optional)
 ///
 ///  @returns PBTravelBoundaries*
 ///
--(NSNumber*) getTravelBoundaryByDistanceWithCosts: (NSString*) costs
-    point: (NSString*) point
+-(NSURLSessionTask*) getTravelBoundaryByDistanceWithPoint: (NSString*) point
     address: (NSString*) address
+    costs: (NSString*) costs
     costUnit: (NSString*) costUnit
     db: (NSString*) db
     country: (NSString*) country
@@ -690,21 +657,7 @@ NSInteger kPBZonesServiceApiMissingParamErrorCode = 234513;
     defaultAmbientSpeed: (NSString*) defaultAmbientSpeed
     ambientSpeedUnit: (NSString*) ambientSpeedUnit
     completionHandler: (void (^)(PBTravelBoundaries* output, NSError* error)) handler {
-    // verify the required parameter 'costs' is set
-    if (costs == nil) {
-        NSParameterAssert(costs);
-        if(handler) {
-            NSDictionary * userInfo = @{NSLocalizedDescriptionKey : [NSString stringWithFormat:NSLocalizedString(@"Missing required parameter '%@'", nil),@"costs"] };
-            NSError* error = [NSError errorWithDomain:kPBZonesServiceApiErrorDomain code:kPBZonesServiceApiMissingParamErrorCode userInfo:userInfo];
-            handler(nil, error);
-        }
-        return nil;
-    }
-
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/zones/v1/travelboundary/bydistance"];
-
-    // remove format in URL if needed
-    [resourcePath replaceOccurrencesOfString:@".{format}" withString:@".json" options:0 range:NSMakeRange(0,resourcePath.length)];
 
     NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
 
@@ -772,7 +725,7 @@ NSInteger kPBZonesServiceApiMissingParamErrorCode = 234513;
     NSString *responseContentType = [[acceptHeader componentsSeparatedByString:@", "] firstObject] ?: @"";
 
     // request content type
-    NSString *requestContentType = [self.apiClient.sanitizer selectHeaderContentType:@[@"application/json", @"application/xml"]];
+    NSString *requestContentType = [self.apiClient.sanitizer selectHeaderContentType:@[]];
 
     // Authentication setting
     NSArray *authSettings = @[@"oAuth2Password"];
@@ -797,24 +750,23 @@ NSInteger kPBZonesServiceApiMissingParamErrorCode = 234513;
                                 if(handler) {
                                     handler((PBTravelBoundaries*)data, error);
                                 }
-                           }
-          ];
+                            }];
 }
 
 ///
-/// Gets travel Boundary by Time
+/// Get TravelBoundary By Time.
 /// Travel boundary based on travel time.
-///  @param costs Travel time used to calculate the travel boundary. 
-///
 ///  @param point Starting point from where the travel boundary is calculated. Point in Lat,Long,coordsys format (optional)
 ///
 ///  @param address Starting address from where the travel boundary is calculated. (optional)
 ///
-///  @param costUnit Travel time unit such as min(Minute), h(Hour), s(Second) or msec(Millisecond). (optional, default to min)
+///  @param costs Travel time used to calculate the travel boundary. (optional)
 ///
-///  @param db Mode of commute. (optional, default to driving)
+///  @param costUnit Travel time unit such as min(Minute), h(Hour), s(Second) or msec(Millisecond). (optional)
 ///
-///  @param country 3 character ISO code or country name. (optional, default to USA)
+///  @param db Mode of commute. (optional)
+///
+///  @param country 3 character ISO code or country name. (optional)
 ///
 ///  @param maxOffroadDistance Maximum distance to allow travel off the road network. (optional)
 ///
@@ -822,27 +774,27 @@ NSInteger kPBZonesServiceApiMissingParamErrorCode = 234513;
 ///
 ///  @param destinationSrs Desired coordinate system of the travel boundary. (optional)
 ///
-///  @param majorRoads Whether to include all roads in the calculation or just major roads. (optional, default to false)
+///  @param majorRoads Whether to include all roads in the calculation or just major roads. (optional, default to @"true")
 ///
-///  @param returnHoles Whether to return holes, which are areas within the larger boundary that cannot be reached within the desired time. (optional, default to false)
+///  @param returnHoles Whether to return holes, which are areas within the larger boundary that cannot be reached within the desired time (optional)
 ///
-///  @param returnIslands Whether to return islands, which are small areas outside the main boundary that can be reached within the desired time. (optional, default to false)
+///  @param returnIslands Whether to return islands, which are small areas outside the main boundary that can be reached within the desired time (optional)
 ///
-///  @param simplificationFactor Number between 0.0 and 1.0 where 0.0 is very simple and 1.0 means the most complex. (optional, default to 0.5)
+///  @param simplificationFactor Number between 0.0 and 1.0 where 0.0 is very simple and 1.0 means the most complex (optional)
 ///
-///  @param bandingStyle Style of banding to be used in the result. (optional, default to Donut)
+///  @param bandingStyle Style of banding to be used in the result (optional)
 ///
-///  @param historicTrafficTimeBucket Whether routing calculation uses the historic traffic speeds. (optional, default to None)
+///  @param historicTrafficTimeBucket Whether routing calculation uses the historic traffic speeds (optional)
 ///
 ///  @param defaultAmbientSpeed The speed to travel when going off a network road to find the travel boundary (for all road types). (optional)
 ///
-///  @param ambientSpeedUnit The unit of measure to use to calculate the ambient speed. (optional, default to MPH)
+///  @param ambientSpeedUnit The unit of measure to use to calculate the ambient speed. (optional)
 ///
 ///  @returns PBTravelBoundaries*
 ///
--(NSNumber*) getTravelBoundaryByTimeWithCosts: (NSString*) costs
-    point: (NSString*) point
+-(NSURLSessionTask*) getTravelBoundaryByTimeWithPoint: (NSString*) point
     address: (NSString*) address
+    costs: (NSString*) costs
     costUnit: (NSString*) costUnit
     db: (NSString*) db
     country: (NSString*) country
@@ -858,21 +810,7 @@ NSInteger kPBZonesServiceApiMissingParamErrorCode = 234513;
     defaultAmbientSpeed: (NSString*) defaultAmbientSpeed
     ambientSpeedUnit: (NSString*) ambientSpeedUnit
     completionHandler: (void (^)(PBTravelBoundaries* output, NSError* error)) handler {
-    // verify the required parameter 'costs' is set
-    if (costs == nil) {
-        NSParameterAssert(costs);
-        if(handler) {
-            NSDictionary * userInfo = @{NSLocalizedDescriptionKey : [NSString stringWithFormat:NSLocalizedString(@"Missing required parameter '%@'", nil),@"costs"] };
-            NSError* error = [NSError errorWithDomain:kPBZonesServiceApiErrorDomain code:kPBZonesServiceApiMissingParamErrorCode userInfo:userInfo];
-            handler(nil, error);
-        }
-        return nil;
-    }
-
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/zones/v1/travelboundary/bytime"];
-
-    // remove format in URL if needed
-    [resourcePath replaceOccurrencesOfString:@".{format}" withString:@".json" options:0 range:NSMakeRange(0,resourcePath.length)];
 
     NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
 
@@ -940,7 +878,7 @@ NSInteger kPBZonesServiceApiMissingParamErrorCode = 234513;
     NSString *responseContentType = [[acceptHeader componentsSeparatedByString:@", "] firstObject] ?: @"";
 
     // request content type
-    NSString *requestContentType = [self.apiClient.sanitizer selectHeaderContentType:@[@"application/json", @"application/xml"]];
+    NSString *requestContentType = [self.apiClient.sanitizer selectHeaderContentType:@[]];
 
     // Authentication setting
     NSArray *authSettings = @[@"oAuth2Password"];
@@ -965,8 +903,7 @@ NSInteger kPBZonesServiceApiMissingParamErrorCode = 234513;
                                 if(handler) {
                                     handler((PBTravelBoundaries*)data, error);
                                 }
-                           }
-          ];
+                            }];
 }
 
 

@@ -17,7 +17,7 @@
  * This method is used by `JSONModel`.
  */
 + (JSONKeyMapper *)keyMapper {
-  return [[JSONKeyMapper alloc] initWithDictionary:@{ @"name": @"name", @"type": @"type", @"categoryCode": @"categoryCode", @"sicCode": @"sicCode", @"fuzzyOnName": @"fuzzyOnName", @"geometry": @"geometry", @"geometryAsText": @"geometryAsText" }];
+  return [[JSONKeyMapper alloc] initWithModelToJSONDictionary:@{ @"name": @"name", @"type": @"type", @"categoryCode": @"categoryCode", @"sicCode": @"sicCode", @"fuzzyOnName": @"fuzzyOnName", @"matchMode": @"matchMode", @"specificMatchOn": @"specificMatchOn", @"geometry": @"geometry", @"geometryAsText": @"geometryAsText" }];
 }
 
 /**
@@ -27,7 +27,7 @@
  */
 + (BOOL)propertyIsOptional:(NSString *)propertyName {
 
-  NSArray *optionalProperties = @[@"name", @"type", @"categoryCode", @"sicCode", @"fuzzyOnName", @"geometry", @"geometryAsText"];
+  NSArray *optionalProperties = @[@"name", @"type", @"categoryCode", @"sicCode", @"fuzzyOnName", @"matchMode", @"specificMatchOn", @"geometry", @"geometryAsText"];
   return [optionalProperties containsObject:propertyName];
 }
 

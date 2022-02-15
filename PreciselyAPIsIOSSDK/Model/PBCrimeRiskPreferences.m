@@ -17,7 +17,7 @@
  * This method is used by `JSONModel`.
  */
 + (JSONKeyMapper *)keyMapper {
-  return [[JSONKeyMapper alloc] initWithDictionary:@{ @"includeGeometry": @"includeGeometry", @"type": @"type" }];
+  return [[JSONKeyMapper alloc] initWithModelToJSONDictionary:@{ @"includeGeometry": @"includeGeometry", @"type": @"type" }];
 }
 
 /**

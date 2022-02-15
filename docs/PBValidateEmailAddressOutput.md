@@ -3,7 +3,7 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**userFields** | [**NSArray&lt;PBValidateMailingAddressInputRowUserFields&gt;***](PBValidateMailingAddressInputRowUserFields.md) | These fields are returned, unmodified, in the user_fields section of the response. | [optional] 
+**userFields** | [**NSArray&lt;PBGetPostalCodesAPIOutputUserFields&gt;***](PBGetPostalCodesAPIOutputUserFields.md) | These fields are returned, unmodified, in the user_fields section of the response. | [optional] 
 **eMAIL** | **NSString*** | The email address submitted for verification. | [optional] 
 **fINDING** | **NSString*** | One character code indicating the validity of the submitted email address. | [optional] 
 **cOMMENT** | **NSString*** | The comment string pertaining to the result of the submitted email address. | [optional] 

@@ -9,7 +9,7 @@ Method | HTTP request | Description
 
 # **validateEmailAddress**
 ```objc
--(NSNumber*) validateEmailAddressWithInputEmailAddress: (PBValidateEmailAddressAPIRequest*) inputEmailAddress
+-(NSURLSessionTask*) validateEmailAddressWithInputEmailAddress: (PBValidateEmailAddressAPIRequest*) inputEmailAddress
         completionHandler: (void (^)(PBValidateEmailAddressAPIResponse* output, NSError* error)) handler;
 ```
 
@@ -17,9 +17,9 @@ ValidateEmailAddress
 
 Confirm that your customer’s mailing address exists and that mail and packages can be delivered to it.
 
-### Example 
+### Example
 ```objc
-PBConfiguration *apiConfig = [PBConfiguration sharedConfig];
+PBDefaultConfiguration *apiConfig = [PBDefaultConfiguration sharedConfig];
 
 // Configure OAuth2 access token for authorization: (authentication scheme: oAuth2Password)
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
@@ -45,7 +45,7 @@ PBEmailVerificationServiceApi*apiInstance = [[PBEmailVerificationServiceApi allo
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **inputEmailAddress** | [**PBValidateEmailAddressAPIRequest***](PBValidateEmailAddressAPIRequest*.md)|  | 
+ **inputEmailAddress** | [**PBValidateEmailAddressAPIRequest***](PBValidateEmailAddressAPIRequest.md)|  | 
 
 ### Return type
 
@@ -58,7 +58,7 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
  - **Content-Type**: application/json
- - **Accept**: application/json
+ - **Accept**: application/json, application/xml
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

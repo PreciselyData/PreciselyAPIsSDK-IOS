@@ -6,12 +6,12 @@ Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**getCrimeRiskByAddress**](PBRisksServiceApi.md#getcrimeriskbyaddress) | **GET** /risks/v1/crime/byaddress | Get Crime Risk By Address
 [**getCrimeRiskByAddressBatch**](PBRisksServiceApi.md#getcrimeriskbyaddressbatch) | **POST** /risks/v1/crime/byaddress | Post Crime Risk By Address
-[**getCrimeRiskByLocation**](PBRisksServiceApi.md#getcrimeriskbylocation) | **GET** /risks/v1/crime/bylocation | Get Crime Risk By Location
+[**getCrimeRiskByLocation**](PBRisksServiceApi.md#getcrimeriskbylocation) | **GET** /risks/v1/crime/bylocation | Get Crime Risk By  Location
 [**getCrimeRiskByLocationBatch**](PBRisksServiceApi.md#getcrimeriskbylocationbatch) | **POST** /risks/v1/crime/bylocation | Post Crime Risk By Location
-[**getDistanceToFloodHazardByAddress**](PBRisksServiceApi.md#getdistancetofloodhazardbyaddress) | **GET** /risks/v1/shoreline/distancetofloodhazard/byaddress | Get Distance To Flood Hazard By Address
-[**getDistanceToFloodHazardByAddressBatch**](PBRisksServiceApi.md#getdistancetofloodhazardbyaddressbatch) | **POST** /risks/v1/shoreline/distancetofloodhazard/byaddress | Post Distance To Flood Hazard By Address
-[**getDistanceToFloodHazardByLocation**](PBRisksServiceApi.md#getdistancetofloodhazardbylocation) | **GET** /risks/v1/shoreline/distancetofloodhazard/bylocation | Get Distance To Flood Hazard By Location
-[**getDistanceToFloodHazardByLocationBatch**](PBRisksServiceApi.md#getdistancetofloodhazardbylocationbatch) | **POST** /risks/v1/shoreline/distancetofloodhazard/bylocation | Post Distance To Flood Hazard By Location
+[**getDistanceToCoastByAddress**](PBRisksServiceApi.md#getdistancetocoastbyaddress) | **GET** /risks/v1/shoreline/distancetofloodhazard/byaddress | Get Distance To Flood Hazard By Address
+[**getDistanceToCoastByAddressBatch**](PBRisksServiceApi.md#getdistancetocoastbyaddressbatch) | **POST** /risks/v1/shoreline/distancetofloodhazard/byaddress | Post Distance To Flood Hazard By Address
+[**getDistanceToCoastByLocation**](PBRisksServiceApi.md#getdistancetocoastbylocation) | **GET** /risks/v1/shoreline/distancetofloodhazard/bylocation | Get Distance To Flood Hazard By Location
+[**getDistanceToCoastByLocationBatch**](PBRisksServiceApi.md#getdistancetocoastbylocationbatch) | **POST** /risks/v1/shoreline/distancetofloodhazard/bylocation | Post Distance To Flood Hazard By Location
 [**getEarthquakeHistory**](PBRisksServiceApi.md#getearthquakehistory) | **GET** /risks/v1/earthquakehistory | Earthquake History
 [**getEarthquakeRiskByAddress**](PBRisksServiceApi.md#getearthquakeriskbyaddress) | **GET** /risks/v1/earthquake/byaddress | Get Earthquake Risk By Address
 [**getEarthquakeRiskByAddressBatch**](PBRisksServiceApi.md#getearthquakeriskbyaddressbatch) | **POST** /risks/v1/earthquake/byaddress | Post Earthquake Risk By Address
@@ -22,8 +22,8 @@ Method | HTTP request | Description
 [**getFireRiskByAddressBatch**](PBRisksServiceApi.md#getfireriskbyaddressbatch) | **POST** /risks/v1/fire/byaddress | Post Fire Risk By Address
 [**getFireRiskByLocation**](PBRisksServiceApi.md#getfireriskbylocation) | **GET** /risks/v1/fire/bylocation | Get Fire Risk By Location
 [**getFireRiskByLocationBatch**](PBRisksServiceApi.md#getfireriskbylocationbatch) | **POST** /risks/v1/fire/bylocation | Post Fire Risk By Location
-[**getFireStationByAddress**](PBRisksServiceApi.md#getfirestationbyaddress) | **GET** /risks/v1/firestation/byaddress | Fire Station By Address
-[**getFireStationByLocation**](PBRisksServiceApi.md#getfirestationbylocation) | **GET** /risks/v1/firestation/bylocation | Fire Station By Location
+[**getFireStationByAddress**](PBRisksServiceApi.md#getfirestationbyaddress) | **GET** /risks/v1/firestation/byaddress | Get Fire Station By Address
+[**getFireStationByLocation**](PBRisksServiceApi.md#getfirestationbylocation) | **GET** /risks/v1/firestation/bylocation | Get Fire Station By Location
 [**getFloodRiskByAddress**](PBRisksServiceApi.md#getfloodriskbyaddress) | **GET** /risks/v1/flood/byaddress | Get Flood Risk By Address
 [**getFloodRiskByAddressBatch**](PBRisksServiceApi.md#getfloodriskbyaddressbatch) | **POST** /risks/v1/flood/byaddress | Post Flood Risk By Address
 [**getFloodRiskByLocation**](PBRisksServiceApi.md#getfloodriskbylocation) | **GET** /risks/v1/flood/bylocation | Get Flood Risk By Location
@@ -32,7 +32,7 @@ Method | HTTP request | Description
 
 # **getCrimeRiskByAddress**
 ```objc
--(NSNumber*) getCrimeRiskByAddressWithAddress: (NSString*) address
+-(NSURLSessionTask*) getCrimeRiskByAddressWithAddress: (NSString*) address
     type: (NSString*) type
     includeGeometry: (NSString*) includeGeometry
         completionHandler: (void (^)(PBCrimeRiskResponse* output, NSError* error)) handler;
@@ -42,16 +42,16 @@ Get Crime Risk By Address
 
 Accepts addresses as input and Returns local crime indexes.
 
-### Example 
+### Example
 ```objc
-PBConfiguration *apiConfig = [PBConfiguration sharedConfig];
+PBDefaultConfiguration *apiConfig = [PBDefaultConfiguration sharedConfig];
 
 // Configure OAuth2 access token for authorization: (authentication scheme: oAuth2Password)
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
 
 
-NSString* address = @"address_example"; // Free-form address text.
-NSString* type = @"type_example"; // Type of crime like violent crime, property crime, etc., multiple crime type indexes could be requested as comma separated values with 'all' as default.) (optional)
+NSString* address = @"address_example"; // free form address text
+NSString* type = @"type_example"; // this is crime type; valid values are following 11 crime types with 'all' as default (more than one can also be given as comma separated types) (optional)
 NSString* includeGeometry = @"includeGeometry_example"; // Y or N (default is N) - if it is Y, then geometry will be part of response (optional)
 
 PBRisksServiceApi*apiInstance = [[PBRisksServiceApi alloc] init];
@@ -74,8 +74,8 @@ PBRisksServiceApi*apiInstance = [[PBRisksServiceApi alloc] init];
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **address** | **NSString***| Free-form address text. | 
- **type** | **NSString***| Type of crime like violent crime, property crime, etc., multiple crime type indexes could be requested as comma separated values with &#39;all&#39; as default.) | [optional] 
+ **address** | **NSString***| free form address text | 
+ **type** | **NSString***| this is crime type; valid values are following 11 crime types with &#39;all&#39; as default (more than one can also be given as comma separated types) | [optional] 
  **includeGeometry** | **NSString***| Y or N (default is N) - if it is Y, then geometry will be part of response | [optional] 
 
 ### Return type
@@ -88,14 +88,14 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json, application/xml
- - **Accept**: application/xml, application/json
+ - **Content-Type**: Not defined
+ - **Accept**: application/json, application/xml
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **getCrimeRiskByAddressBatch**
 ```objc
--(NSNumber*) getCrimeRiskByAddressBatchWithBody: (PBCrimeRiskByAddressRequest*) body
+-(NSURLSessionTask*) getCrimeRiskByAddressBatchWithCrimeRiskByAddressBatchRequest: (PBCrimeRiskByAddressBatchRequest*) crimeRiskByAddressBatchRequest
         completionHandler: (void (^)(PBCrimeRiskResponseList* output, NSError* error)) handler;
 ```
 
@@ -103,20 +103,20 @@ Post Crime Risk By Address
 
 This is a Batch offering for 'Crime Risk By Address' service. It accepts a single address or a list of addresses and retrieve local crime indexes.
 
-### Example 
+### Example
 ```objc
-PBConfiguration *apiConfig = [PBConfiguration sharedConfig];
+PBDefaultConfiguration *apiConfig = [PBDefaultConfiguration sharedConfig];
 
 // Configure OAuth2 access token for authorization: (authentication scheme: oAuth2Password)
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
 
 
-PBCrimeRiskByAddressRequest* body = [[PBCrimeRiskByAddressRequest alloc] init]; //  (optional)
+PBCrimeRiskByAddressBatchRequest* crimeRiskByAddressBatchRequest = [[PBCrimeRiskByAddressBatchRequest alloc] init]; // 
 
 PBRisksServiceApi*apiInstance = [[PBRisksServiceApi alloc] init];
 
 // Post Crime Risk By Address
-[apiInstance getCrimeRiskByAddressBatchWithBody:body
+[apiInstance getCrimeRiskByAddressBatchWithCrimeRiskByAddressBatchRequest:crimeRiskByAddressBatchRequest
           completionHandler: ^(PBCrimeRiskResponseList* output, NSError* error) {
                         if (output) {
                             NSLog(@"%@", output);
@@ -131,7 +131,7 @@ PBRisksServiceApi*apiInstance = [[PBRisksServiceApi alloc] init];
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**PBCrimeRiskByAddressRequest***](PBCrimeRiskByAddressRequest*.md)|  | [optional] 
+ **crimeRiskByAddressBatchRequest** | [**PBCrimeRiskByAddressBatchRequest***](PBCrimeRiskByAddressBatchRequest.md)|  | 
 
 ### Return type
 
@@ -144,26 +144,26 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
  - **Content-Type**: application/json, application/xml
- - **Accept**: application/xml, application/json
+ - **Accept**: application/json, application/xml
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **getCrimeRiskByLocation**
 ```objc
--(NSNumber*) getCrimeRiskByLocationWithLongitude: (NSString*) longitude
+-(NSURLSessionTask*) getCrimeRiskByLocationWithLongitude: (NSString*) longitude
     latitude: (NSString*) latitude
     type: (NSString*) type
     includeGeometry: (NSString*) includeGeometry
-        completionHandler: (void (^)(PBCrimeRiskLocationResponse* output, NSError* error)) handler;
+        completionHandler: (void (^)(PBCrimeRiskResponse* output, NSError* error)) handler;
 ```
 
-Get Crime Risk By Location
+Get Crime Risk By  Location
 
-Returns the crime data or crime indexes for a given location.
+Accepts latitude/longitude as input and returns and Returns local crime indexes.
 
-### Example 
+### Example
 ```objc
-PBConfiguration *apiConfig = [PBConfiguration sharedConfig];
+PBDefaultConfiguration *apiConfig = [PBDefaultConfiguration sharedConfig];
 
 // Configure OAuth2 access token for authorization: (authentication scheme: oAuth2Password)
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
@@ -171,17 +171,17 @@ PBConfiguration *apiConfig = [PBConfiguration sharedConfig];
 
 NSString* longitude = @"longitude_example"; // The longitude of the location
 NSString* latitude = @"latitude_example"; // The latitude of the location
-NSString* type = @"type_example"; // Refers to crime type. Valid values are following 11 crime types with 'all' as default (more than one can also be given as comma separated types) (optional)
+NSString* type = @"type_example"; // this is crime type; valid values are following 11 crime types with 'all' as default (more than one can also be given as comma separated types) (optional)
 NSString* includeGeometry = @"includeGeometry_example"; // Y or N (default is N) - if it is Y, then geometry will be part of response (optional)
 
 PBRisksServiceApi*apiInstance = [[PBRisksServiceApi alloc] init];
 
-// Get Crime Risk By Location
+// Get Crime Risk By  Location
 [apiInstance getCrimeRiskByLocationWithLongitude:longitude
               latitude:latitude
               type:type
               includeGeometry:includeGeometry
-          completionHandler: ^(PBCrimeRiskLocationResponse* output, NSError* error) {
+          completionHandler: ^(PBCrimeRiskResponse* output, NSError* error) {
                         if (output) {
                             NSLog(@"%@", output);
                         }
@@ -197,12 +197,12 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **longitude** | **NSString***| The longitude of the location | 
  **latitude** | **NSString***| The latitude of the location | 
- **type** | **NSString***| Refers to crime type. Valid values are following 11 crime types with &#39;all&#39; as default (more than one can also be given as comma separated types) | [optional] 
+ **type** | **NSString***| this is crime type; valid values are following 11 crime types with &#39;all&#39; as default (more than one can also be given as comma separated types) | [optional] 
  **includeGeometry** | **NSString***| Y or N (default is N) - if it is Y, then geometry will be part of response | [optional] 
 
 ### Return type
 
-[**PBCrimeRiskLocationResponse***](PBCrimeRiskLocationResponse.md)
+[**PBCrimeRiskResponse***](PBCrimeRiskResponse.md)
 
 ### Authorization
 
@@ -210,36 +210,36 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json, application/xml
- - **Accept**: application/xml, application/json
+ - **Content-Type**: Not defined
+ - **Accept**: application/json, application/xml
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **getCrimeRiskByLocationBatch**
 ```objc
--(NSNumber*) getCrimeRiskByLocationBatchWithBody: (PBCrimeRiskByLocationRequest*) body
-        completionHandler: (void (^)(PBCrimeRiskLocationResponseList* output, NSError* error)) handler;
+-(NSURLSessionTask*) getCrimeRiskByLocationBatchWithCrimeRiskByLocationBatchRequest: (PBCrimeRiskByLocationBatchRequest*) crimeRiskByLocationBatchRequest
+        completionHandler: (void (^)(PBCrimeRiskResponseList* output, NSError* error)) handler;
 ```
 
 Post Crime Risk By Location
 
 This is a Batch offering for 'Crime Risk By Location' service. It accepts a single location coordinate or a list of location coordinates and retrieve local crime indexes.
 
-### Example 
+### Example
 ```objc
-PBConfiguration *apiConfig = [PBConfiguration sharedConfig];
+PBDefaultConfiguration *apiConfig = [PBDefaultConfiguration sharedConfig];
 
 // Configure OAuth2 access token for authorization: (authentication scheme: oAuth2Password)
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
 
 
-PBCrimeRiskByLocationRequest* body = [[PBCrimeRiskByLocationRequest alloc] init]; //  (optional)
+PBCrimeRiskByLocationBatchRequest* crimeRiskByLocationBatchRequest = [[PBCrimeRiskByLocationBatchRequest alloc] init]; // 
 
 PBRisksServiceApi*apiInstance = [[PBRisksServiceApi alloc] init];
 
 // Post Crime Risk By Location
-[apiInstance getCrimeRiskByLocationBatchWithBody:body
-          completionHandler: ^(PBCrimeRiskLocationResponseList* output, NSError* error) {
+[apiInstance getCrimeRiskByLocationBatchWithCrimeRiskByLocationBatchRequest:crimeRiskByLocationBatchRequest
+          completionHandler: ^(PBCrimeRiskResponseList* output, NSError* error) {
                         if (output) {
                             NSLog(@"%@", output);
                         }
@@ -253,11 +253,11 @@ PBRisksServiceApi*apiInstance = [[PBRisksServiceApi alloc] init];
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**PBCrimeRiskByLocationRequest***](PBCrimeRiskByLocationRequest*.md)|  | [optional] 
+ **crimeRiskByLocationBatchRequest** | [**PBCrimeRiskByLocationBatchRequest***](PBCrimeRiskByLocationBatchRequest.md)|  | 
 
 ### Return type
 
-[**PBCrimeRiskLocationResponseList***](PBCrimeRiskLocationResponseList.md)
+[**PBCrimeRiskResponseList***](PBCrimeRiskResponseList.md)
 
 ### Authorization
 
@@ -266,13 +266,13 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
  - **Content-Type**: application/json, application/xml
- - **Accept**: application/xml, application/json
+ - **Accept**: application/json, application/xml
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **getDistanceToFloodHazardByAddress**
+# **getDistanceToCoastByAddress**
 ```objc
--(NSNumber*) getDistanceToFloodHazardByAddressWithAddress: (NSString*) address
+-(NSURLSessionTask*) getDistanceToCoastByAddressWithAddress: (NSString*) address
     maxCandidates: (NSString*) maxCandidates
     waterBodyType: (NSString*) waterBodyType
     searchDistance: (NSString*) searchDistance
@@ -284,24 +284,24 @@ Get Distance To Flood Hazard By Address
 
 Accepts addresses as input and Returns the distance from nearest water bodies along with body name and location.
 
-### Example 
+### Example
 ```objc
-PBConfiguration *apiConfig = [PBConfiguration sharedConfig];
+PBDefaultConfiguration *apiConfig = [PBDefaultConfiguration sharedConfig];
 
 // Configure OAuth2 access token for authorization: (authentication scheme: oAuth2Password)
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
 
 
-NSString* address = @"address_example"; // The address of the location
+NSString* address = @"address_example"; // The address of the location (optional)
 NSString* maxCandidates = @"maxCandidates_example"; // This specifies the value of maxCandidates (optional)
-NSString* waterBodyType = @"waterBodyType_example"; // all (default value), oceanandsea,lake,others,unknown,intermittent (optional)
+NSString* waterBodyType = @"waterBodyType_example"; // This specifies the value of waterBodyType (optional)
 NSString* searchDistance = @"searchDistance_example"; // This specifies the search distance (optional)
 NSString* searchDistanceUnit = @"searchDistanceUnit_example"; // miles (default value),feet, kilometers, meters (optional)
 
 PBRisksServiceApi*apiInstance = [[PBRisksServiceApi alloc] init];
 
 // Get Distance To Flood Hazard By Address
-[apiInstance getDistanceToFloodHazardByAddressWithAddress:address
+[apiInstance getDistanceToCoastByAddressWithAddress:address
               maxCandidates:maxCandidates
               waterBodyType:waterBodyType
               searchDistance:searchDistance
@@ -311,7 +311,7 @@ PBRisksServiceApi*apiInstance = [[PBRisksServiceApi alloc] init];
                             NSLog(@"%@", output);
                         }
                         if (error) {
-                            NSLog(@"Error calling PBRisksServiceApi->getDistanceToFloodHazardByAddress: %@", error);
+                            NSLog(@"Error calling PBRisksServiceApi->getDistanceToCoastByAddress: %@", error);
                         }
                     }];
 ```
@@ -320,9 +320,9 @@ PBRisksServiceApi*apiInstance = [[PBRisksServiceApi alloc] init];
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **address** | **NSString***| The address of the location | 
+ **address** | **NSString***| The address of the location | [optional] 
  **maxCandidates** | **NSString***| This specifies the value of maxCandidates | [optional] 
- **waterBodyType** | **NSString***| all (default value), oceanandsea,lake,others,unknown,intermittent | [optional] 
+ **waterBodyType** | **NSString***| This specifies the value of waterBodyType | [optional] 
  **searchDistance** | **NSString***| This specifies the search distance | [optional] 
  **searchDistanceUnit** | **NSString***| miles (default value),feet, kilometers, meters | [optional] 
 
@@ -336,14 +336,14 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json, application/xml
- - **Accept**: application/xml, application/json
+ - **Content-Type**: Not defined
+ - **Accept**: application/json, application/xml
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **getDistanceToFloodHazardByAddressBatch**
+# **getDistanceToCoastByAddressBatch**
 ```objc
--(NSNumber*) getDistanceToFloodHazardByAddressBatchWithBody: (PBDistanceToFloodHazardAddressRequest*) body
+-(NSURLSessionTask*) getDistanceToCoastByAddressBatchWithDistanceToFloodHazardAddressRequest: (PBDistanceToFloodHazardAddressRequest*) distanceToFloodHazardAddressRequest
         completionHandler: (void (^)(PBDistanceToFloodHazardResponse* output, NSError* error)) handler;
 ```
 
@@ -351,26 +351,26 @@ Post Distance To Flood Hazard By Address
 
 This is a Batch offering for 'Distance To Flood Hazard By Address' service. It accepts a single address or a list of addresses and retrieve the distance from nearest water bodies along with body name and location.
 
-### Example 
+### Example
 ```objc
-PBConfiguration *apiConfig = [PBConfiguration sharedConfig];
+PBDefaultConfiguration *apiConfig = [PBDefaultConfiguration sharedConfig];
 
 // Configure OAuth2 access token for authorization: (authentication scheme: oAuth2Password)
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
 
 
-PBDistanceToFloodHazardAddressRequest* body = [[PBDistanceToFloodHazardAddressRequest alloc] init]; //  (optional)
+PBDistanceToFloodHazardAddressRequest* distanceToFloodHazardAddressRequest = [[PBDistanceToFloodHazardAddressRequest alloc] init]; // 
 
 PBRisksServiceApi*apiInstance = [[PBRisksServiceApi alloc] init];
 
 // Post Distance To Flood Hazard By Address
-[apiInstance getDistanceToFloodHazardByAddressBatchWithBody:body
+[apiInstance getDistanceToCoastByAddressBatchWithDistanceToFloodHazardAddressRequest:distanceToFloodHazardAddressRequest
           completionHandler: ^(PBDistanceToFloodHazardResponse* output, NSError* error) {
                         if (output) {
                             NSLog(@"%@", output);
                         }
                         if (error) {
-                            NSLog(@"Error calling PBRisksServiceApi->getDistanceToFloodHazardByAddressBatch: %@", error);
+                            NSLog(@"Error calling PBRisksServiceApi->getDistanceToCoastByAddressBatch: %@", error);
                         }
                     }];
 ```
@@ -379,7 +379,7 @@ PBRisksServiceApi*apiInstance = [[PBRisksServiceApi alloc] init];
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**PBDistanceToFloodHazardAddressRequest***](PBDistanceToFloodHazardAddressRequest*.md)|  | [optional] 
+ **distanceToFloodHazardAddressRequest** | [**PBDistanceToFloodHazardAddressRequest***](PBDistanceToFloodHazardAddressRequest.md)|  | 
 
 ### Return type
 
@@ -392,55 +392,55 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
  - **Content-Type**: application/json, application/xml
- - **Accept**: application/xml, application/json
+ - **Accept**: application/json, application/xml
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **getDistanceToFloodHazardByLocation**
+# **getDistanceToCoastByLocation**
 ```objc
--(NSNumber*) getDistanceToFloodHazardByLocationWithLongitude: (NSString*) longitude
+-(NSURLSessionTask*) getDistanceToCoastByLocationWithLongitude: (NSString*) longitude
     latitude: (NSString*) latitude
     maxCandidates: (NSString*) maxCandidates
     waterBodyType: (NSString*) waterBodyType
     searchDistance: (NSString*) searchDistance
     searchDistanceUnit: (NSString*) searchDistanceUnit
-        completionHandler: (void (^)(PBWaterBodyLocationResponse* output, NSError* error)) handler;
+        completionHandler: (void (^)(PBWaterBodyResponse* output, NSError* error)) handler;
 ```
 
 Get Distance To Flood Hazard By Location
 
 Accepts latitude & longitude as input and Returns the distance from nearest water bodies along with body name and location.
 
-### Example 
+### Example
 ```objc
-PBConfiguration *apiConfig = [PBConfiguration sharedConfig];
+PBDefaultConfiguration *apiConfig = [PBDefaultConfiguration sharedConfig];
 
 // Configure OAuth2 access token for authorization: (authentication scheme: oAuth2Password)
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
 
 
-NSString* longitude = @"longitude_example"; // The longitude of the location
-NSString* latitude = @"latitude_example"; // The latitude of the location
+NSString* longitude = @"longitude_example"; // The longitude of the location (optional)
+NSString* latitude = @"latitude_example"; // The latitude of the location (optional)
 NSString* maxCandidates = @"maxCandidates_example"; // This specifies the value of maxCandidates (optional)
-NSString* waterBodyType = @"waterBodyType_example"; // all (default value), oceanandsea,lake,others,unknown,intermittent (optional)
+NSString* waterBodyType = @"waterBodyType_example"; // This specifies the value of waterBodyType (optional)
 NSString* searchDistance = @"searchDistance_example"; // This specifies the search distance (optional)
 NSString* searchDistanceUnit = @"searchDistanceUnit_example"; // miles (default value),feet, kilometers, meters (optional)
 
 PBRisksServiceApi*apiInstance = [[PBRisksServiceApi alloc] init];
 
 // Get Distance To Flood Hazard By Location
-[apiInstance getDistanceToFloodHazardByLocationWithLongitude:longitude
+[apiInstance getDistanceToCoastByLocationWithLongitude:longitude
               latitude:latitude
               maxCandidates:maxCandidates
               waterBodyType:waterBodyType
               searchDistance:searchDistance
               searchDistanceUnit:searchDistanceUnit
-          completionHandler: ^(PBWaterBodyLocationResponse* output, NSError* error) {
+          completionHandler: ^(PBWaterBodyResponse* output, NSError* error) {
                         if (output) {
                             NSLog(@"%@", output);
                         }
                         if (error) {
-                            NSLog(@"Error calling PBRisksServiceApi->getDistanceToFloodHazardByLocation: %@", error);
+                            NSLog(@"Error calling PBRisksServiceApi->getDistanceToCoastByLocation: %@", error);
                         }
                     }];
 ```
@@ -449,16 +449,16 @@ PBRisksServiceApi*apiInstance = [[PBRisksServiceApi alloc] init];
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **longitude** | **NSString***| The longitude of the location | 
- **latitude** | **NSString***| The latitude of the location | 
+ **longitude** | **NSString***| The longitude of the location | [optional] 
+ **latitude** | **NSString***| The latitude of the location | [optional] 
  **maxCandidates** | **NSString***| This specifies the value of maxCandidates | [optional] 
- **waterBodyType** | **NSString***| all (default value), oceanandsea,lake,others,unknown,intermittent | [optional] 
+ **waterBodyType** | **NSString***| This specifies the value of waterBodyType | [optional] 
  **searchDistance** | **NSString***| This specifies the search distance | [optional] 
  **searchDistanceUnit** | **NSString***| miles (default value),feet, kilometers, meters | [optional] 
 
 ### Return type
 
-[**PBWaterBodyLocationResponse***](PBWaterBodyLocationResponse.md)
+[**PBWaterBodyResponse***](PBWaterBodyResponse.md)
 
 ### Authorization
 
@@ -466,41 +466,41 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json, application/xml
- - **Accept**: application/xml, application/json
+ - **Content-Type**: Not defined
+ - **Accept**: application/json, application/xml
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **getDistanceToFloodHazardByLocationBatch**
+# **getDistanceToCoastByLocationBatch**
 ```objc
--(NSNumber*) getDistanceToFloodHazardByLocationBatchWithBody: (PBDistanceToFloodHazardLocationRequest*) body
-        completionHandler: (void (^)(PBDistanceToFloodHazardLocationResponse* output, NSError* error)) handler;
+-(NSURLSessionTask*) getDistanceToCoastByLocationBatchWithDistanceToFloodHazardLocationRequest: (PBDistanceToFloodHazardLocationRequest*) distanceToFloodHazardLocationRequest
+        completionHandler: (void (^)(PBDistanceToFloodHazardResponse* output, NSError* error)) handler;
 ```
 
 Post Distance To Flood Hazard By Location
 
 This is a Batch offering for 'Distance To Flood Hazard By Location' service. It accepts a single location coordinate or a list of location coordinates and retrieve the distance from nearest water bodies along with body name and location.
 
-### Example 
+### Example
 ```objc
-PBConfiguration *apiConfig = [PBConfiguration sharedConfig];
+PBDefaultConfiguration *apiConfig = [PBDefaultConfiguration sharedConfig];
 
 // Configure OAuth2 access token for authorization: (authentication scheme: oAuth2Password)
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
 
 
-PBDistanceToFloodHazardLocationRequest* body = [[PBDistanceToFloodHazardLocationRequest alloc] init]; //  (optional)
+PBDistanceToFloodHazardLocationRequest* distanceToFloodHazardLocationRequest = [[PBDistanceToFloodHazardLocationRequest alloc] init]; // 
 
 PBRisksServiceApi*apiInstance = [[PBRisksServiceApi alloc] init];
 
 // Post Distance To Flood Hazard By Location
-[apiInstance getDistanceToFloodHazardByLocationBatchWithBody:body
-          completionHandler: ^(PBDistanceToFloodHazardLocationResponse* output, NSError* error) {
+[apiInstance getDistanceToCoastByLocationBatchWithDistanceToFloodHazardLocationRequest:distanceToFloodHazardLocationRequest
+          completionHandler: ^(PBDistanceToFloodHazardResponse* output, NSError* error) {
                         if (output) {
                             NSLog(@"%@", output);
                         }
                         if (error) {
-                            NSLog(@"Error calling PBRisksServiceApi->getDistanceToFloodHazardByLocationBatch: %@", error);
+                            NSLog(@"Error calling PBRisksServiceApi->getDistanceToCoastByLocationBatch: %@", error);
                         }
                     }];
 ```
@@ -509,11 +509,11 @@ PBRisksServiceApi*apiInstance = [[PBRisksServiceApi alloc] init];
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**PBDistanceToFloodHazardLocationRequest***](PBDistanceToFloodHazardLocationRequest*.md)|  | [optional] 
+ **distanceToFloodHazardLocationRequest** | [**PBDistanceToFloodHazardLocationRequest***](PBDistanceToFloodHazardLocationRequest.md)|  | 
 
 ### Return type
 
-[**PBDistanceToFloodHazardLocationResponse***](PBDistanceToFloodHazardLocationResponse.md)
+[**PBDistanceToFloodHazardResponse***](PBDistanceToFloodHazardResponse.md)
 
 ### Authorization
 
@@ -522,13 +522,13 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
  - **Content-Type**: application/json, application/xml
- - **Accept**: application/xml, application/json
+ - **Accept**: application/json, application/xml
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **getEarthquakeHistory**
 ```objc
--(NSNumber*) getEarthquakeHistoryWithPostCode: (NSString*) postCode
+-(NSURLSessionTask*) getEarthquakeHistoryWithPostCode: (NSString*) postCode
     startDate: (NSString*) startDate
     endDate: (NSString*) endDate
     minMagnitude: (NSString*) minMagnitude
@@ -541,9 +541,9 @@ Earthquake History
 
 Accepts postcode as input and Returns historical earthquake details for a particular postcode.
 
-### Example 
+### Example
 ```objc
-PBConfiguration *apiConfig = [PBConfiguration sharedConfig];
+PBDefaultConfiguration *apiConfig = [PBDefaultConfiguration sharedConfig];
 
 // Configure OAuth2 access token for authorization: (authentication scheme: oAuth2Password)
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
@@ -554,7 +554,7 @@ NSString* startDate = @"startDate_example"; // Start time in milliseconds(UTC) (
 NSString* endDate = @"endDate_example"; // End time in milliseconds(UTC) (optional)
 NSString* minMagnitude = @"minMagnitude_example"; // Minimum richter scale magnitude (optional)
 NSString* maxMagnitude = @"maxMagnitude_example"; // Maximum Richter scale magnitude (optional)
-NSString* maxCandidates = @"1"; // Maximum response events (optional) (default to 1)
+NSString* maxCandidates = @"maxCandidates_example"; // Maximum response events (optional)
 
 PBRisksServiceApi*apiInstance = [[PBRisksServiceApi alloc] init];
 
@@ -584,7 +584,7 @@ Name | Type | Description  | Notes
  **endDate** | **NSString***| End time in milliseconds(UTC) | [optional] 
  **minMagnitude** | **NSString***| Minimum richter scale magnitude | [optional] 
  **maxMagnitude** | **NSString***| Maximum Richter scale magnitude | [optional] 
- **maxCandidates** | **NSString***| Maximum response events | [optional] [default to 1]
+ **maxCandidates** | **NSString***| Maximum response events | [optional] 
 
 ### Return type
 
@@ -596,14 +596,14 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json, application/xml
- - **Accept**: application/xml, application/json
+ - **Content-Type**: Not defined
+ - **Accept**: application/json, application/xml
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **getEarthquakeRiskByAddress**
 ```objc
--(NSNumber*) getEarthquakeRiskByAddressWithAddress: (NSString*) address
+-(NSURLSessionTask*) getEarthquakeRiskByAddressWithAddress: (NSString*) address
     richterValue: (NSString*) richterValue
     includeGeometry: (NSString*) includeGeometry
         completionHandler: (void (^)(PBEarthquakeRiskResponse* output, NSError* error)) handler;
@@ -613,16 +613,16 @@ Get Earthquake Risk By Address
 
 Accepts addresses as input and Returns counts of earthquakes for various richter measurements and values.
 
-### Example 
+### Example
 ```objc
-PBConfiguration *apiConfig = [PBConfiguration sharedConfig];
+PBDefaultConfiguration *apiConfig = [PBDefaultConfiguration sharedConfig];
 
 // Configure OAuth2 access token for authorization: (authentication scheme: oAuth2Password)
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
 
 
-NSString* address = @"address_example"; // Free-form address text
-NSString* richterValue = @"richterValue_example"; // Richter values like R5 (count of richter scale 5 events), R7 (count of richter scale 7 events), R6_GE (count of events >= richter scale 6), etc., multiple richter scales could be requested as comma separated values with 'all' as default. Valid values: All (default value), R0, R1, R2, R3, R4, R5, R6, R7, R0_GE, R1_GE, R2_GE, R3_GE, R4_GE, R5_GE, R6_GE, R7_GE (optional)
+NSString* address = @"address_example"; // free form address text
+NSString* richterValue = @"richterValue_example"; // all (default value), R0, R1, R2, R3, R4, R5, R6, R7, R0_GE, R1_GE, R2_GE, R3_GE, R4_GE, R5_GE, R6_GE, R7_GE (optional)
 NSString* includeGeometry = @"includeGeometry_example"; // Y or N (default is N) - if it is Y, then geometry will be part of response (optional)
 
 PBRisksServiceApi*apiInstance = [[PBRisksServiceApi alloc] init];
@@ -645,8 +645,8 @@ PBRisksServiceApi*apiInstance = [[PBRisksServiceApi alloc] init];
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **address** | **NSString***| Free-form address text | 
- **richterValue** | **NSString***| Richter values like R5 (count of richter scale 5 events), R7 (count of richter scale 7 events), R6_GE (count of events &gt;&#x3D; richter scale 6), etc., multiple richter scales could be requested as comma separated values with &#39;all&#39; as default. Valid values: All (default value), R0, R1, R2, R3, R4, R5, R6, R7, R0_GE, R1_GE, R2_GE, R3_GE, R4_GE, R5_GE, R6_GE, R7_GE | [optional] 
+ **address** | **NSString***| free form address text | 
+ **richterValue** | **NSString***| all (default value), R0, R1, R2, R3, R4, R5, R6, R7, R0_GE, R1_GE, R2_GE, R3_GE, R4_GE, R5_GE, R6_GE, R7_GE | [optional] 
  **includeGeometry** | **NSString***| Y or N (default is N) - if it is Y, then geometry will be part of response | [optional] 
 
 ### Return type
@@ -659,14 +659,14 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json, application/xml
- - **Accept**: application/xml, application/json
+ - **Content-Type**: Not defined
+ - **Accept**: application/json, application/xml
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **getEarthquakeRiskByAddressBatch**
 ```objc
--(NSNumber*) getEarthquakeRiskByAddressBatchWithBody: (PBEarthquakeRiskByAddressRequest*) body
+-(NSURLSessionTask*) getEarthquakeRiskByAddressBatchWithEarthquakeRiskByAddressRequest: (PBEarthquakeRiskByAddressRequest*) earthquakeRiskByAddressRequest
         completionHandler: (void (^)(PBEarthquakeRiskResponseList* output, NSError* error)) handler;
 ```
 
@@ -674,20 +674,20 @@ Post Earthquake Risk By Address
 
 This is a Batch offering for 'Earthquake Risk By Address' service. It accepts a single address or a list of addresses and retrieve counts of earthquakes for various richter measurements and values.
 
-### Example 
+### Example
 ```objc
-PBConfiguration *apiConfig = [PBConfiguration sharedConfig];
+PBDefaultConfiguration *apiConfig = [PBDefaultConfiguration sharedConfig];
 
 // Configure OAuth2 access token for authorization: (authentication scheme: oAuth2Password)
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
 
 
-PBEarthquakeRiskByAddressRequest* body = [[PBEarthquakeRiskByAddressRequest alloc] init]; //  (optional)
+PBEarthquakeRiskByAddressRequest* earthquakeRiskByAddressRequest = [[PBEarthquakeRiskByAddressRequest alloc] init]; // 
 
 PBRisksServiceApi*apiInstance = [[PBRisksServiceApi alloc] init];
 
 // Post Earthquake Risk By Address
-[apiInstance getEarthquakeRiskByAddressBatchWithBody:body
+[apiInstance getEarthquakeRiskByAddressBatchWithEarthquakeRiskByAddressRequest:earthquakeRiskByAddressRequest
           completionHandler: ^(PBEarthquakeRiskResponseList* output, NSError* error) {
                         if (output) {
                             NSLog(@"%@", output);
@@ -702,7 +702,7 @@ PBRisksServiceApi*apiInstance = [[PBRisksServiceApi alloc] init];
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**PBEarthquakeRiskByAddressRequest***](PBEarthquakeRiskByAddressRequest*.md)|  | [optional] 
+ **earthquakeRiskByAddressRequest** | [**PBEarthquakeRiskByAddressRequest***](PBEarthquakeRiskByAddressRequest.md)|  | 
 
 ### Return type
 
@@ -715,26 +715,26 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
  - **Content-Type**: application/json, application/xml
- - **Accept**: application/xml, application/json
+ - **Accept**: application/json, application/xml
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **getEarthquakeRiskByLocation**
 ```objc
--(NSNumber*) getEarthquakeRiskByLocationWithLongitude: (NSString*) longitude
+-(NSURLSessionTask*) getEarthquakeRiskByLocationWithLongitude: (NSString*) longitude
     latitude: (NSString*) latitude
     richterValue: (NSString*) richterValue
     includeGeometry: (NSString*) includeGeometry
-        completionHandler: (void (^)(PBEarthquakeRiskLocationResponse* output, NSError* error)) handler;
+        completionHandler: (void (^)(PBEarthquakeRiskResponse* output, NSError* error)) handler;
 ```
 
 Get Earthquake Risk By Location
 
 Accepts latitude & longitude as input and Returns counts of earthquakes for various richter measurements and values.
 
-### Example 
+### Example
 ```objc
-PBConfiguration *apiConfig = [PBConfiguration sharedConfig];
+PBDefaultConfiguration *apiConfig = [PBDefaultConfiguration sharedConfig];
 
 // Configure OAuth2 access token for authorization: (authentication scheme: oAuth2Password)
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
@@ -742,7 +742,7 @@ PBConfiguration *apiConfig = [PBConfiguration sharedConfig];
 
 NSString* longitude = @"longitude_example"; // The longitude of the location
 NSString* latitude = @"latitude_example"; // The latitude of the location
-NSString* richterValue = @"richterValue_example"; // Richter values like R5 (count of richter scale 5 events), R7 (count of richter scale 7 events), R6_GE (count of events >= richter scale 6), etc., multiple richter scales could be requested as comma separated values with 'all' as default. Valid values: All (default value), R0, R1, R2, R3, R4, R5, R6, R7, R0_GE, R1_GE, R2_GE, R3_GE, R4_GE, R5_GE, R6_GE, R7_GE (optional)
+NSString* richterValue = @"richterValue_example"; // all (default value), R0, R1, R2, R3, R4, R5, R6, R7, R0_GE, R1_GE, R2_GE, R3_GE, R4_GE, R5_GE, R6_GE, R7_GE (optional)
 NSString* includeGeometry = @"includeGeometry_example"; // Y or N (default is N) - if it is Y, then geometry will be part of response (optional)
 
 PBRisksServiceApi*apiInstance = [[PBRisksServiceApi alloc] init];
@@ -752,7 +752,7 @@ PBRisksServiceApi*apiInstance = [[PBRisksServiceApi alloc] init];
               latitude:latitude
               richterValue:richterValue
               includeGeometry:includeGeometry
-          completionHandler: ^(PBEarthquakeRiskLocationResponse* output, NSError* error) {
+          completionHandler: ^(PBEarthquakeRiskResponse* output, NSError* error) {
                         if (output) {
                             NSLog(@"%@", output);
                         }
@@ -768,12 +768,12 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **longitude** | **NSString***| The longitude of the location | 
  **latitude** | **NSString***| The latitude of the location | 
- **richterValue** | **NSString***| Richter values like R5 (count of richter scale 5 events), R7 (count of richter scale 7 events), R6_GE (count of events &gt;&#x3D; richter scale 6), etc., multiple richter scales could be requested as comma separated values with &#39;all&#39; as default. Valid values: All (default value), R0, R1, R2, R3, R4, R5, R6, R7, R0_GE, R1_GE, R2_GE, R3_GE, R4_GE, R5_GE, R6_GE, R7_GE | [optional] 
+ **richterValue** | **NSString***| all (default value), R0, R1, R2, R3, R4, R5, R6, R7, R0_GE, R1_GE, R2_GE, R3_GE, R4_GE, R5_GE, R6_GE, R7_GE | [optional] 
  **includeGeometry** | **NSString***| Y or N (default is N) - if it is Y, then geometry will be part of response | [optional] 
 
 ### Return type
 
-[**PBEarthquakeRiskLocationResponse***](PBEarthquakeRiskLocationResponse.md)
+[**PBEarthquakeRiskResponse***](PBEarthquakeRiskResponse.md)
 
 ### Authorization
 
@@ -781,36 +781,36 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json, application/xml
- - **Accept**: application/xml, application/json
+ - **Content-Type**: Not defined
+ - **Accept**: application/json, application/xml
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **getEarthquakeRiskByLocationBatch**
 ```objc
--(NSNumber*) getEarthquakeRiskByLocationBatchWithBody: (PBEarthquakeRiskByLocationRequest*) body
-        completionHandler: (void (^)(PBEarthquakeRiskLocationResponseList* output, NSError* error)) handler;
+-(NSURLSessionTask*) getEarthquakeRiskByLocationBatchWithEarthquakeRiskByLocationRequest: (PBEarthquakeRiskByLocationRequest*) earthquakeRiskByLocationRequest
+        completionHandler: (void (^)(PBEarthquakeRiskResponseList* output, NSError* error)) handler;
 ```
 
 Post Earthquake Risk By Location
 
 This is a Batch offering for 'Earthquake Risk By Location' service. It accepts a single location coordinate or a list of location coordinates and retrieve counts of earthquakes for various richter measurements and values.
 
-### Example 
+### Example
 ```objc
-PBConfiguration *apiConfig = [PBConfiguration sharedConfig];
+PBDefaultConfiguration *apiConfig = [PBDefaultConfiguration sharedConfig];
 
 // Configure OAuth2 access token for authorization: (authentication scheme: oAuth2Password)
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
 
 
-PBEarthquakeRiskByLocationRequest* body = [[PBEarthquakeRiskByLocationRequest alloc] init]; //  (optional)
+PBEarthquakeRiskByLocationRequest* earthquakeRiskByLocationRequest = [[PBEarthquakeRiskByLocationRequest alloc] init]; // 
 
 PBRisksServiceApi*apiInstance = [[PBRisksServiceApi alloc] init];
 
 // Post Earthquake Risk By Location
-[apiInstance getEarthquakeRiskByLocationBatchWithBody:body
-          completionHandler: ^(PBEarthquakeRiskLocationResponseList* output, NSError* error) {
+[apiInstance getEarthquakeRiskByLocationBatchWithEarthquakeRiskByLocationRequest:earthquakeRiskByLocationRequest
+          completionHandler: ^(PBEarthquakeRiskResponseList* output, NSError* error) {
                         if (output) {
                             NSLog(@"%@", output);
                         }
@@ -824,11 +824,11 @@ PBRisksServiceApi*apiInstance = [[PBRisksServiceApi alloc] init];
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**PBEarthquakeRiskByLocationRequest***](PBEarthquakeRiskByLocationRequest*.md)|  | [optional] 
+ **earthquakeRiskByLocationRequest** | [**PBEarthquakeRiskByLocationRequest***](PBEarthquakeRiskByLocationRequest.md)|  | 
 
 ### Return type
 
-[**PBEarthquakeRiskLocationResponseList***](PBEarthquakeRiskLocationResponseList.md)
+[**PBEarthquakeRiskResponseList***](PBEarthquakeRiskResponseList.md)
 
 ### Authorization
 
@@ -837,13 +837,13 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
  - **Content-Type**: application/json, application/xml
- - **Accept**: application/xml, application/json
+ - **Accept**: application/json, application/xml
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **getFireHistory**
 ```objc
--(NSNumber*) getFireHistoryWithPostCode: (NSString*) postCode
+-(NSURLSessionTask*) getFireHistoryWithPostCode: (NSString*) postCode
     startDate: (NSString*) startDate
     endDate: (NSString*) endDate
     maxCandidates: (NSString*) maxCandidates
@@ -854,9 +854,9 @@ Get Fire History
 
 Accepts postcode as input and Returns fire event details for a particular postcode.
 
-### Example 
+### Example
 ```objc
-PBConfiguration *apiConfig = [PBConfiguration sharedConfig];
+PBDefaultConfiguration *apiConfig = [PBDefaultConfiguration sharedConfig];
 
 // Configure OAuth2 access token for authorization: (authentication scheme: oAuth2Password)
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
@@ -865,7 +865,7 @@ PBConfiguration *apiConfig = [PBConfiguration sharedConfig];
 NSString* postCode = @"postCode_example"; // 5 digit Postal code to search
 NSString* startDate = @"startDate_example"; // Start time in milliseconds(UTC) (optional)
 NSString* endDate = @"endDate_example"; // End time in milliseconds(UTC) (optional)
-NSString* maxCandidates = @"1"; // Maximum response events (optional) (default to 1)
+NSString* maxCandidates = @"maxCandidates_example"; // Maximum response events (optional)
 
 PBRisksServiceApi*apiInstance = [[PBRisksServiceApi alloc] init];
 
@@ -891,7 +891,7 @@ Name | Type | Description  | Notes
  **postCode** | **NSString***| 5 digit Postal code to search | 
  **startDate** | **NSString***| Start time in milliseconds(UTC) | [optional] 
  **endDate** | **NSString***| End time in milliseconds(UTC) | [optional] 
- **maxCandidates** | **NSString***| Maximum response events | [optional] [default to 1]
+ **maxCandidates** | **NSString***| Maximum response events | [optional] 
 
 ### Return type
 
@@ -903,14 +903,15 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json, application/xml
- - **Accept**: application/xml, application/json
+ - **Content-Type**: Not defined
+ - **Accept**: application/json, application/xml
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **getFireRiskByAddress**
 ```objc
--(NSNumber*) getFireRiskByAddressWithAddress: (NSString*) address
+-(NSURLSessionTask*) getFireRiskByAddressWithAddress: (NSString*) address
+    includeGeometry: (NSString*) includeGeometry
         completionHandler: (void (^)(PBFireRiskResponse* output, NSError* error)) handler;
 ```
 
@@ -918,20 +919,22 @@ Get Fire Risk By Address
 
 Accepts addresses as input and Returns fire risk data by risk types.
 
-### Example 
+### Example
 ```objc
-PBConfiguration *apiConfig = [PBConfiguration sharedConfig];
+PBDefaultConfiguration *apiConfig = [PBDefaultConfiguration sharedConfig];
 
 // Configure OAuth2 access token for authorization: (authentication scheme: oAuth2Password)
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
 
 
-NSString* address = @"address_example"; // Free-form address text
+NSString* address = @"address_example"; // Free form address text
+NSString* includeGeometry = @"includeGeometry_example"; // Flag to return Geometry default is N (optional)
 
 PBRisksServiceApi*apiInstance = [[PBRisksServiceApi alloc] init];
 
 // Get Fire Risk By Address
 [apiInstance getFireRiskByAddressWithAddress:address
+              includeGeometry:includeGeometry
           completionHandler: ^(PBFireRiskResponse* output, NSError* error) {
                         if (output) {
                             NSLog(@"%@", output);
@@ -946,7 +949,8 @@ PBRisksServiceApi*apiInstance = [[PBRisksServiceApi alloc] init];
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **address** | **NSString***| Free-form address text | 
+ **address** | **NSString***| Free form address text | 
+ **includeGeometry** | **NSString***| Flag to return Geometry default is N | [optional] 
 
 ### Return type
 
@@ -958,14 +962,14 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json, application/xml
- - **Accept**: application/xml, application/json
+ - **Content-Type**: Not defined
+ - **Accept**: application/json, application/xml
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **getFireRiskByAddressBatch**
 ```objc
--(NSNumber*) getFireRiskByAddressBatchWithBody: (PBFireRiskByAddressRequest*) body
+-(NSURLSessionTask*) getFireRiskByAddressBatchWithFireRiskByAddressRequest: (PBFireRiskByAddressRequest*) fireRiskByAddressRequest
         completionHandler: (void (^)(PBFireRiskResponseList* output, NSError* error)) handler;
 ```
 
@@ -973,20 +977,20 @@ Post Fire Risk By Address
 
 This is a Batch offering for 'Fire Risk By Address' service. It accepts a single address or a list of addresses and retrieve fire risk data by risk types.
 
-### Example 
+### Example
 ```objc
-PBConfiguration *apiConfig = [PBConfiguration sharedConfig];
+PBDefaultConfiguration *apiConfig = [PBDefaultConfiguration sharedConfig];
 
 // Configure OAuth2 access token for authorization: (authentication scheme: oAuth2Password)
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
 
 
-PBFireRiskByAddressRequest* body = [[PBFireRiskByAddressRequest alloc] init]; //  (optional)
+PBFireRiskByAddressRequest* fireRiskByAddressRequest = [[PBFireRiskByAddressRequest alloc] init]; // 
 
 PBRisksServiceApi*apiInstance = [[PBRisksServiceApi alloc] init];
 
 // Post Fire Risk By Address
-[apiInstance getFireRiskByAddressBatchWithBody:body
+[apiInstance getFireRiskByAddressBatchWithFireRiskByAddressRequest:fireRiskByAddressRequest
           completionHandler: ^(PBFireRiskResponseList* output, NSError* error) {
                         if (output) {
                             NSLog(@"%@", output);
@@ -1001,7 +1005,7 @@ PBRisksServiceApi*apiInstance = [[PBRisksServiceApi alloc] init];
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**PBFireRiskByAddressRequest***](PBFireRiskByAddressRequest*.md)|  | [optional] 
+ **fireRiskByAddressRequest** | [**PBFireRiskByAddressRequest***](PBFireRiskByAddressRequest.md)|  | 
 
 ### Return type
 
@@ -1013,25 +1017,26 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json, application/xml
- - **Accept**: application/xml, application/json
+ - **Content-Type**: application/json
+ - **Accept**: application/json, application/xml
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **getFireRiskByLocation**
 ```objc
--(NSNumber*) getFireRiskByLocationWithLongitude: (NSString*) longitude
+-(NSURLSessionTask*) getFireRiskByLocationWithLongitude: (NSString*) longitude
     latitude: (NSString*) latitude
-        completionHandler: (void (^)(PBFireRiskLocationResponse* output, NSError* error)) handler;
+    includeGeometry: (NSString*) includeGeometry
+        completionHandler: (void (^)(PBFireRiskResponse* output, NSError* error)) handler;
 ```
 
 Get Fire Risk By Location
 
 Accepts latitude & longitude as input and Returns fire risk data by risk types.
 
-### Example 
+### Example
 ```objc
-PBConfiguration *apiConfig = [PBConfiguration sharedConfig];
+PBDefaultConfiguration *apiConfig = [PBDefaultConfiguration sharedConfig];
 
 // Configure OAuth2 access token for authorization: (authentication scheme: oAuth2Password)
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
@@ -1039,13 +1044,15 @@ PBConfiguration *apiConfig = [PBConfiguration sharedConfig];
 
 NSString* longitude = @"longitude_example"; // Longitude of Location
 NSString* latitude = @"latitude_example"; // Latitude of Location
+NSString* includeGeometry = @"includeGeometry_example"; // Flag to return Geometry default is N (optional)
 
 PBRisksServiceApi*apiInstance = [[PBRisksServiceApi alloc] init];
 
 // Get Fire Risk By Location
 [apiInstance getFireRiskByLocationWithLongitude:longitude
               latitude:latitude
-          completionHandler: ^(PBFireRiskLocationResponse* output, NSError* error) {
+              includeGeometry:includeGeometry
+          completionHandler: ^(PBFireRiskResponse* output, NSError* error) {
                         if (output) {
                             NSLog(@"%@", output);
                         }
@@ -1061,10 +1068,11 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **longitude** | **NSString***| Longitude of Location | 
  **latitude** | **NSString***| Latitude of Location | 
+ **includeGeometry** | **NSString***| Flag to return Geometry default is N | [optional] 
 
 ### Return type
 
-[**PBFireRiskLocationResponse***](PBFireRiskLocationResponse.md)
+[**PBFireRiskResponse***](PBFireRiskResponse.md)
 
 ### Authorization
 
@@ -1072,36 +1080,36 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json, application/xml
- - **Accept**: application/xml, application/json
+ - **Content-Type**: Not defined
+ - **Accept**: application/json, application/xml
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **getFireRiskByLocationBatch**
 ```objc
--(NSNumber*) getFireRiskByLocationBatchWithBody: (PBFireRiskByLocationRequest*) body
-        completionHandler: (void (^)(PBFireRiskLocationResponseList* output, NSError* error)) handler;
+-(NSURLSessionTask*) getFireRiskByLocationBatchWithFireRiskByLocationRequest: (PBFireRiskByLocationRequest*) fireRiskByLocationRequest
+        completionHandler: (void (^)(PBFireRiskResponseList* output, NSError* error)) handler;
 ```
 
 Post Fire Risk By Location
 
 This is a Batch offering for 'Fire Risk By Location' service. It accepts a single location coordinate or a list of location coordinates and retrieve fire risk data by risk types.
 
-### Example 
+### Example
 ```objc
-PBConfiguration *apiConfig = [PBConfiguration sharedConfig];
+PBDefaultConfiguration *apiConfig = [PBDefaultConfiguration sharedConfig];
 
 // Configure OAuth2 access token for authorization: (authentication scheme: oAuth2Password)
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
 
 
-PBFireRiskByLocationRequest* body = [[PBFireRiskByLocationRequest alloc] init]; //  (optional)
+PBFireRiskByLocationRequest* fireRiskByLocationRequest = [[PBFireRiskByLocationRequest alloc] init]; // 
 
 PBRisksServiceApi*apiInstance = [[PBRisksServiceApi alloc] init];
 
 // Post Fire Risk By Location
-[apiInstance getFireRiskByLocationBatchWithBody:body
-          completionHandler: ^(PBFireRiskLocationResponseList* output, NSError* error) {
+[apiInstance getFireRiskByLocationBatchWithFireRiskByLocationRequest:fireRiskByLocationRequest
+          completionHandler: ^(PBFireRiskResponseList* output, NSError* error) {
                         if (output) {
                             NSLog(@"%@", output);
                         }
@@ -1115,11 +1123,11 @@ PBRisksServiceApi*apiInstance = [[PBRisksServiceApi alloc] init];
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**PBFireRiskByLocationRequest***](PBFireRiskByLocationRequest*.md)|  | [optional] 
+ **fireRiskByLocationRequest** | [**PBFireRiskByLocationRequest***](PBFireRiskByLocationRequest.md)|  | 
 
 ### Return type
 
-[**PBFireRiskLocationResponseList***](PBFireRiskLocationResponseList.md)
+[**PBFireRiskResponseList***](PBFireRiskResponseList.md)
 
 ### Authorization
 
@@ -1127,14 +1135,14 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json, application/xml
- - **Accept**: application/xml, application/json
+ - **Content-Type**: application/json
+ - **Accept**: application/json, application/xml
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **getFireStationByAddress**
 ```objc
--(NSNumber*) getFireStationByAddressWithAddress: (NSString*) address
+-(NSURLSessionTask*) getFireStationByAddressWithAddress: (NSString*) address
     maxCandidates: (NSString*) maxCandidates
     travelTime: (NSString*) travelTime
     travelTimeUnit: (NSString*) travelTimeUnit
@@ -1145,30 +1153,30 @@ Name | Type | Description  | Notes
         completionHandler: (void (^)(PBFireStations* output, NSError* error)) handler;
 ```
 
-Fire Station By Address
+Get Fire Station By Address
 
 Accepts addresses as input and Returns nearest fire stations.
 
-### Example 
+### Example
 ```objc
-PBConfiguration *apiConfig = [PBConfiguration sharedConfig];
+PBDefaultConfiguration *apiConfig = [PBDefaultConfiguration sharedConfig];
 
 // Configure OAuth2 access token for authorization: (authentication scheme: oAuth2Password)
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
 
 
-NSString* address = @"address_example"; // The address to be searched.
+NSString* address = @"address_example"; // Free Address
 NSString* maxCandidates = @"maxCandidates_example"; // Specifies the maximum number of fire stations that this service retrieves. The default value is 3 and maximum value is 5. The retrieved results are traveldistance sorted from the input location. (optional)
 NSString* travelTime = @"travelTime_example"; // Max travel time from input location to fire station. Maximum allowed is 2 hours (optional)
-NSString* travelTimeUnit = @"travelTimeUnit_example"; // Travel time unit such as minutes (default), hours, seconds or milliseconds. (optional)
-NSString* travelDistance = @"travelDistance_example"; // Maximum travel distance from input location to fire station. Maximum allowed is 50 miles (optional)
-NSString* travelDistanceUnit = @"travelDistanceUnit_example"; // Travel distance unit such as Feet (default), Kilometers, Miles or Meters. (optional)
-NSString* sortBy = @"sortBy_example"; // Sort the fire stations results by either travel time or travel distance (nearest first). Default sorting is by travel time. (optional)
+NSString* travelTimeUnit = @"travelTimeUnit_example"; // minutes (default), hours, seconds, milliseconds (optional)
+NSString* travelDistance = @"travelDistance_example"; // Max travel distance from input location to fire station. Maximum allowed is 50 miles (optional)
+NSString* travelDistanceUnit = @"travelDistanceUnit_example"; // Feet (default), Kilometers, Miles, Meters (optional)
+NSString* sortBy = @"sortBy_example"; // time (default), distance (optional)
 NSString* historicTrafficTimeBucket = @"historicTrafficTimeBucket_example"; // Historic traffic time slab (optional)
 
 PBRisksServiceApi*apiInstance = [[PBRisksServiceApi alloc] init];
 
-// Fire Station By Address
+// Get Fire Station By Address
 [apiInstance getFireStationByAddressWithAddress:address
               maxCandidates:maxCandidates
               travelTime:travelTime
@@ -1191,13 +1199,13 @@ PBRisksServiceApi*apiInstance = [[PBRisksServiceApi alloc] init];
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **address** | **NSString***| The address to be searched. | 
+ **address** | **NSString***| Free Address | 
  **maxCandidates** | **NSString***| Specifies the maximum number of fire stations that this service retrieves. The default value is 3 and maximum value is 5. The retrieved results are traveldistance sorted from the input location. | [optional] 
  **travelTime** | **NSString***| Max travel time from input location to fire station. Maximum allowed is 2 hours | [optional] 
- **travelTimeUnit** | **NSString***| Travel time unit such as minutes (default), hours, seconds or milliseconds. | [optional] 
- **travelDistance** | **NSString***| Maximum travel distance from input location to fire station. Maximum allowed is 50 miles | [optional] 
- **travelDistanceUnit** | **NSString***| Travel distance unit such as Feet (default), Kilometers, Miles or Meters. | [optional] 
- **sortBy** | **NSString***| Sort the fire stations results by either travel time or travel distance (nearest first). Default sorting is by travel time. | [optional] 
+ **travelTimeUnit** | **NSString***| minutes (default), hours, seconds, milliseconds | [optional] 
+ **travelDistance** | **NSString***| Max travel distance from input location to fire station. Maximum allowed is 50 miles | [optional] 
+ **travelDistanceUnit** | **NSString***| Feet (default), Kilometers, Miles, Meters | [optional] 
+ **sortBy** | **NSString***| time (default), distance | [optional] 
  **historicTrafficTimeBucket** | **NSString***| Historic traffic time slab | [optional] 
 
 ### Return type
@@ -1210,14 +1218,14 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json, application/xml
- - **Accept**: application/xml, application/json
+ - **Content-Type**: Not defined
+ - **Accept**: application/json, application/xml
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **getFireStationByLocation**
 ```objc
--(NSNumber*) getFireStationByLocationWithLongitude: (NSString*) longitude
+-(NSURLSessionTask*) getFireStationByLocationWithLongitude: (NSString*) longitude
     latitude: (NSString*) latitude
     maxCandidates: (NSString*) maxCandidates
     travelTime: (NSString*) travelTime
@@ -1226,16 +1234,16 @@ Name | Type | Description  | Notes
     travelDistanceUnit: (NSString*) travelDistanceUnit
     sortBy: (NSString*) sortBy
     historicTrafficTimeBucket: (NSString*) historicTrafficTimeBucket
-        completionHandler: (void (^)(PBFireStationsLocation* output, NSError* error)) handler;
+        completionHandler: (void (^)(PBFireStations* output, NSError* error)) handler;
 ```
 
-Fire Station By Location
+Get Fire Station By Location
 
 Accepts latitude & longitude as input and Returns nearest fire stations.
 
-### Example 
+### Example
 ```objc
-PBConfiguration *apiConfig = [PBConfiguration sharedConfig];
+PBDefaultConfiguration *apiConfig = [PBDefaultConfiguration sharedConfig];
 
 // Configure OAuth2 access token for authorization: (authentication scheme: oAuth2Password)
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
@@ -1243,17 +1251,17 @@ PBConfiguration *apiConfig = [PBConfiguration sharedConfig];
 
 NSString* longitude = @"longitude_example"; // Longitude of Location
 NSString* latitude = @"latitude_example"; // Latitude of Location
-NSString* maxCandidates = @"maxCandidates_example"; // Specifies the maximum number of fire stations that this service retrieves. The default value is 3. The retrieved fire stations are distance ordered from the specified location. Maximum of 5 fire stations can be retrieved. (optional)
-NSString* travelTime = @"travelTime_example"; // Maximum travel time from input location to fire station. Maximum allowed is 2 hours (optional)
-NSString* travelTimeUnit = @"travelTimeUnit_example"; // Travel time unit such as minutes (default), hours, seconds or milliseconds. (optional)
-NSString* travelDistance = @"travelDistance_example"; // Maximum travel distance from input location to fire station. Maximum allowed is 50 miles (optional)
-NSString* travelDistanceUnit = @"travelDistanceUnit_example"; // Travel distance unit such as Feet (default), Kilometers, Miles or Meters. (optional)
-NSString* sortBy = @"sortBy_example"; // Sorting of fire stations in result by travel time/distance (nearest first from input location). (optional)
+NSString* maxCandidates = @"maxCandidates_example"; // Specifies the maximum number of fire stations that this service retrieves. The default value is 3 and maximum value is 5. The retrieved results are traveldistance sorted from the input location. (optional)
+NSString* travelTime = @"travelTime_example"; // Max travel time from input location to fire station. Maximum allowed is 2 hours (optional)
+NSString* travelTimeUnit = @"travelTimeUnit_example"; // minutes (default), hours, seconds, milliseconds (optional)
+NSString* travelDistance = @"travelDistance_example"; // Max travel distance from input location to fire station. Maximum allowed is 50 miles (optional)
+NSString* travelDistanceUnit = @"travelDistanceUnit_example"; // Feet (default), Kilometers, Miles, Meters (optional)
+NSString* sortBy = @"sortBy_example"; // time (default), distance (optional)
 NSString* historicTrafficTimeBucket = @"historicTrafficTimeBucket_example"; // Historic traffic time slab (optional)
 
 PBRisksServiceApi*apiInstance = [[PBRisksServiceApi alloc] init];
 
-// Fire Station By Location
+// Get Fire Station By Location
 [apiInstance getFireStationByLocationWithLongitude:longitude
               latitude:latitude
               maxCandidates:maxCandidates
@@ -1263,7 +1271,7 @@ PBRisksServiceApi*apiInstance = [[PBRisksServiceApi alloc] init];
               travelDistanceUnit:travelDistanceUnit
               sortBy:sortBy
               historicTrafficTimeBucket:historicTrafficTimeBucket
-          completionHandler: ^(PBFireStationsLocation* output, NSError* error) {
+          completionHandler: ^(PBFireStations* output, NSError* error) {
                         if (output) {
                             NSLog(@"%@", output);
                         }
@@ -1279,17 +1287,17 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **longitude** | **NSString***| Longitude of Location | 
  **latitude** | **NSString***| Latitude of Location | 
- **maxCandidates** | **NSString***| Specifies the maximum number of fire stations that this service retrieves. The default value is 3. The retrieved fire stations are distance ordered from the specified location. Maximum of 5 fire stations can be retrieved. | [optional] 
- **travelTime** | **NSString***| Maximum travel time from input location to fire station. Maximum allowed is 2 hours | [optional] 
- **travelTimeUnit** | **NSString***| Travel time unit such as minutes (default), hours, seconds or milliseconds. | [optional] 
- **travelDistance** | **NSString***| Maximum travel distance from input location to fire station. Maximum allowed is 50 miles | [optional] 
- **travelDistanceUnit** | **NSString***| Travel distance unit such as Feet (default), Kilometers, Miles or Meters. | [optional] 
- **sortBy** | **NSString***| Sorting of fire stations in result by travel time/distance (nearest first from input location). | [optional] 
+ **maxCandidates** | **NSString***| Specifies the maximum number of fire stations that this service retrieves. The default value is 3 and maximum value is 5. The retrieved results are traveldistance sorted from the input location. | [optional] 
+ **travelTime** | **NSString***| Max travel time from input location to fire station. Maximum allowed is 2 hours | [optional] 
+ **travelTimeUnit** | **NSString***| minutes (default), hours, seconds, milliseconds | [optional] 
+ **travelDistance** | **NSString***| Max travel distance from input location to fire station. Maximum allowed is 50 miles | [optional] 
+ **travelDistanceUnit** | **NSString***| Feet (default), Kilometers, Miles, Meters | [optional] 
+ **sortBy** | **NSString***| time (default), distance | [optional] 
  **historicTrafficTimeBucket** | **NSString***| Historic traffic time slab | [optional] 
 
 ### Return type
 
-[**PBFireStationsLocation***](PBFireStationsLocation.md)
+[**PBFireStations***](PBFireStations.md)
 
 ### Authorization
 
@@ -1297,14 +1305,14 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json, application/xml
- - **Accept**: application/xml, application/json
+ - **Content-Type**: Not defined
+ - **Accept**: application/json, application/xml
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **getFloodRiskByAddress**
 ```objc
--(NSNumber*) getFloodRiskByAddressWithAddress: (NSString*) address
+-(NSURLSessionTask*) getFloodRiskByAddressWithAddress: (NSString*) address
     includeZoneDesc: (NSString*) includeZoneDesc
     includeGeometry: (NSString*) includeGeometry
         completionHandler: (void (^)(PBFloodRiskResponse* output, NSError* error)) handler;
@@ -1314,17 +1322,17 @@ Get Flood Risk By Address
 
 Accepts addresses as input and Returns flood risk data for flood zones and base flood elevation values.
 
-### Example 
+### Example
 ```objc
-PBConfiguration *apiConfig = [PBConfiguration sharedConfig];
+PBDefaultConfiguration *apiConfig = [PBDefaultConfiguration sharedConfig];
 
 // Configure OAuth2 access token for authorization: (authentication scheme: oAuth2Password)
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
 
 
-NSString* address = @"address_example"; // Free-text Address
-NSString* includeZoneDesc = @"includeZoneDesc_example"; // Specifies primary zone description. Valid Values: 'Y' or 'N'. (optional)
-NSString* includeGeometry = @"includeGeometry_example"; // Y or N (default is N) - if it is Y, then geometry will be part of response (optional)
+NSString* address = @"address_example"; // Free text Address
+NSString* includeZoneDesc = @"includeZoneDesc_example"; // Flag to return zone description (optional)
+NSString* includeGeometry = @"includeGeometry_example"; // Flag to return Geometry (optional)
 
 PBRisksServiceApi*apiInstance = [[PBRisksServiceApi alloc] init];
 
@@ -1346,9 +1354,9 @@ PBRisksServiceApi*apiInstance = [[PBRisksServiceApi alloc] init];
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **address** | **NSString***| Free-text Address | 
- **includeZoneDesc** | **NSString***| Specifies primary zone description. Valid Values: &#39;Y&#39; or &#39;N&#39;. | [optional] 
- **includeGeometry** | **NSString***| Y or N (default is N) - if it is Y, then geometry will be part of response | [optional] 
+ **address** | **NSString***| Free text Address | 
+ **includeZoneDesc** | **NSString***| Flag to return zone description | [optional] 
+ **includeGeometry** | **NSString***| Flag to return Geometry | [optional] 
 
 ### Return type
 
@@ -1360,14 +1368,14 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json, application/xml
- - **Accept**: application/xml, application/json
+ - **Content-Type**: Not defined
+ - **Accept**: application/json, application/xml
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **getFloodRiskByAddressBatch**
 ```objc
--(NSNumber*) getFloodRiskByAddressBatchWithBody: (PBFloodRiskByAddressRequest*) body
+-(NSURLSessionTask*) getFloodRiskByAddressBatchWithFloodRiskByAddressRequest: (PBFloodRiskByAddressRequest*) floodRiskByAddressRequest
         completionHandler: (void (^)(PBFloodRiskResponseList* output, NSError* error)) handler;
 ```
 
@@ -1375,20 +1383,20 @@ Post Flood Risk By Address
 
 This is a Batch offering for 'Flood Risk By Address' service. It accepts a single address or a list of addresses and retrieve flood risk data for flood zones and base flood elevation values.
 
-### Example 
+### Example
 ```objc
-PBConfiguration *apiConfig = [PBConfiguration sharedConfig];
+PBDefaultConfiguration *apiConfig = [PBDefaultConfiguration sharedConfig];
 
 // Configure OAuth2 access token for authorization: (authentication scheme: oAuth2Password)
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
 
 
-PBFloodRiskByAddressRequest* body = [[PBFloodRiskByAddressRequest alloc] init]; //  (optional)
+PBFloodRiskByAddressRequest* floodRiskByAddressRequest = [[PBFloodRiskByAddressRequest alloc] init]; // 
 
 PBRisksServiceApi*apiInstance = [[PBRisksServiceApi alloc] init];
 
 // Post Flood Risk By Address
-[apiInstance getFloodRiskByAddressBatchWithBody:body
+[apiInstance getFloodRiskByAddressBatchWithFloodRiskByAddressRequest:floodRiskByAddressRequest
           completionHandler: ^(PBFloodRiskResponseList* output, NSError* error) {
                         if (output) {
                             NSLog(@"%@", output);
@@ -1403,7 +1411,7 @@ PBRisksServiceApi*apiInstance = [[PBRisksServiceApi alloc] init];
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**PBFloodRiskByAddressRequest***](PBFloodRiskByAddressRequest*.md)|  | [optional] 
+ **floodRiskByAddressRequest** | [**PBFloodRiskByAddressRequest***](PBFloodRiskByAddressRequest.md)|  | 
 
 ### Return type
 
@@ -1416,26 +1424,26 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
  - **Content-Type**: application/json, application/xml
- - **Accept**: application/xml, application/json
+ - **Accept**: application/json, application/xml
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **getFloodRiskByLocation**
 ```objc
--(NSNumber*) getFloodRiskByLocationWithLongitude: (NSString*) longitude
+-(NSURLSessionTask*) getFloodRiskByLocationWithLongitude: (NSString*) longitude
     latitude: (NSString*) latitude
     includeZoneDesc: (NSString*) includeZoneDesc
     includeGeometry: (NSString*) includeGeometry
-        completionHandler: (void (^)(PBFloodRiskLocationResponse* output, NSError* error)) handler;
+        completionHandler: (void (^)(PBFloodRiskResponse* output, NSError* error)) handler;
 ```
 
 Get Flood Risk By Location
 
 Accepts latitude & longitude as input and Returns flood risk data for flood zones and base flood elevation values.
 
-### Example 
+### Example
 ```objc
-PBConfiguration *apiConfig = [PBConfiguration sharedConfig];
+PBDefaultConfiguration *apiConfig = [PBDefaultConfiguration sharedConfig];
 
 // Configure OAuth2 access token for authorization: (authentication scheme: oAuth2Password)
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
@@ -1443,8 +1451,8 @@ PBConfiguration *apiConfig = [PBConfiguration sharedConfig];
 
 NSString* longitude = @"longitude_example"; // Longitude of Location
 NSString* latitude = @"latitude_example"; // Latitude of Location
-NSString* includeZoneDesc = @"includeZoneDesc_example"; // Specifies primary zone description. Valid Values: 'Y' or 'N'. Default: 'Y' (optional)
-NSString* includeGeometry = @"includeGeometry_example"; // Y or N (default is N) - if it is Y, then geometry will be part of response (optional)
+NSString* includeZoneDesc = @"includeZoneDesc_example"; // Flag to return zone description (optional)
+NSString* includeGeometry = @"includeGeometry_example"; // Flag to return Geometry (optional)
 
 PBRisksServiceApi*apiInstance = [[PBRisksServiceApi alloc] init];
 
@@ -1453,7 +1461,7 @@ PBRisksServiceApi*apiInstance = [[PBRisksServiceApi alloc] init];
               latitude:latitude
               includeZoneDesc:includeZoneDesc
               includeGeometry:includeGeometry
-          completionHandler: ^(PBFloodRiskLocationResponse* output, NSError* error) {
+          completionHandler: ^(PBFloodRiskResponse* output, NSError* error) {
                         if (output) {
                             NSLog(@"%@", output);
                         }
@@ -1469,12 +1477,12 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **longitude** | **NSString***| Longitude of Location | 
  **latitude** | **NSString***| Latitude of Location | 
- **includeZoneDesc** | **NSString***| Specifies primary zone description. Valid Values: &#39;Y&#39; or &#39;N&#39;. Default: &#39;Y&#39; | [optional] 
- **includeGeometry** | **NSString***| Y or N (default is N) - if it is Y, then geometry will be part of response | [optional] 
+ **includeZoneDesc** | **NSString***| Flag to return zone description | [optional] 
+ **includeGeometry** | **NSString***| Flag to return Geometry | [optional] 
 
 ### Return type
 
-[**PBFloodRiskLocationResponse***](PBFloodRiskLocationResponse.md)
+[**PBFloodRiskResponse***](PBFloodRiskResponse.md)
 
 ### Authorization
 
@@ -1482,36 +1490,36 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json, application/xml
- - **Accept**: application/xml, application/json
+ - **Content-Type**: Not defined
+ - **Accept**: application/json, application/xml
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **getFloodRiskByLocationBatch**
 ```objc
--(NSNumber*) getFloodRiskByLocationBatchWithBody: (PBFloodRiskByLocationRequest*) body
-        completionHandler: (void (^)(PBFloodRiskLocationResponseList* output, NSError* error)) handler;
+-(NSURLSessionTask*) getFloodRiskByLocationBatchWithFloodRiskByLocationRequest: (PBFloodRiskByLocationRequest*) floodRiskByLocationRequest
+        completionHandler: (void (^)(PBFloodRiskResponseList* output, NSError* error)) handler;
 ```
 
 Post Flood Risk By Location
 
 This is a Batch offering for 'Flood Risk By Location' service. It accepts a single location coordinate or a list of location coordinates and retrieve flood risk data for flood zones and base flood elevation values.
 
-### Example 
+### Example
 ```objc
-PBConfiguration *apiConfig = [PBConfiguration sharedConfig];
+PBDefaultConfiguration *apiConfig = [PBDefaultConfiguration sharedConfig];
 
 // Configure OAuth2 access token for authorization: (authentication scheme: oAuth2Password)
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
 
 
-PBFloodRiskByLocationRequest* body = [[PBFloodRiskByLocationRequest alloc] init]; //  (optional)
+PBFloodRiskByLocationRequest* floodRiskByLocationRequest = [[PBFloodRiskByLocationRequest alloc] init]; // 
 
 PBRisksServiceApi*apiInstance = [[PBRisksServiceApi alloc] init];
 
 // Post Flood Risk By Location
-[apiInstance getFloodRiskByLocationBatchWithBody:body
-          completionHandler: ^(PBFloodRiskLocationResponseList* output, NSError* error) {
+[apiInstance getFloodRiskByLocationBatchWithFloodRiskByLocationRequest:floodRiskByLocationRequest
+          completionHandler: ^(PBFloodRiskResponseList* output, NSError* error) {
                         if (output) {
                             NSLog(@"%@", output);
                         }
@@ -1525,11 +1533,11 @@ PBRisksServiceApi*apiInstance = [[PBRisksServiceApi alloc] init];
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**PBFloodRiskByLocationRequest***](PBFloodRiskByLocationRequest*.md)|  | [optional] 
+ **floodRiskByLocationRequest** | [**PBFloodRiskByLocationRequest***](PBFloodRiskByLocationRequest.md)|  | 
 
 ### Return type
 
-[**PBFloodRiskLocationResponseList***](PBFloodRiskLocationResponseList.md)
+[**PBFloodRiskResponseList***](PBFloodRiskResponseList.md)
 
 ### Authorization
 
@@ -1538,7 +1546,7 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
  - **Content-Type**: application/json, application/xml
- - **Accept**: application/xml, application/json
+ - **Accept**: application/json, application/xml
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

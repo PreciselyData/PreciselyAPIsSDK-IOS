@@ -10,7 +10,7 @@ Method | HTTP request | Description
 
 # **getLocationByIPAddress**
 ```objc
--(NSNumber*) getLocationByIPAddressWithIpAddress: (NSString*) ipAddress
+-(NSURLSessionTask*) getLocationByIPAddressWithIpAddress: (NSString*) ipAddress
         completionHandler: (void (^)(PBGeoLocationIpAddr* output, NSError* error)) handler;
 ```
 
@@ -18,9 +18,9 @@ Location By IP Address.
 
 This service accepts an IP address and returns the location coordinates corresponding to that IP address.
 
-### Example 
+### Example
 ```objc
-PBConfiguration *apiConfig = [PBConfiguration sharedConfig];
+PBDefaultConfiguration *apiConfig = [PBDefaultConfiguration sharedConfig];
 
 // Configure OAuth2 access token for authorization: (authentication scheme: oAuth2Password)
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
@@ -58,14 +58,14 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json, application/xml
+ - **Content-Type**: Not defined
  - **Accept**: application/xml, application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **getLocationByWiFiAccessPoint**
 ```objc
--(NSNumber*) getLocationByWiFiAccessPointWithMac: (NSString*) mac
+-(NSURLSessionTask*) getLocationByWiFiAccessPointWithMac: (NSString*) mac
     ssid: (NSString*) ssid
     rsid: (NSString*) rsid
     speed: (NSString*) speed
@@ -77,9 +77,9 @@ Location by WiFi Access Point.
 
 This service accepts a WiFi access point MAC address and returns the location coordinates corresponding to that access point. Only mac or accessPoint are mandatory parameters (one of them has to be provided), rest are optional.
 
-### Example 
+### Example
 ```objc
-PBConfiguration *apiConfig = [PBConfiguration sharedConfig];
+PBDefaultConfiguration *apiConfig = [PBDefaultConfiguration sharedConfig];
 
 // Configure OAuth2 access token for authorization: (authentication scheme: oAuth2Password)
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
@@ -129,7 +129,7 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json, application/xml
+ - **Content-Type**: Not defined
  - **Accept**: application/xml, application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

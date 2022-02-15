@@ -1,11 +1,13 @@
 #import "PBTelecommInfoServiceApi.h"
 #import "PBQueryParamCollection.h"
+#import "PBApiClient.h"
+#import "PBErrorInfo.h"
 #import "PBRateCenterResponse.h"
 
 
 @interface PBTelecommInfoServiceApi ()
 
-@property (nonatomic, strong) NSMutableDictionary *defaultHeaders;
+@property (nonatomic, strong, readwrite) NSMutableDictionary *mutableDefaultHeaders;
 
 @end
 
@@ -19,52 +21,31 @@ NSInteger kPBTelecommInfoServiceApiMissingParamErrorCode = 234513;
 #pragma mark - Initialize methods
 
 - (instancetype) init {
-    self = [super init];
-    if (self) {
-        PBConfiguration *config = [PBConfiguration sharedConfig];
-        if (config.apiClient == nil) {
-            config.apiClient = [[PBApiClient alloc] init];
-        }
-        _apiClient = config.apiClient;
-        _defaultHeaders = [NSMutableDictionary dictionary];
-    }
-    return self;
+    return [self initWithApiClient:[PBApiClient sharedClient]];
 }
 
-- (id) initWithApiClient:(PBApiClient *)apiClient {
+
+-(instancetype) initWithApiClient:(PBApiClient *)apiClient {
     self = [super init];
     if (self) {
         _apiClient = apiClient;
-        _defaultHeaders = [NSMutableDictionary dictionary];
+        _mutableDefaultHeaders = [NSMutableDictionary dictionary];
     }
     return self;
 }
 
 #pragma mark -
 
-+ (instancetype)sharedAPI {
-    static PBTelecommInfoServiceApi *sharedAPI;
-    static dispatch_once_t once;
-    dispatch_once(&once, ^{
-        sharedAPI = [[self alloc] init];
-    });
-    return sharedAPI;
-}
-
 -(NSString*) defaultHeaderForKey:(NSString*)key {
-    return self.defaultHeaders[key];
-}
-
--(void) addHeader:(NSString*)value forKey:(NSString*)key {
-    [self setDefaultHeaderValue:value forKey:key];
+    return self.mutableDefaultHeaders[key];
 }
 
 -(void) setDefaultHeaderValue:(NSString*) value forKey:(NSString*)key {
-    [self.defaultHeaders setValue:value forKey:key];
+    [self.mutableDefaultHeaders setValue:value forKey:key];
 }
 
--(NSUInteger) requestQueueSize {
-    return [PBApiClient requestQueueSize];
+-(NSDictionary *)defaultHeaders {
+    return self.mutableDefaultHeaders;
 }
 
 #pragma mark - Api Methods
@@ -72,36 +53,22 @@ NSInteger kPBTelecommInfoServiceApiMissingParamErrorCode = 234513;
 ///
 /// Rate Center By Address.
 /// Accepts addresses as input and returns Incumbent Local Exchange Carrier (ILEC) doing-business-as names.
-///  @param address The address to be searched. 
+///  @param address The address to be searched (optional)
 ///
-///  @param country 3 letter ISO code of the country to be searched. Allowed values USA,CAN (optional, default to USA)
+///  @param country 3 letter ISO code of the country to be searched. Allowed values USA,CAN (optional)
 ///
-///  @param areaCodeInfo Specifies whether area code information will be part of response.Allowed values True,False (optional, default to False)
+///  @param areaCodeInfo Specifies whether area code information will be part of response.Allowed values True,False. (optional)
 ///
-///  @param level Level (basic/detail).Allowed values detail,basic. (optional, default to basic)
+///  @param level Level (basic/detail).Allowed values detail,basic. (optional)
 ///
 ///  @returns PBRateCenterResponse*
 ///
--(NSNumber*) getRateCenterByAddressWithAddress: (NSString*) address
+-(NSURLSessionTask*) getRateCenterByAddressWithAddress: (NSString*) address
     country: (NSString*) country
     areaCodeInfo: (NSString*) areaCodeInfo
     level: (NSString*) level
     completionHandler: (void (^)(PBRateCenterResponse* output, NSError* error)) handler {
-    // verify the required parameter 'address' is set
-    if (address == nil) {
-        NSParameterAssert(address);
-        if(handler) {
-            NSDictionary * userInfo = @{NSLocalizedDescriptionKey : [NSString stringWithFormat:NSLocalizedString(@"Missing required parameter '%@'", nil),@"address"] };
-            NSError* error = [NSError errorWithDomain:kPBTelecommInfoServiceApiErrorDomain code:kPBTelecommInfoServiceApiMissingParamErrorCode userInfo:userInfo];
-            handler(nil, error);
-        }
-        return nil;
-    }
-
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/telecomm/v1/ratecenter/byaddress"];
-
-    // remove format in URL if needed
-    [resourcePath replaceOccurrencesOfString:@".{format}" withString:@".json" options:0 range:NSMakeRange(0,resourcePath.length)];
 
     NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
 
@@ -113,7 +80,7 @@ NSInteger kPBTelecommInfoServiceApiMissingParamErrorCode = 234513;
         queryParams[@"country"] = country;
     }
     if (areaCodeInfo != nil) {
-        queryParams[@"AreaCodeInfo"] = areaCodeInfo;
+        queryParams[@"areaCodeInfo"] = areaCodeInfo;
     }
     if (level != nil) {
         queryParams[@"level"] = level;
@@ -121,7 +88,7 @@ NSInteger kPBTelecommInfoServiceApiMissingParamErrorCode = 234513;
     NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.apiClient.configuration.defaultHeaders];
     [headerParams addEntriesFromDictionary:self.defaultHeaders];
     // HTTP header `Accept`
-    NSString *acceptHeader = [self.apiClient.sanitizer selectHeaderAccept:@[@"application/xml", @"application/json"]];
+    NSString *acceptHeader = [self.apiClient.sanitizer selectHeaderAccept:@[@"application/json", @"application/xml"]];
     if(acceptHeader.length > 0) {
         headerParams[@"Accept"] = acceptHeader;
     }
@@ -130,7 +97,7 @@ NSInteger kPBTelecommInfoServiceApiMissingParamErrorCode = 234513;
     NSString *responseContentType = [[acceptHeader componentsSeparatedByString:@", "] firstObject] ?: @"";
 
     // request content type
-    NSString *requestContentType = [self.apiClient.sanitizer selectHeaderContentType:@[@"application/json", @"application/xml"]];
+    NSString *requestContentType = [self.apiClient.sanitizer selectHeaderContentType:@[]];
 
     // Authentication setting
     NSArray *authSettings = @[@"oAuth2Password"];
@@ -155,54 +122,28 @@ NSInteger kPBTelecommInfoServiceApiMissingParamErrorCode = 234513;
                                 if(handler) {
                                     handler((PBRateCenterResponse*)data, error);
                                 }
-                           }
-          ];
+                            }];
 }
 
 ///
 /// Rate Center By Location.
 /// Accepts latitude & longitude as input and returns Incumbent Local Exchange Carrier (ILEC) doing-business-as names.
-///  @param longitude Longitude of the location. 
+///  @param longitude Longitude of the location (optional)
 ///
-///  @param latitude Latitude of the location. 
+///  @param latitude Latitude of the location (optional)
 ///
-///  @param areaCodeInfo Specifies whether area code information will be part of response.Allowed values True,False. (optional, default to False)
+///  @param areaCodeInfo Specifies whether area code information will be part of response.Allowed values True,False. (optional)
 ///
-///  @param level Level (basic/detail).Allowed values detail,basic. (optional, default to basic)
+///  @param level Level (basic/detail).Allowed values detail,basic. (optional)
 ///
 ///  @returns PBRateCenterResponse*
 ///
--(NSNumber*) getRateCenterByLocationWithLongitude: (NSString*) longitude
+-(NSURLSessionTask*) getRateCenterByLocationWithLongitude: (NSString*) longitude
     latitude: (NSString*) latitude
     areaCodeInfo: (NSString*) areaCodeInfo
     level: (NSString*) level
     completionHandler: (void (^)(PBRateCenterResponse* output, NSError* error)) handler {
-    // verify the required parameter 'longitude' is set
-    if (longitude == nil) {
-        NSParameterAssert(longitude);
-        if(handler) {
-            NSDictionary * userInfo = @{NSLocalizedDescriptionKey : [NSString stringWithFormat:NSLocalizedString(@"Missing required parameter '%@'", nil),@"longitude"] };
-            NSError* error = [NSError errorWithDomain:kPBTelecommInfoServiceApiErrorDomain code:kPBTelecommInfoServiceApiMissingParamErrorCode userInfo:userInfo];
-            handler(nil, error);
-        }
-        return nil;
-    }
-
-    // verify the required parameter 'latitude' is set
-    if (latitude == nil) {
-        NSParameterAssert(latitude);
-        if(handler) {
-            NSDictionary * userInfo = @{NSLocalizedDescriptionKey : [NSString stringWithFormat:NSLocalizedString(@"Missing required parameter '%@'", nil),@"latitude"] };
-            NSError* error = [NSError errorWithDomain:kPBTelecommInfoServiceApiErrorDomain code:kPBTelecommInfoServiceApiMissingParamErrorCode userInfo:userInfo];
-            handler(nil, error);
-        }
-        return nil;
-    }
-
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/telecomm/v1/ratecenter/bylocation"];
-
-    // remove format in URL if needed
-    [resourcePath replaceOccurrencesOfString:@".{format}" withString:@".json" options:0 range:NSMakeRange(0,resourcePath.length)];
 
     NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
 
@@ -214,7 +155,7 @@ NSInteger kPBTelecommInfoServiceApiMissingParamErrorCode = 234513;
         queryParams[@"latitude"] = latitude;
     }
     if (areaCodeInfo != nil) {
-        queryParams[@"AreaCodeInfo"] = areaCodeInfo;
+        queryParams[@"areaCodeInfo"] = areaCodeInfo;
     }
     if (level != nil) {
         queryParams[@"level"] = level;
@@ -222,7 +163,7 @@ NSInteger kPBTelecommInfoServiceApiMissingParamErrorCode = 234513;
     NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.apiClient.configuration.defaultHeaders];
     [headerParams addEntriesFromDictionary:self.defaultHeaders];
     // HTTP header `Accept`
-    NSString *acceptHeader = [self.apiClient.sanitizer selectHeaderAccept:@[@"application/xml", @"application/json"]];
+    NSString *acceptHeader = [self.apiClient.sanitizer selectHeaderAccept:@[@"application/json", @"application/xml"]];
     if(acceptHeader.length > 0) {
         headerParams[@"Accept"] = acceptHeader;
     }
@@ -231,7 +172,7 @@ NSInteger kPBTelecommInfoServiceApiMissingParamErrorCode = 234513;
     NSString *responseContentType = [[acceptHeader componentsSeparatedByString:@", "] firstObject] ?: @"";
 
     // request content type
-    NSString *requestContentType = [self.apiClient.sanitizer selectHeaderContentType:@[@"application/json", @"application/xml"]];
+    NSString *requestContentType = [self.apiClient.sanitizer selectHeaderContentType:@[]];
 
     // Authentication setting
     NSArray *authSettings = @[@"oAuth2Password"];
@@ -256,8 +197,7 @@ NSInteger kPBTelecommInfoServiceApiMissingParamErrorCode = 234513;
                                 if(handler) {
                                     handler((PBRateCenterResponse*)data, error);
                                 }
-                           }
-          ];
+                            }];
 }
 
 

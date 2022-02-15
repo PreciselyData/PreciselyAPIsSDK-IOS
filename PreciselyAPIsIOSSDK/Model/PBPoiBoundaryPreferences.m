@@ -1,6 +1,6 @@
-#import "PBPoiBoundaryPreferences.h"
+#import "PBPOIBoundaryPreferences.h"
 
-@implementation PBPoiBoundaryPreferences
+@implementation PBPOIBoundaryPreferences
 
 - (instancetype)init {
   self = [super init];
@@ -17,7 +17,7 @@
  * This method is used by `JSONModel`.
  */
 + (JSONKeyMapper *)keyMapper {
-  return [[JSONKeyMapper alloc] initWithDictionary:@{ @"categoryCode": @"categoryCode", @"sicCode": @"sicCode", @"naicsCode": @"naicsCode" }];
+  return [[JSONKeyMapper alloc] initWithModelToJSONDictionary:@{ @"categoryCode": @"categoryCode", @"sicCode": @"sicCode", @"naicsCode": @"naicsCode" }];
 }
 
 /**

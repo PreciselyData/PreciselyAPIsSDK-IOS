@@ -17,7 +17,7 @@
  * This method is used by `JSONModel`.
  */
 + (JSONKeyMapper *)keyMapper {
-  return [[JSONKeyMapper alloc] initWithDictionary:@{ @"user_fields": @"userFields", @"AddressLine1": @"addressLine1", @"AddressLine2": @"addressLine2", @"FirmName": @"firmName", @"ChangeScore": @"changeScore", @"Locality": @"locality", @"Suburb": @"suburb", @"AddressType": @"addressType", @"Deliverability": @"deliverability", @"AddressQuality": @"addressQuality", @"CouldNotValidate": @"couldNotValidate", @"City": @"city", @"PostalCode": @"postalCode", @"Country": @"country", @"StateProvince": @"stateProvince", @"BlockAddress": @"blockAddress", @"AdditionalInputData": @"additionalInputData", @"PostalCode.Base": @"postalCodeBase", @"PostalCode.AddOn": @"postalCodeAddOn", @"Status": @"status", @"Status.Code": @"statusCode", @"Status.Description": @"statusDescription" }];
+  return [[JSONKeyMapper alloc] initWithModelToJSONDictionary:@{ @"userFields": @"user_fields", @"addressLine1": @"AddressLine1", @"addressLine2": @"AddressLine2", @"firmName": @"FirmName", @"changeScore": @"ChangeScore", @"locality": @"Locality", @"suburb": @"Suburb", @"addressType": @"AddressType", @"deliverability": @"Deliverability", @"addressQuality": @"AddressQuality", @"couldNotValidate": @"CouldNotValidate", @"city": @"City", @"postalCode": @"PostalCode", @"country": @"Country", @"stateProvince": @"StateProvince", @"blockAddress": @"BlockAddress", @"additionalInputData": @"AdditionalInputData", @"postalCodeBase": @"PostalCode.Base", @"postalCodeAddOn": @"PostalCode.AddOn", @"status": @"Status", @"statusCode": @"Status.Code", @"statusDescription": @"Status.Description" }];
 }
 
 /**

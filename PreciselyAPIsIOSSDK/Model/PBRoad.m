@@ -17,7 +17,7 @@
  * This method is used by `JSONModel`.
  */
 + (JSONKeyMapper *)keyMapper {
-  return [[JSONKeyMapper alloc] initWithDictionary:@{ @"roadClass": @"roadClass", @"name": @"name", @"type": @"type" }];
+  return [[JSONKeyMapper alloc] initWithModelToJSONDictionary:@{ @"_id": @"id", @"name": @"name", @"altName": @"altName", @"roadClass": @"roadClass", @"type": @"type", @"lengthInMeters": @"lengthInMeters", @"routeNumber": @"routeNumber", @"surfaceType": @"surfaceType", @"trafficFlow": @"trafficFlow", @"isToll": @"isToll", @"beginningLevel": @"beginningLevel", @"endingLevel": @"endingLevel" }];
 }
 
 /**
@@ -27,7 +27,7 @@
  */
 + (BOOL)propertyIsOptional:(NSString *)propertyName {
 
-  NSArray *optionalProperties = @[@"roadClass", @"name", @"type"];
+  NSArray *optionalProperties = @[@"_id", @"name", @"altName", @"roadClass", @"type", @"lengthInMeters", @"routeNumber", @"surfaceType", @"trafficFlow", @"isToll", @"beginningLevel", @"endingLevel"];
   return [optionalProperties containsObject:propertyName];
 }
 

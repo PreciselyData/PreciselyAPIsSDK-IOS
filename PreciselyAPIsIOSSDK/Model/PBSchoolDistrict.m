@@ -17,7 +17,7 @@
  * This method is used by `JSONModel`.
  */
 + (JSONKeyMapper *)keyMapper {
-  return [[JSONKeyMapper alloc] initWithDictionary:@{ @"ncesDistrictId": @"ncesDistrictId", @"name": @"name", @"totalSchools": @"totalSchools", @"districtType": @"districtType", @"metro": @"metro", @"areaInSqM": @"areaInSqM", @"supervisoryUnionId": @"supervisoryUnionId", @"districtEnrollment": @"districtEnrollment", @"districtUrl": @"districtUrl" }];
+  return [[JSONKeyMapper alloc] initWithModelToJSONDictionary:@{ @"ncesDistrictId": @"ncesDistrictId", @"name": @"name", @"totalSchools": @"totalSchools", @"districtType": @"districtType", @"metro": @"metro", @"areaInSqM": @"areaInSqM", @"supervisoryUnionId": @"supervisoryUnionId", @"districtEnrollment": @"districtEnrollment", @"districtUrl": @"districtUrl" }];
 }
 
 /**
