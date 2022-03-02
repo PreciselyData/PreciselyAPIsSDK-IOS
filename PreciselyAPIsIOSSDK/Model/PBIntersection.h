@@ -16,14 +16,12 @@
 
 #import "PBGeometry.h"
 #import "PBRoad.h"
-#import "PBSet.h"
 #import "PBUnit.h"
 @protocol PBGeometry;
 @class PBGeometry;
 @protocol PBRoad;
 @class PBRoad;
-@protocol PBSet;
-@class PBSet;
+
 @protocol PBUnit;
 @class PBUnit;
 
@@ -43,6 +41,6 @@
 
 @property(nonatomic) PBGeometry* geometry;
 
-@property(nonatomic) PBSet<PBRoad>* roads;
+@property(nonatomic) NSArray<PBRoad>* roads;
 
 @end
