@@ -2,6 +2,7 @@
 #import "PBDefaultConfiguration.h"
 #import "PBApiClient.h"
 #import "PBLogger.h"
+#import "PBConfiguration.h"
 
 /**
 * Precisely APIs
@@ -25,6 +26,11 @@
  * Default api logger
  */
 @property (nonatomic, strong) PBLogger * logger;
+
+/**
+ * Default api client
+ */
+@property (nonatomic) PBApiClient *apiClient;
 
 /**
  * Default base url

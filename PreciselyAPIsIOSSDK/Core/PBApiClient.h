@@ -78,7 +78,7 @@ extern NSString *const PBResponseObjectErrorKey;
  *
  * @param configuration The configuration implementation
  */
-- (instancetype)initWithConfiguration:(id<PBConfiguration>)configuration;
+- (instancetype)initWithConfiguration:(id<PBDefaultConfiguration>)configuration;
 
 /**
 * Initializes the session manager with a configuration and url
@@ -86,7 +86,7 @@ extern NSString *const PBResponseObjectErrorKey;
 * @param url The base url
 * @param configuration The configuration implementation
 */
-- (instancetype)initWithBaseURL:(NSURL *)url configuration:(id<PBConfiguration>)configuration;
+- (instancetype)initWithBaseURL:(NSURL *)url configuration:(id<PBDefaultConfiguration>)configuration;
 
 /**
  * Performs request
