@@ -1,5 +1,5 @@
 #import <AFNetworking/AFNetworking.h>
-#import "PBDefaultConfiguration.h"
+#import "PBConfiguration.h"
 #import "PBResponseDeserializer.h"
 #import "PBSanitizer.h"
 
@@ -26,7 +26,7 @@ extern NSString *const PBResponseObjectErrorKey;
 
 @interface PBApiClient : AFHTTPSessionManager
 
-@property (nonatomic, strong, readonly) id<PBDefaultConfiguration> configuration;
+@property (nonatomic, strong, readonly) id<PBConfiguration> configuration;
 
 @property(nonatomic, assign) NSTimeInterval timeoutInterval;
 
@@ -78,7 +78,7 @@ extern NSString *const PBResponseObjectErrorKey;
  *
  * @param configuration The configuration implementation
  */
-- (instancetype)initWithConfiguration:(id<PBDefaultConfiguration>)configuration;
+- (instancetype)initWithConfiguration:(id<PBConfiguration>)configuration;
 
 /**
 * Initializes the session manager with a configuration and url
@@ -86,7 +86,7 @@ extern NSString *const PBResponseObjectErrorKey;
 * @param url The base url
 * @param configuration The configuration implementation
 */
-- (instancetype)initWithBaseURL:(NSURL *)url configuration:(id<PBDefaultConfiguration>)configuration;
+- (instancetype)initWithBaseURL:(NSURL *)url configuration:(id<PBConfiguration>)configuration;
 
 /**
  * Performs request

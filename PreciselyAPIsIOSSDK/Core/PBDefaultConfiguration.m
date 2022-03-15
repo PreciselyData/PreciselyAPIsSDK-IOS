@@ -2,7 +2,6 @@
 #import "PBBasicAuthTokenProvider.h"
 #import "PBLogger.h"
 
-
 @interface PBDefaultConfiguration ()
 
 @property (nonatomic, strong) NSMutableDictionary *mutableDefaultHeaders;

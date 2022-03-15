@@ -31,7 +31,7 @@ static NSString * PB__fileNameForResponse(NSURLResponse *response) {
 
 @interface PBApiClient ()
 
-@property (nonatomic, strong, readwrite) id<PBDefaultConfiguration> configuration;
+@property (nonatomic, strong, readwrite) id<PBConfiguration> configuration;
 
 @property (nonatomic, strong) NSArray<NSString*>* downloadTaskResponseTypes;
 
@@ -60,11 +60,11 @@ static NSString * PB__fileNameForResponse(NSURLResponse *response) {
     return [self initWithBaseURL:url configuration:[PBDefaultConfiguration sharedConfig]];
 }
 
-- (instancetype)initWithConfiguration:(id<PBDefaultConfiguration>)configuration {
+- (instancetype)initWithConfiguration:(id<PBConfiguration>)configuration {
     return [self initWithBaseURL:[NSURL URLWithString:configuration.host] configuration:configuration];
 }
 
-- (instancetype)initWithBaseURL:(NSURL *)url configuration:(id<PBDefaultConfiguration>)configuration {
+- (instancetype)initWithBaseURL:(NSURL *)url configuration:(id<PBConfiguration>)configuration {
     self = [super initWithBaseURL:url];
     if (self) {
         _configuration = configuration;
@@ -331,7 +331,7 @@ static NSString * PB__fileNameForResponse(NSURLResponse *response) {
     NSMutableDictionary *headersWithAuth = [NSMutableDictionary dictionaryWithDictionary:*headers];
     NSMutableDictionary *queriesWithAuth = [NSMutableDictionary dictionaryWithDictionary:*queries];
 
-    id<PBDefaultConfiguration> config = self.configuration;
+    id<PBConfiguration> config = self.configuration;
     for (NSString *auth in authSettings) {
         NSDictionary *authSetting = config.authSettings[auth];
 
@@ -355,7 +355,7 @@ static NSString * PB__fileNameForResponse(NSURLResponse *response) {
 - (AFSecurityPolicy *) createSecurityPolicy {
     AFSecurityPolicy *securityPolicy = [AFSecurityPolicy policyWithPinningMode:AFSSLPinningModeNone];
 
-    id<PBDefaultConfiguration> config = self.configuration;
+    id<PBConfiguration> config = self.configuration;
 
     if (config.sslCaCert) {
         NSData *certData = [NSData dataWithContentsOfFile:config.sslCaCert];
