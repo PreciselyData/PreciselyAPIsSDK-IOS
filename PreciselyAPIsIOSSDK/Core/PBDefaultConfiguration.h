@@ -1,5 +1,8 @@
 #import <Foundation/Foundation.h>
+#import "PBDefaultConfiguration.h"
 #import "PBConfiguration.h"
+#import "PBApiClient.h"
+#import "PBLogger.h"
 
 /**
 * Precisely APIs
@@ -23,6 +26,12 @@
  * Default api logger
  */
 @property (nonatomic, strong) PBLogger * logger;
+
+/**
+ * Default api client
+ */
+@property (nonatomic) PBApiClient *apiClient;
+
 
 /**
  * Default base url
@@ -167,5 +176,27 @@
 * @param key Header key name.
 */
 -(NSString*) defaultHeaderForKey:(NSString*)key;
+
+
+/**
+* API Key for OAuth
+*/
+@property (nonatomic) NSString *oAuthApiKey;
+
+/**
+* Secret for OAuth
+*/
+@property (nonatomic) NSString *oAuthSecret;
+
+/**
+* Secret for OAuth
+*/
+@property (nonatomic) NSString *oAuthTokenURL;
+
+/**
+* Method to Generate and Set AccessToken */
+
+- (void) generateAndSetAccessToken:(void (^)(id, NSError *))completionBlock;
+
 
 @end
