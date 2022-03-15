@@ -1,5 +1,5 @@
 #import <AFNetworking/AFNetworking.h>
-#import "PBConfiguration.h"
+#import "PBDefaultConfiguration.h"
 #import "PBResponseDeserializer.h"
 #import "PBSanitizer.h"
 
@@ -26,7 +26,7 @@ extern NSString *const PBResponseObjectErrorKey;
 
 @interface PBApiClient : AFHTTPSessionManager
 
-@property (nonatomic, strong, readonly) id<PBConfiguration> configuration;
+@property (nonatomic, strong, readonly) id<PBDefaultConfiguration> configuration;
 
 @property(nonatomic, assign) NSTimeInterval timeoutInterval;
 
