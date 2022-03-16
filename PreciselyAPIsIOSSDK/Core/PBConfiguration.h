@@ -2,8 +2,6 @@
 
 @class PBLogger;
 
-@class PBDefaultConfiguration
-
 /**
 * Precisely APIs
 * Enhance & enrich your data, applications, business processes, and workflows with rich location, information, and identify APIs.
@@ -25,11 +23,6 @@ static NSString * const kPBAPIVersion = @"11.9.2";
  * Api logger
  */
 @property (readonly, nonatomic) PBLogger *logger;
-
-/**
- * Api DefaultConfiguration
- */
-@property (readonly, nonatomic) PBDefaultConfiguration *defaultConfiguration;
 
 /**
  * Base url
