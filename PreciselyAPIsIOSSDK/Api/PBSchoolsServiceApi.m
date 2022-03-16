@@ -1,13 +1,11 @@
 #import "PBSchoolsServiceApi.h"
 #import "PBQueryParamCollection.h"
-#import "PBApiClient.h"
-#import "PBErrorInfo.h"
 #import "PBSchoolsNearByResponse.h"
 
 
 @interface PBSchoolsServiceApi ()
 
-@property (nonatomic, strong, readwrite) NSMutableDictionary *mutableDefaultHeaders;
+@property (nonatomic, strong) NSMutableDictionary *defaultHeaders;
 
 @end
 
@@ -21,31 +19,52 @@ NSInteger kPBSchoolsServiceApiMissingParamErrorCode = 234513;
 #pragma mark - Initialize methods
 
 - (instancetype) init {
-    return [self initWithApiClient:[PBApiClient sharedClient]];
+    self = [super init];
+    if (self) {
+        PBConfiguration *config = [PBConfiguration sharedConfig];
+        if (config.apiClient == nil) {
+            config.apiClient = [[PBApiClient alloc] init];
+        }
+        _apiClient = config.apiClient;
+        _defaultHeaders = [NSMutableDictionary dictionary];
+    }
+    return self;
 }
 
-
--(instancetype) initWithApiClient:(PBApiClient *)apiClient {
+- (id) initWithApiClient:(PBApiClient *)apiClient {
     self = [super init];
     if (self) {
         _apiClient = apiClient;
-        _mutableDefaultHeaders = [NSMutableDictionary dictionary];
+        _defaultHeaders = [NSMutableDictionary dictionary];
     }
     return self;
 }
 
 #pragma mark -
 
++ (instancetype)sharedAPI {
+    static PBSchoolsServiceApi *sharedAPI;
+    static dispatch_once_t once;
+    dispatch_once(&once, ^{
+        sharedAPI = [[self alloc] init];
+    });
+    return sharedAPI;
+}
+
 -(NSString*) defaultHeaderForKey:(NSString*)key {
-    return self.mutableDefaultHeaders[key];
+    return self.defaultHeaders[key];
+}
+
+-(void) addHeader:(NSString*)value forKey:(NSString*)key {
+    [self setDefaultHeaderValue:value forKey:key];
 }
 
 -(void) setDefaultHeaderValue:(NSString*) value forKey:(NSString*)key {
-    [self.mutableDefaultHeaders setValue:value forKey:key];
+    [self.defaultHeaders setValue:value forKey:key];
 }
 
--(NSDictionary *)defaultHeaders {
-    return self.mutableDefaultHeaders;
+-(NSUInteger) requestQueueSize {
+    return [PBApiClient requestQueueSize];
 }
 
 #pragma mark - Api Methods
@@ -61,7 +80,7 @@ NSInteger kPBSchoolsServiceApiMissingParamErrorCode = 234513;
 ///
 ///  @param schoolSubType Single digit code for schoolSubType Applicable values are C, M, A, R, I, L, P, V, U, S (i.e. Charter, Magnet, Alternative, Regular, Indian, Military, Reportable Program, Vocational, Unknown, Special Education) (optional)
 ///
-///  @param gender Single digit code for gender Applicable values are C, F, M (Coed, All Females, All Males) Applicable for Private Schools Only (optional)
+///  @param gender Single digit code for gender Applicable values are C, F, M (Coed, All Females, All Males) (optional)
 ///
 ///  @param assignedSchoolsOnly Single digit code for assignedSchoolOnly applicable values are  Y/N  (optional)
 ///
@@ -81,11 +100,11 @@ NSInteger kPBSchoolsServiceApiMissingParamErrorCode = 234513;
 ///
 ///  @param travelMode Travel mode Required when travelDistance or travelTime is specified. Accepted values are walking,driving (optional)
 ///
-///  @param maxCandidates Max result to search  (optional)
+///  @param maxCandidates Max result to search  (optional, default to 10)
 ///
 ///  @returns PBSchoolsNearByResponse*
 ///
--(NSURLSessionTask*) getSchoolsByAddressWithAddress: (NSString*) address
+-(NSNumber*) getSchoolsByAddressWithAddress: (NSString*) address
     edLevel: (NSString*) edLevel
     schoolType: (NSString*) schoolType
     schoolSubType: (NSString*) schoolSubType
@@ -113,6 +132,9 @@ NSInteger kPBSchoolsServiceApiMissingParamErrorCode = 234513;
     }
 
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/schools/v1/school/byaddress"];
+
+    // remove format in URL if needed
+    [resourcePath replaceOccurrencesOfString:@".{format}" withString:@".json" options:0 range:NSMakeRange(0,resourcePath.length)];
 
     NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
 
@@ -174,7 +196,7 @@ NSInteger kPBSchoolsServiceApiMissingParamErrorCode = 234513;
     NSString *responseContentType = [[acceptHeader componentsSeparatedByString:@", "] firstObject] ?: @"";
 
     // request content type
-    NSString *requestContentType = [self.apiClient.sanitizer selectHeaderContentType:@[]];
+    NSString *requestContentType = [self.apiClient.sanitizer selectHeaderContentType:@[@"application/json", @"application/xml"]];
 
     // Authentication setting
     NSArray *authSettings = @[@"oAuth2Password"];
@@ -199,7 +221,8 @@ NSInteger kPBSchoolsServiceApiMissingParamErrorCode = 234513;
                                 if(handler) {
                                     handler((PBSchoolsNearByResponse*)data, error);
                                 }
-                            }];
+                           }
+          ];
 }
 
 

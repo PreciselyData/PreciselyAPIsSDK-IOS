@@ -17,7 +17,7 @@
  * This method is used by `JSONModel`.
  */
 + (JSONKeyMapper *)keyMapper {
-  return [[JSONKeyMapper alloc] initWithModelToJSONDictionary:@{ @"pk": @"pk", @"kg": @"kg", @"first": @"first", @"second": @"second", @"third": @"third", @"fourth": @"fourth", @"fifth": @"fifth", @"sixth": @"sixth", @"seventh": @"seventh", @"eighth": @"eighth", @"ninth": @"ninth", @"tenth": @"tenth", @"eleventh": @"eleventh", @"twelfth": @"twelfth" }];
+  return [[JSONKeyMapper alloc] initWithDictionary:@{ @"pk": @"pk", @"kg": @"kg", @"first": @"first", @"second": @"second", @"third": @"third", @"fourth": @"fourth", @"fifth": @"fifth", @"sixth": @"sixth", @"seventh": @"seventh", @"eighth": @"eighth", @"ninth": @"ninth", @"tenth": @"tenth", @"eleventh": @"eleventh", @"twelfth": @"twelfth" }];
 }
 
 /**

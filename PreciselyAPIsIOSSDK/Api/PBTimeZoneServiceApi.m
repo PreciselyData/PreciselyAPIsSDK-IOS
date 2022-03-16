@@ -1,16 +1,16 @@
 #import "PBTimeZoneServiceApi.h"
 #import "PBQueryParamCollection.h"
-#import "PBApiClient.h"
-#import "PBErrorInfo.h"
+#import "PBTimezoneResponse.h"
 #import "PBTimezoneAddressRequest.h"
 #import "PBTimezoneLocationRequest.h"
-#import "PBTimezoneResponse.h"
-#import "PBTimezoneResponseList.h"
+#import "PBTimezoneLocationResponse.h"
+#import "PBTimezone.h"
+#import "PBTimezoneLocation.h"
 
 
 @interface PBTimeZoneServiceApi ()
 
-@property (nonatomic, strong, readwrite) NSMutableDictionary *mutableDefaultHeaders;
+@property (nonatomic, strong) NSMutableDictionary *defaultHeaders;
 
 @end
 
@@ -24,56 +24,69 @@ NSInteger kPBTimeZoneServiceApiMissingParamErrorCode = 234513;
 #pragma mark - Initialize methods
 
 - (instancetype) init {
-    return [self initWithApiClient:[PBApiClient sharedClient]];
+    self = [super init];
+    if (self) {
+        PBConfiguration *config = [PBConfiguration sharedConfig];
+        if (config.apiClient == nil) {
+            config.apiClient = [[PBApiClient alloc] init];
+        }
+        _apiClient = config.apiClient;
+        _defaultHeaders = [NSMutableDictionary dictionary];
+    }
+    return self;
 }
 
-
--(instancetype) initWithApiClient:(PBApiClient *)apiClient {
+- (id) initWithApiClient:(PBApiClient *)apiClient {
     self = [super init];
     if (self) {
         _apiClient = apiClient;
-        _mutableDefaultHeaders = [NSMutableDictionary dictionary];
+        _defaultHeaders = [NSMutableDictionary dictionary];
     }
     return self;
 }
 
 #pragma mark -
 
++ (instancetype)sharedAPI {
+    static PBTimeZoneServiceApi *sharedAPI;
+    static dispatch_once_t once;
+    dispatch_once(&once, ^{
+        sharedAPI = [[self alloc] init];
+    });
+    return sharedAPI;
+}
+
 -(NSString*) defaultHeaderForKey:(NSString*)key {
-    return self.mutableDefaultHeaders[key];
+    return self.defaultHeaders[key];
+}
+
+-(void) addHeader:(NSString*)value forKey:(NSString*)key {
+    [self setDefaultHeaderValue:value forKey:key];
 }
 
 -(void) setDefaultHeaderValue:(NSString*) value forKey:(NSString*)key {
-    [self.mutableDefaultHeaders setValue:value forKey:key];
+    [self.defaultHeaders setValue:value forKey:key];
 }
 
--(NSDictionary *)defaultHeaders {
-    return self.mutableDefaultHeaders;
+-(NSUInteger) requestQueueSize {
+    return [PBApiClient requestQueueSize];
 }
 
 #pragma mark - Api Methods
 
 ///
-/// Timezone Batch by Location.
-/// Identifies and retrieves the local time of any location in the world for a given latitude, longitude and time. The input and retrieved time format is in milliseconds.
-///  @param timezoneLocationRequest  
+/// Timezone Batch by Address
+/// Identifies and retrieves the local time of any location in the world for a given address and time. The input and retrieved time format is in milliseconds. 
+///  @param body  (optional)
 ///
-///  @returns PBTimezoneResponseList*
+///  @returns PBTimezoneResponse*
 ///
--(NSURLSessionTask*) getBatchTimezoneByLocationWithTimezoneLocationRequest: (PBTimezoneLocationRequest*) timezoneLocationRequest
-    completionHandler: (void (^)(PBTimezoneResponseList* output, NSError* error)) handler {
-    // verify the required parameter 'timezoneLocationRequest' is set
-    if (timezoneLocationRequest == nil) {
-        NSParameterAssert(timezoneLocationRequest);
-        if(handler) {
-            NSDictionary * userInfo = @{NSLocalizedDescriptionKey : [NSString stringWithFormat:NSLocalizedString(@"Missing required parameter '%@'", nil),@"timezoneLocationRequest"] };
-            NSError* error = [NSError errorWithDomain:kPBTimeZoneServiceApiErrorDomain code:kPBTimeZoneServiceApiMissingParamErrorCode userInfo:userInfo];
-            handler(nil, error);
-        }
-        return nil;
-    }
+-(NSNumber*) getBatchTimezoneByAddressWithBody: (PBTimezoneAddressRequest*) body
+    completionHandler: (void (^)(PBTimezoneResponse* output, NSError* error)) handler {
+    NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/timezone/v1/timezone/byaddress"];
 
-    NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/timezone/v1/timezone/bylocation"];
+    // remove format in URL if needed
+    [resourcePath replaceOccurrencesOfString:@".{format}" withString:@".json" options:0 range:NSMakeRange(0,resourcePath.length)];
 
     NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
 
@@ -98,7 +111,7 @@ NSInteger kPBTimeZoneServiceApiMissingParamErrorCode = 234513;
     id bodyParam = nil;
     NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
     NSMutableDictionary *localVarFiles = [[NSMutableDictionary alloc] init];
-    bodyParam = timezoneLocationRequest;
+    bodyParam = body;
 
     return [self.apiClient requestWithPath: resourcePath
                                     method: @"POST"
@@ -111,12 +124,72 @@ NSInteger kPBTimeZoneServiceApiMissingParamErrorCode = 234513;
                               authSettings: authSettings
                         requestContentType: requestContentType
                        responseContentType: responseContentType
-                              responseType: @"PBTimezoneResponseList*"
+                              responseType: @"PBTimezoneResponse*"
                            completionBlock: ^(id data, NSError *error) {
                                 if(handler) {
-                                    handler((PBTimezoneResponseList*)data, error);
+                                    handler((PBTimezoneResponse*)data, error);
                                 }
-                            }];
+                           }
+          ];
+}
+
+///
+/// Timezone Batch by Location
+/// Identifies and retrieves the local time of any location in the world for a given latitude, longitude and time. The input and retrieved time format is in milliseconds. 
+///  @param body  (optional)
+///
+///  @returns PBTimezoneLocationResponse*
+///
+-(NSNumber*) getBatchTimezoneByLocationWithBody: (PBTimezoneLocationRequest*) body
+    completionHandler: (void (^)(PBTimezoneLocationResponse* output, NSError* error)) handler {
+    NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/timezone/v1/timezone/bylocation"];
+
+    // remove format in URL if needed
+    [resourcePath replaceOccurrencesOfString:@".{format}" withString:@".json" options:0 range:NSMakeRange(0,resourcePath.length)];
+
+    NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
+
+    NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.apiClient.configuration.defaultHeaders];
+    [headerParams addEntriesFromDictionary:self.defaultHeaders];
+    // HTTP header `Accept`
+    NSString *acceptHeader = [self.apiClient.sanitizer selectHeaderAccept:@[@"application/json", @"application/xml"]];
+    if(acceptHeader.length > 0) {
+        headerParams[@"Accept"] = acceptHeader;
+    }
+
+    // response content type
+    NSString *responseContentType = [[acceptHeader componentsSeparatedByString:@", "] firstObject] ?: @"";
+
+    // request content type
+    NSString *requestContentType = [self.apiClient.sanitizer selectHeaderContentType:@[@"application/json", @"application/xml"]];
+
+    // Authentication setting
+    NSArray *authSettings = @[@"oAuth2Password"];
+
+    id bodyParam = nil;
+    NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *localVarFiles = [[NSMutableDictionary alloc] init];
+    bodyParam = body;
+
+    return [self.apiClient requestWithPath: resourcePath
+                                    method: @"POST"
+                                pathParams: pathParams
+                               queryParams: queryParams
+                                formParams: formParams
+                                     files: localVarFiles
+                                      body: bodyParam
+                              headerParams: headerParams
+                              authSettings: authSettings
+                        requestContentType: requestContentType
+                       responseContentType: responseContentType
+                              responseType: @"PBTimezoneLocationResponse*"
+                           completionBlock: ^(id data, NSError *error) {
+                                if(handler) {
+                                    handler((PBTimezoneLocationResponse*)data, error);
+                                }
+                           }
+          ];
 }
 
 ///
@@ -126,17 +199,17 @@ NSInteger kPBTimeZoneServiceApiMissingParamErrorCode = 234513;
 ///
 ///  @param address The address to be searched. 
 ///
-///  @param matchMode Match modes determine the leniency used to make a match between the input address and the reference data (Default is relaxed) (optional)
+///  @param matchMode Match modes determine the leniency used to make a match between the input address and the reference data. (optional, default to Relaxed)
 ///
-///  @param country Country ISO code (Default is USA) (optional)
+///  @param country Country ISO code. (optional, default to USA)
 ///
-///  @returns PBTimezoneResponse*
+///  @returns PBTimezone*
 ///
--(NSURLSessionTask*) getTimezoneByAddressWithTimestamp: (NSString*) timestamp
+-(NSNumber*) getTimezoneByAddressWithTimestamp: (NSString*) timestamp
     address: (NSString*) address
     matchMode: (NSString*) matchMode
     country: (NSString*) country
-    completionHandler: (void (^)(PBTimezoneResponse* output, NSError* error)) handler {
+    completionHandler: (void (^)(PBTimezone* output, NSError* error)) handler {
     // verify the required parameter 'timestamp' is set
     if (timestamp == nil) {
         NSParameterAssert(timestamp);
@@ -161,6 +234,9 @@ NSInteger kPBTimeZoneServiceApiMissingParamErrorCode = 234513;
 
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/timezone/v1/timezone/byaddress"];
 
+    // remove format in URL if needed
+    [resourcePath replaceOccurrencesOfString:@".{format}" withString:@".json" options:0 range:NSMakeRange(0,resourcePath.length)];
+
     NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
 
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
@@ -179,7 +255,7 @@ NSInteger kPBTimeZoneServiceApiMissingParamErrorCode = 234513;
     NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.apiClient.configuration.defaultHeaders];
     [headerParams addEntriesFromDictionary:self.defaultHeaders];
     // HTTP header `Accept`
-    NSString *acceptHeader = [self.apiClient.sanitizer selectHeaderAccept:@[@"application/json", @"application/xml"]];
+    NSString *acceptHeader = [self.apiClient.sanitizer selectHeaderAccept:@[@"application/xml", @"application/json"]];
     if(acceptHeader.length > 0) {
         headerParams[@"Accept"] = acceptHeader;
     }
@@ -188,7 +264,7 @@ NSInteger kPBTimeZoneServiceApiMissingParamErrorCode = 234513;
     NSString *responseContentType = [[acceptHeader componentsSeparatedByString:@", "] firstObject] ?: @"";
 
     // request content type
-    NSString *requestContentType = [self.apiClient.sanitizer selectHeaderContentType:@[]];
+    NSString *requestContentType = [self.apiClient.sanitizer selectHeaderContentType:@[@"application/json", @"application/xml"]];
 
     // Authentication setting
     NSArray *authSettings = @[@"oAuth2Password"];
@@ -208,78 +284,13 @@ NSInteger kPBTimeZoneServiceApiMissingParamErrorCode = 234513;
                               authSettings: authSettings
                         requestContentType: requestContentType
                        responseContentType: responseContentType
-                              responseType: @"PBTimezoneResponse*"
+                              responseType: @"PBTimezone*"
                            completionBlock: ^(id data, NSError *error) {
                                 if(handler) {
-                                    handler((PBTimezoneResponse*)data, error);
+                                    handler((PBTimezone*)data, error);
                                 }
-                            }];
-}
-
-///
-/// Timezone Batch by Address.
-/// Identifies and retrieves the local time of any location in the world for a given address and time. The input and retrieved time format is in milliseconds.
-///  @param timezoneAddressRequest  
-///
-///  @returns PBTimezoneResponseList*
-///
--(NSURLSessionTask*) getTimezoneByAddressBatchWithTimezoneAddressRequest: (PBTimezoneAddressRequest*) timezoneAddressRequest
-    completionHandler: (void (^)(PBTimezoneResponseList* output, NSError* error)) handler {
-    // verify the required parameter 'timezoneAddressRequest' is set
-    if (timezoneAddressRequest == nil) {
-        NSParameterAssert(timezoneAddressRequest);
-        if(handler) {
-            NSDictionary * userInfo = @{NSLocalizedDescriptionKey : [NSString stringWithFormat:NSLocalizedString(@"Missing required parameter '%@'", nil),@"timezoneAddressRequest"] };
-            NSError* error = [NSError errorWithDomain:kPBTimeZoneServiceApiErrorDomain code:kPBTimeZoneServiceApiMissingParamErrorCode userInfo:userInfo];
-            handler(nil, error);
-        }
-        return nil;
-    }
-
-    NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/timezone/v1/timezone/byaddress"];
-
-    NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
-
-    NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
-    NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.apiClient.configuration.defaultHeaders];
-    [headerParams addEntriesFromDictionary:self.defaultHeaders];
-    // HTTP header `Accept`
-    NSString *acceptHeader = [self.apiClient.sanitizer selectHeaderAccept:@[@"application/json", @"application/xml"]];
-    if(acceptHeader.length > 0) {
-        headerParams[@"Accept"] = acceptHeader;
-    }
-
-    // response content type
-    NSString *responseContentType = [[acceptHeader componentsSeparatedByString:@", "] firstObject] ?: @"";
-
-    // request content type
-    NSString *requestContentType = [self.apiClient.sanitizer selectHeaderContentType:@[@"application/json", @"application/xml"]];
-
-    // Authentication setting
-    NSArray *authSettings = @[@"oAuth2Password"];
-
-    id bodyParam = nil;
-    NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
-    NSMutableDictionary *localVarFiles = [[NSMutableDictionary alloc] init];
-    bodyParam = timezoneAddressRequest;
-
-    return [self.apiClient requestWithPath: resourcePath
-                                    method: @"POST"
-                                pathParams: pathParams
-                               queryParams: queryParams
-                                formParams: formParams
-                                     files: localVarFiles
-                                      body: bodyParam
-                              headerParams: headerParams
-                              authSettings: authSettings
-                        requestContentType: requestContentType
-                       responseContentType: responseContentType
-                              responseType: @"PBTimezoneResponseList*"
-                           completionBlock: ^(id data, NSError *error) {
-                                if(handler) {
-                                    handler((PBTimezoneResponseList*)data, error);
-                                }
-                            }];
+                           }
+          ];
 }
 
 ///
@@ -291,12 +302,12 @@ NSInteger kPBTimeZoneServiceApiMissingParamErrorCode = 234513;
 ///
 ///  @param latitude Latitude of the location. 
 ///
-///  @returns PBTimezoneResponse*
+///  @returns PBTimezoneLocation*
 ///
--(NSURLSessionTask*) getTimezoneByLocationWithTimestamp: (NSString*) timestamp
+-(NSNumber*) getTimezoneByLocationWithTimestamp: (NSString*) timestamp
     longitude: (NSString*) longitude
     latitude: (NSString*) latitude
-    completionHandler: (void (^)(PBTimezoneResponse* output, NSError* error)) handler {
+    completionHandler: (void (^)(PBTimezoneLocation* output, NSError* error)) handler {
     // verify the required parameter 'timestamp' is set
     if (timestamp == nil) {
         NSParameterAssert(timestamp);
@@ -332,6 +343,9 @@ NSInteger kPBTimeZoneServiceApiMissingParamErrorCode = 234513;
 
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/timezone/v1/timezone/bylocation"];
 
+    // remove format in URL if needed
+    [resourcePath replaceOccurrencesOfString:@".{format}" withString:@".json" options:0 range:NSMakeRange(0,resourcePath.length)];
+
     NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
 
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
@@ -347,7 +361,7 @@ NSInteger kPBTimeZoneServiceApiMissingParamErrorCode = 234513;
     NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.apiClient.configuration.defaultHeaders];
     [headerParams addEntriesFromDictionary:self.defaultHeaders];
     // HTTP header `Accept`
-    NSString *acceptHeader = [self.apiClient.sanitizer selectHeaderAccept:@[@"application/json", @"application/xml"]];
+    NSString *acceptHeader = [self.apiClient.sanitizer selectHeaderAccept:@[@"application/xml", @"application/json"]];
     if(acceptHeader.length > 0) {
         headerParams[@"Accept"] = acceptHeader;
     }
@@ -356,7 +370,7 @@ NSInteger kPBTimeZoneServiceApiMissingParamErrorCode = 234513;
     NSString *responseContentType = [[acceptHeader componentsSeparatedByString:@", "] firstObject] ?: @"";
 
     // request content type
-    NSString *requestContentType = [self.apiClient.sanitizer selectHeaderContentType:@[]];
+    NSString *requestContentType = [self.apiClient.sanitizer selectHeaderContentType:@[@"application/json", @"application/xml"]];
 
     // Authentication setting
     NSArray *authSettings = @[@"oAuth2Password"];
@@ -376,12 +390,13 @@ NSInteger kPBTimeZoneServiceApiMissingParamErrorCode = 234513;
                               authSettings: authSettings
                         requestContentType: requestContentType
                        responseContentType: responseContentType
-                              responseType: @"PBTimezoneResponse*"
+                              responseType: @"PBTimezoneLocation*"
                            completionBlock: ^(id data, NSError *error) {
                                 if(handler) {
-                                    handler((PBTimezoneResponse*)data, error);
+                                    handler((PBTimezoneLocation*)data, error);
                                 }
-                            }];
+                           }
+          ];
 }
 
 

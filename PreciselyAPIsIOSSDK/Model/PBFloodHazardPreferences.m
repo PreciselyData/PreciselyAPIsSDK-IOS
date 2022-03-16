@@ -17,7 +17,7 @@
  * This method is used by `JSONModel`.
  */
 + (JSONKeyMapper *)keyMapper {
-  return [[JSONKeyMapper alloc] initWithModelToJSONDictionary:@{ @"waterBodyType": @"waterBodyType", @"maxCandidates": @"maxCandidates", @"searchDistance": @"searchDistance", @"searchDistanceUnit": @"searchDistanceUnit" }];
+  return [[JSONKeyMapper alloc] initWithDictionary:@{ @"searchDistanceUnit": @"searchDistanceUnit", @"searchDistance": @"searchDistance", @"waterBodyType": @"waterBodyType", @"maxCandidates": @"maxCandidates" }];
 }
 
 /**
@@ -27,7 +27,7 @@
  */
 + (BOOL)propertyIsOptional:(NSString *)propertyName {
 
-  NSArray *optionalProperties = @[@"waterBodyType", @"maxCandidates", @"searchDistance", @"searchDistanceUnit"];
+  NSArray *optionalProperties = @[@"searchDistanceUnit", @"searchDistance", @"waterBodyType", @"maxCandidates"];
   return [optionalProperties containsObject:propertyName];
 }
 

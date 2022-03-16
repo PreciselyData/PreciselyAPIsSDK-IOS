@@ -17,7 +17,7 @@
  * This method is used by `JSONModel`.
  */
 + (JSONKeyMapper *)keyMapper {
-  return [[JSONKeyMapper alloc] initWithModelToJSONDictionary:@{ @"maxSpeed": @"maxSpeed", @"speedUnit": @"speedUnit", @"speedVerification": @"speedVerification", @"amPeakAvgSpeed": @"amPeakAvgSpeed", @"pmPeakAvgSpeed": @"pmPeakAvgSpeed", @"offPeakAvgSpeed": @"offPeakAvgSpeed", @"nightAvgSpeed": @"nightAvgSpeed", @"weekAvgSpeed": @"weekAvgSpeed", @"road": @"road" }];
+  return [[JSONKeyMapper alloc] initWithDictionary:@{ @"maxSpeed": @"maxSpeed", @"speedUnit": @"speedUnit", @"speedVerification": @"speedVerification", @"amPeakAvgSpeed": @"amPeakAvgSpeed", @"pmPeakAvgSpeed": @"pmPeakAvgSpeed", @"offPeakAvgSpeed": @"offPeakAvgSpeed", @"nightAvgSpeed": @"nightAvgSpeed", @"weekAvgSpeed": @"weekAvgSpeed", @"road": @"road" }];
 }
 
 /**

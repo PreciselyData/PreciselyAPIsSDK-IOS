@@ -17,7 +17,7 @@
  * This method is used by `JSONModel`.
  */
 + (JSONKeyMapper *)keyMapper {
-  return [[JSONKeyMapper alloc] initWithModelToJSONDictionary:@{ @"continent": @"continent", @"country": @"country", @"consistencyCode": @"consistencyCode", @"region": @"region", @"state": @"state", @"city": @"city", @"postCode": @"postCode", @"postCodeConfidence": @"postCodeConfidence" }];
+  return [[JSONKeyMapper alloc] initWithDictionary:@{ @"continent": @"continent", @"country": @"country", @"consistencyCode": @"consistencyCode", @"region": @"region", @"state": @"state", @"city": @"city", @"postCode": @"postCode", @"postCodeConfidence": @"postCodeConfidence" }];
 }
 
 /**

@@ -17,7 +17,7 @@
  * This method is used by `JSONModel`.
  */
 + (JSONKeyMapper *)keyMapper {
-  return [[JSONKeyMapper alloc] initWithModelToJSONDictionary:@{ @"profile": @"profile", @"filter": @"filter", @"includeGeometry": @"includeGeometry" }];
+  return [[JSONKeyMapper alloc] initWithDictionary:@{ @"profile": @"profile", @"filter": @"filter", @"includeGeometry": @"includeGeometry" }];
 }
 
 /**

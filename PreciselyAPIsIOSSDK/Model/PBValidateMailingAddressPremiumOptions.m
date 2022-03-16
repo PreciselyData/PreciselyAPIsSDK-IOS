@@ -25,7 +25,7 @@
  * This method is used by `JSONModel`.
  */
 + (JSONKeyMapper *)keyMapper {
-  return [[JSONKeyMapper alloc] initWithModelToJSONDictionary:@{ @"outputAddressBlocks": @"OutputAddressBlocks", @"keepMultimatch": @"KeepMultimatch", @"outputCountryFormat": @"OutputCountryFormat", @"outputRecordType": @"OutputRecordType", @"outputFieldLevelReturnCodes": @"OutputFieldLevelReturnCodes", @"outputScript": @"OutputScript", @"outputCasing": @"OutputCasing", @"maximumResults": @"MaximumResults" }];
+  return [[JSONKeyMapper alloc] initWithDictionary:@{ @"OutputAddressBlocks": @"outputAddressBlocks", @"KeepMultimatch": @"keepMultimatch", @"OutputCountryFormat": @"outputCountryFormat", @"OutputRecordType": @"outputRecordType", @"OutputFieldLevelReturnCodes": @"outputFieldLevelReturnCodes", @"OutputScript": @"outputScript", @"OutputCasing": @"outputCasing", @"MaximumResults": @"maximumResults" }];
 }
 
 /**

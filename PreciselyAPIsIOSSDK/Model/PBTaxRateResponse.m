@@ -17,7 +17,7 @@
  * This method is used by `JSONModel`.
  */
 + (JSONKeyMapper *)keyMapper {
-  return [[JSONKeyMapper alloc] initWithModelToJSONDictionary:@{ @"objectId": @"objectId", @"vendorName": @"vendorName", @"gnisCode": @"gnisCode", @"confidence": @"confidence", @"jurisdiction": @"jurisdiction", @"matchedAddress": @"matchedAddress", @"salesTax": @"salesTax", @"useTax": @"useTax", @"census": @"census", @"latLongFields": @"latLongFields", @"address": @"address" }];
+  return [[JSONKeyMapper alloc] initWithDictionary:@{ @"objectId": @"objectId", @"confidence": @"confidence", @"jurisdiction": @"jurisdiction", @"matchedAddress": @"matchedAddress", @"salesTax": @"salesTax", @"useTax": @"useTax", @"latLongFields": @"latLongFields" }];
 }
 
 /**
@@ -27,7 +27,7 @@
  */
 + (BOOL)propertyIsOptional:(NSString *)propertyName {
 
-  NSArray *optionalProperties = @[@"objectId", @"vendorName", @"gnisCode", @"confidence", @"jurisdiction", @"matchedAddress", @"salesTax", @"useTax", @"census", @"latLongFields", @"address"];
+  NSArray *optionalProperties = @[@"objectId", @"confidence", @"jurisdiction", @"matchedAddress", @"salesTax", @"useTax", @"latLongFields"];
   return [optionalProperties containsObject:propertyName];
 }
 

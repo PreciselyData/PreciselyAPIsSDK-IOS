@@ -1,4 +1,4 @@
-# PBPOIBoundaryPreferences
+# PBPoiBoundaryPreferences
 
 ## Properties
 Name | Type | Description | Notes

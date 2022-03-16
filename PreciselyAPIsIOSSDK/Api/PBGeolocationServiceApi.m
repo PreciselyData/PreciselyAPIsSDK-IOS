@@ -1,13 +1,12 @@
 #import "PBGeolocationServiceApi.h"
 #import "PBQueryParamCollection.h"
-#import "PBApiClient.h"
-#import "PBGeoLocationAccessPoint.h"
 #import "PBGeoLocationIpAddr.h"
+#import "PBGeoLocationAccessPoint.h"
 
 
 @interface PBGeolocationServiceApi ()
 
-@property (nonatomic, strong, readwrite) NSMutableDictionary *mutableDefaultHeaders;
+@property (nonatomic, strong) NSMutableDictionary *defaultHeaders;
 
 @end
 
@@ -21,31 +20,52 @@ NSInteger kPBGeolocationServiceApiMissingParamErrorCode = 234513;
 #pragma mark - Initialize methods
 
 - (instancetype) init {
-    return [self initWithApiClient:[PBApiClient sharedClient]];
+    self = [super init];
+    if (self) {
+        PBConfiguration *config = [PBConfiguration sharedConfig];
+        if (config.apiClient == nil) {
+            config.apiClient = [[PBApiClient alloc] init];
+        }
+        _apiClient = config.apiClient;
+        _defaultHeaders = [NSMutableDictionary dictionary];
+    }
+    return self;
 }
 
-
--(instancetype) initWithApiClient:(PBApiClient *)apiClient {
+- (id) initWithApiClient:(PBApiClient *)apiClient {
     self = [super init];
     if (self) {
         _apiClient = apiClient;
-        _mutableDefaultHeaders = [NSMutableDictionary dictionary];
+        _defaultHeaders = [NSMutableDictionary dictionary];
     }
     return self;
 }
 
 #pragma mark -
 
++ (instancetype)sharedAPI {
+    static PBGeolocationServiceApi *sharedAPI;
+    static dispatch_once_t once;
+    dispatch_once(&once, ^{
+        sharedAPI = [[self alloc] init];
+    });
+    return sharedAPI;
+}
+
 -(NSString*) defaultHeaderForKey:(NSString*)key {
-    return self.mutableDefaultHeaders[key];
+    return self.defaultHeaders[key];
+}
+
+-(void) addHeader:(NSString*)value forKey:(NSString*)key {
+    [self setDefaultHeaderValue:value forKey:key];
 }
 
 -(void) setDefaultHeaderValue:(NSString*) value forKey:(NSString*)key {
-    [self.mutableDefaultHeaders setValue:value forKey:key];
+    [self.defaultHeaders setValue:value forKey:key];
 }
 
--(NSDictionary *)defaultHeaders {
-    return self.mutableDefaultHeaders;
+-(NSUInteger) requestQueueSize {
+    return [PBApiClient requestQueueSize];
 }
 
 #pragma mark - Api Methods
@@ -57,7 +77,7 @@ NSInteger kPBGeolocationServiceApiMissingParamErrorCode = 234513;
 ///
 ///  @returns PBGeoLocationIpAddr*
 ///
--(NSURLSessionTask*) getLocationByIPAddressWithIpAddress: (NSString*) ipAddress
+-(NSNumber*) getLocationByIPAddressWithIpAddress: (NSString*) ipAddress
     completionHandler: (void (^)(PBGeoLocationIpAddr* output, NSError* error)) handler {
     // verify the required parameter 'ipAddress' is set
     if (ipAddress == nil) {
@@ -71,6 +91,9 @@ NSInteger kPBGeolocationServiceApiMissingParamErrorCode = 234513;
     }
 
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/geolocation/v1/location/byipaddress"];
+
+    // remove format in URL if needed
+    [resourcePath replaceOccurrencesOfString:@".{format}" withString:@".json" options:0 range:NSMakeRange(0,resourcePath.length)];
 
     NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
 
@@ -90,7 +113,7 @@ NSInteger kPBGeolocationServiceApiMissingParamErrorCode = 234513;
     NSString *responseContentType = [[acceptHeader componentsSeparatedByString:@", "] firstObject] ?: @"";
 
     // request content type
-    NSString *requestContentType = [self.apiClient.sanitizer selectHeaderContentType:@[]];
+    NSString *requestContentType = [self.apiClient.sanitizer selectHeaderContentType:@[@"application/json", @"application/xml"]];
 
     // Authentication setting
     NSArray *authSettings = @[@"oAuth2Password"];
@@ -115,7 +138,8 @@ NSInteger kPBGeolocationServiceApiMissingParamErrorCode = 234513;
                                 if(handler) {
                                     handler((PBGeoLocationIpAddr*)data, error);
                                 }
-                            }];
+                           }
+          ];
 }
 
 ///
@@ -133,13 +157,16 @@ NSInteger kPBGeolocationServiceApiMissingParamErrorCode = 234513;
 ///
 ///  @returns PBGeoLocationAccessPoint*
 ///
--(NSURLSessionTask*) getLocationByWiFiAccessPointWithMac: (NSString*) mac
+-(NSNumber*) getLocationByWiFiAccessPointWithMac: (NSString*) mac
     ssid: (NSString*) ssid
     rsid: (NSString*) rsid
     speed: (NSString*) speed
     accessPoint: (NSString*) accessPoint
     completionHandler: (void (^)(PBGeoLocationAccessPoint* output, NSError* error)) handler {
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/geolocation/v1/location/byaccesspoint"];
+
+    // remove format in URL if needed
+    [resourcePath replaceOccurrencesOfString:@".{format}" withString:@".json" options:0 range:NSMakeRange(0,resourcePath.length)];
 
     NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
 
@@ -171,7 +198,7 @@ NSInteger kPBGeolocationServiceApiMissingParamErrorCode = 234513;
     NSString *responseContentType = [[acceptHeader componentsSeparatedByString:@", "] firstObject] ?: @"";
 
     // request content type
-    NSString *requestContentType = [self.apiClient.sanitizer selectHeaderContentType:@[]];
+    NSString *requestContentType = [self.apiClient.sanitizer selectHeaderContentType:@[@"application/json", @"application/xml"]];
 
     // Authentication setting
     NSArray *authSettings = @[@"oAuth2Password"];
@@ -196,7 +223,8 @@ NSInteger kPBGeolocationServiceApiMissingParamErrorCode = 234513;
                                 if(handler) {
                                     handler((PBGeoLocationAccessPoint*)data, error);
                                 }
-                            }];
+                           }
+          ];
 }
 
 

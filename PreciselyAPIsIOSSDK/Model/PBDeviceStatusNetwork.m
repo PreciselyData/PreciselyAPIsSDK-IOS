@@ -17,7 +17,7 @@
  * This method is used by `JSONModel`.
  */
 + (JSONKeyMapper *)keyMapper {
-  return [[JSONKeyMapper alloc] initWithModelToJSONDictionary:@{ @"carrier": @"carrier", @"callType": @"callType", @"locAccuracySupport": @"locAccuracySupport", @"nationalNumber": @"nationalNumber", @"country": @"country" }];
+  return [[JSONKeyMapper alloc] initWithDictionary:@{ @"carrier": @"carrier", @"callType": @"callType", @"locAccuracySupport": @"locAccuracySupport", @"nationalNumber": @"nationalNumber", @"country": @"country" }];
 }
 
 /**

@@ -9,7 +9,7 @@ Method | HTTP request | Description
 
 # **phoneVerification**
 ```objc
--(NSURLSessionTask*) phoneVerificationWithPhoneNumber: (NSString*) phoneNumber
+-(NSNumber*) phoneVerificationWithPhoneNumber: (NSString*) phoneNumber
     includeNetworkInfo: (NSString*) includeNetworkInfo
         completionHandler: (void (^)(PBPhoneVerification* output, NSError* error)) handler;
 ```
@@ -18,9 +18,9 @@ Phone verification.
 
 This service accepts a phone number as input and returns details distinguishing landline and wireless numbers and also checks if a wireless number can be located.
 
-### Example
+### Example 
 ```objc
-PBDefaultConfiguration *apiConfig = [PBDefaultConfiguration sharedConfig];
+PBConfiguration *apiConfig = [PBConfiguration sharedConfig];
 
 // Configure OAuth2 access token for authorization: (authentication scheme: oAuth2Password)
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
@@ -61,7 +61,7 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
+ - **Content-Type**: application/json, application/xml
  - **Accept**: application/json, application/xml
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

@@ -6,6 +6,10 @@
   self = [super init];
   if (self) {
     // initialize property's default value, if any
+    self.returnAllCustomFields = @0;
+    self.returnMatchDescriptor = @0;
+    self.returnStreetAddressFields = @0;
+    self.returnUnitInformation = @0;
     
   }
   return self;
@@ -17,7 +21,7 @@
  * This method is used by `JSONModel`.
  */
 + (JSONKeyMapper *)keyMapper {
-  return [[JSONKeyMapper alloc] initWithModelToJSONDictionary:@{ @"returnAllCustomFields": @"returnAllCustomFields", @"returnMatchDescriptor": @"returnMatchDescriptor", @"returnStreetAddressFields": @"returnStreetAddressFields", @"returnUnitInformation": @"returnUnitInformation", @"returnedCustomFieldKeys": @"returnedCustomFieldKeys" }];
+  return [[JSONKeyMapper alloc] initWithDictionary:@{ @"returnAllCustomFields": @"returnAllCustomFields", @"returnMatchDescriptor": @"returnMatchDescriptor", @"returnStreetAddressFields": @"returnStreetAddressFields", @"returnUnitInformation": @"returnUnitInformation", @"returnedCustomFieldKeys": @"returnedCustomFieldKeys" }];
 }
 
 /**

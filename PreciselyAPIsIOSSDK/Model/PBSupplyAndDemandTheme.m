@@ -17,7 +17,7 @@
  * This method is used by `JSONModel`.
  */
 + (JSONKeyMapper *)keyMapper {
-  return [[JSONKeyMapper alloc] initWithModelToJSONDictionary:@{ @"boundaryRef": @"boundaryRef", @"individualValueVariable": @"individualValueVariable", @"rangeVariable": @"rangeVariable" }];
+  return [[JSONKeyMapper alloc] initWithDictionary:@{ @"boundaryRef": @"boundaryRef", @"individualValueVariable": @"individualValueVariable", @"rangeVariable": @"rangeVariable" }];
 }
 
 /**

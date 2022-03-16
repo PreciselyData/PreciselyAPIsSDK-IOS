@@ -3,7 +3,7 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**geometry** | [**PBGeolocationGeometry***](PBGeolocationGeometry.md) |  | [optional] 
+**geometry** | [**PBGeometry***](PBGeometry.md) |  | [optional] 
 **accuracy** | [**PBAccuracy***](PBAccuracy.md) |  | [optional] 
 **ipInfo** | [**PBIpInfo***](PBIpInfo.md) |  | [optional] 
 

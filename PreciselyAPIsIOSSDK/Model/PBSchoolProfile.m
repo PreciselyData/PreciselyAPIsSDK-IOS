@@ -17,7 +17,7 @@
  * This method is used by `JSONModel`.
  */
 + (JSONKeyMapper *)keyMapper {
-  return [[JSONKeyMapper alloc] initWithModelToJSONDictionary:@{ @"blueRibbon": @"blueRibbon", @"internationalBaccalaureate": @"internationalBaccalaureate", @"titleI": @"titleI", @"expensePerStudent": @"expensePerStudent", @"studentBelowPovertyPct": @"studentBelowPovertyPct", @"advancePlacementClasses": @"advancePlacementClasses", @"freeOrReducedPriceLunches": @"freeOrReducedPriceLunches", @"studentEthnicity": @"studentEthnicity" }];
+  return [[JSONKeyMapper alloc] initWithDictionary:@{ @"blueRibbon": @"blueRibbon", @"internationalBaccalaureate": @"internationalBaccalaureate", @"titleI": @"titleI", @"expensePerStudent": @"expensePerStudent", @"studentBelowPovertyPct": @"studentBelowPovertyPct", @"advancePlacementClasses": @"advancePlacementClasses", @"freeOrReducedPriceLunches": @"freeOrReducedPriceLunches", @"studentEthnicity": @"studentEthnicity" }];
 }
 
 /**

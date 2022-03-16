@@ -17,7 +17,7 @@
  * This method is used by `JSONModel`.
  */
 + (JSONKeyMapper *)keyMapper {
-  return [[JSONKeyMapper alloc] initWithModelToJSONDictionary:@{ @"total": @"total", @"r0": @"r0", @"r1": @"r1", @"r2": @"r2", @"r3": @"r3", @"r4": @"r4", @"r5": @"r5", @"r6": @"r6", @"r7": @"r7", @"r0Ge": @"r0_ge", @"r1Ge": @"r1_ge", @"r2Ge": @"r2_ge", @"r3Ge": @"r3_ge", @"r4Ge": @"r4_ge", @"r5Ge": @"r5_ge", @"r6Ge": @"r6_ge", @"r7Ge": @"r7_ge" }];
+  return [[JSONKeyMapper alloc] initWithDictionary:@{ @"total": @"total", @"r0": @"r0", @"r1": @"r1", @"r2": @"r2", @"r3": @"r3", @"r4": @"r4", @"r5": @"r5", @"r6": @"r6", @"r7": @"r7", @"r0_ge": @"r0Ge", @"r1_ge": @"r1Ge", @"r2_ge": @"r2Ge", @"r3_ge": @"r3Ge", @"r4_ge": @"r4Ge", @"r5_ge": @"r5Ge", @"r6_ge": @"r6Ge", @"r7_ge": @"r7Ge" }];
 }
 
 /**

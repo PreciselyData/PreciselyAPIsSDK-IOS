@@ -17,7 +17,7 @@
  * This method is used by `JSONModel`.
  */
 + (JSONKeyMapper *)keyMapper {
-  return [[JSONKeyMapper alloc] initWithModelToJSONDictionary:@{ @"boundaryId": @"boundaryId", @"populationTheme": @"populationTheme", @"raceAndEthnicityTheme": @"raceAndEthnicityTheme", @"healthTheme": @"healthTheme", @"educationTheme": @"educationTheme", @"incomeTheme": @"incomeTheme", @"assetsAndWealthTheme": @"assetsAndWealthTheme", @"householdsTheme": @"householdsTheme", @"housingTheme": @"housingTheme", @"employmentTheme": @"employmentTheme", @"expenditureTheme": @"expenditureTheme", @"supplyAndDemandTheme": @"supplyAndDemandTheme" }];
+  return [[JSONKeyMapper alloc] initWithDictionary:@{ @"boundaryId": @"boundaryId", @"populationTheme": @"populationTheme", @"raceAndEthnicityTheme": @"raceAndEthnicityTheme", @"healthTheme": @"healthTheme", @"educationTheme": @"educationTheme", @"incomeTheme": @"incomeTheme", @"assetsAndWealthTheme": @"assetsAndWealthTheme", @"householdsTheme": @"householdsTheme", @"housingTheme": @"housingTheme", @"employmentTheme": @"employmentTheme", @"expenditureTheme": @"expenditureTheme", @"supplyAndDemandTheme": @"supplyAndDemandTheme" }];
 }
 
 /**

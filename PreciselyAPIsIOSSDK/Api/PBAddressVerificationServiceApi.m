@@ -1,24 +1,22 @@
 #import "PBAddressVerificationServiceApi.h"
 #import "PBQueryParamCollection.h"
-#import "PBApiClient.h"
-#import "PBErrorInfo.h"
 #import "PBGetCityStateProvinceAPIRequest.h"
 #import "PBGetCityStateProvinceAPIResponse.h"
 #import "PBGetPostalCodesAPIRequest.h"
 #import "PBGetPostalCodesAPIResponse.h"
-#import "PBValidateMailingAddressPremiumRequest.h"
-#import "PBValidateMailingAddressPremiumResponse.h"
-#import "PBValidateMailingAddressProRequest.h"
-#import "PBValidateMailingAddressProResponse.h"
-#import "PBValidateMailingAddressRequest.h"
 #import "PBValidateMailingAddressResponse.h"
-#import "PBValidateMailingAddressUSCANAPIRequest.h"
+#import "PBValidateMailingAddressRequest.h"
+#import "PBValidateMailingAddressPremiumResponse.h"
+#import "PBValidateMailingAddressPremiumRequest.h"
+#import "PBValidateMailingAddressProResponse.h"
+#import "PBValidateMailingAddressProRequest.h"
 #import "PBValidateMailingAddressUSCANAPIResponse.h"
+#import "PBValidateMailingAddressUSCANAPIRequest.h"
 
 
 @interface PBAddressVerificationServiceApi ()
 
-@property (nonatomic, strong, readwrite) NSMutableDictionary *mutableDefaultHeaders;
+@property (nonatomic, strong) NSMutableDictionary *defaultHeaders;
 
 @end
 
@@ -32,31 +30,52 @@ NSInteger kPBAddressVerificationServiceApiMissingParamErrorCode = 234513;
 #pragma mark - Initialize methods
 
 - (instancetype) init {
-    return [self initWithApiClient:[PBApiClient sharedClient]];
+    self = [super init];
+    if (self) {
+        PBConfiguration *config = [PBConfiguration sharedConfig];
+        if (config.apiClient == nil) {
+            config.apiClient = [[PBApiClient alloc] init];
+        }
+        _apiClient = config.apiClient;
+        _defaultHeaders = [NSMutableDictionary dictionary];
+    }
+    return self;
 }
 
-
--(instancetype) initWithApiClient:(PBApiClient *)apiClient {
+- (id) initWithApiClient:(PBApiClient *)apiClient {
     self = [super init];
     if (self) {
         _apiClient = apiClient;
-        _mutableDefaultHeaders = [NSMutableDictionary dictionary];
+        _defaultHeaders = [NSMutableDictionary dictionary];
     }
     return self;
 }
 
 #pragma mark -
 
++ (instancetype)sharedAPI {
+    static PBAddressVerificationServiceApi *sharedAPI;
+    static dispatch_once_t once;
+    dispatch_once(&once, ^{
+        sharedAPI = [[self alloc] init];
+    });
+    return sharedAPI;
+}
+
 -(NSString*) defaultHeaderForKey:(NSString*)key {
-    return self.mutableDefaultHeaders[key];
+    return self.defaultHeaders[key];
+}
+
+-(void) addHeader:(NSString*)value forKey:(NSString*)key {
+    [self setDefaultHeaderValue:value forKey:key];
 }
 
 -(void) setDefaultHeaderValue:(NSString*) value forKey:(NSString*)key {
-    [self.mutableDefaultHeaders setValue:value forKey:key];
+    [self.defaultHeaders setValue:value forKey:key];
 }
 
--(NSDictionary *)defaultHeaders {
-    return self.mutableDefaultHeaders;
+-(NSUInteger) requestQueueSize {
+    return [PBApiClient requestQueueSize];
 }
 
 #pragma mark - Api Methods
@@ -68,7 +87,7 @@ NSInteger kPBAddressVerificationServiceApiMissingParamErrorCode = 234513;
 ///
 ///  @returns PBGetCityStateProvinceAPIResponse*
 ///
--(NSURLSessionTask*) getCityStateProvinceWithInputAddress: (PBGetCityStateProvinceAPIRequest*) inputAddress
+-(NSNumber*) getCityStateProvinceWithInputAddress: (PBGetCityStateProvinceAPIRequest*) inputAddress
     completionHandler: (void (^)(PBGetCityStateProvinceAPIResponse* output, NSError* error)) handler {
     // verify the required parameter 'inputAddress' is set
     if (inputAddress == nil) {
@@ -83,13 +102,16 @@ NSInteger kPBAddressVerificationServiceApiMissingParamErrorCode = 234513;
 
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/addressverification/v1/getcitystateprovince/results.json"];
 
+    // remove format in URL if needed
+    [resourcePath replaceOccurrencesOfString:@".{format}" withString:@".json" options:0 range:NSMakeRange(0,resourcePath.length)];
+
     NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
 
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
     NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.apiClient.configuration.defaultHeaders];
     [headerParams addEntriesFromDictionary:self.defaultHeaders];
     // HTTP header `Accept`
-    NSString *acceptHeader = [self.apiClient.sanitizer selectHeaderAccept:@[@"application/json", @"application/xml"]];
+    NSString *acceptHeader = [self.apiClient.sanitizer selectHeaderAccept:@[@"application/json"]];
     if(acceptHeader.length > 0) {
         headerParams[@"Accept"] = acceptHeader;
     }
@@ -124,7 +146,8 @@ NSInteger kPBAddressVerificationServiceApiMissingParamErrorCode = 234513;
                                 if(handler) {
                                     handler((PBGetCityStateProvinceAPIResponse*)data, error);
                                 }
-                            }];
+                           }
+          ];
 }
 
 ///
@@ -134,7 +157,7 @@ NSInteger kPBAddressVerificationServiceApiMissingParamErrorCode = 234513;
 ///
 ///  @returns PBGetPostalCodesAPIResponse*
 ///
--(NSURLSessionTask*) getPostalCodesWithInputAddress: (PBGetPostalCodesAPIRequest*) inputAddress
+-(NSNumber*) getPostalCodesWithInputAddress: (PBGetPostalCodesAPIRequest*) inputAddress
     completionHandler: (void (^)(PBGetPostalCodesAPIResponse* output, NSError* error)) handler {
     // verify the required parameter 'inputAddress' is set
     if (inputAddress == nil) {
@@ -149,13 +172,16 @@ NSInteger kPBAddressVerificationServiceApiMissingParamErrorCode = 234513;
 
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/addressverification/v1/getpostalcodes/results.json"];
 
+    // remove format in URL if needed
+    [resourcePath replaceOccurrencesOfString:@".{format}" withString:@".json" options:0 range:NSMakeRange(0,resourcePath.length)];
+
     NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
 
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
     NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.apiClient.configuration.defaultHeaders];
     [headerParams addEntriesFromDictionary:self.defaultHeaders];
     // HTTP header `Accept`
-    NSString *acceptHeader = [self.apiClient.sanitizer selectHeaderAccept:@[@"application/json", @"application/xml"]];
+    NSString *acceptHeader = [self.apiClient.sanitizer selectHeaderAccept:@[@"application/json"]];
     if(acceptHeader.length > 0) {
         headerParams[@"Accept"] = acceptHeader;
     }
@@ -190,7 +216,8 @@ NSInteger kPBAddressVerificationServiceApiMissingParamErrorCode = 234513;
                                 if(handler) {
                                     handler((PBGetPostalCodesAPIResponse*)data, error);
                                 }
-                            }];
+                           }
+          ];
 }
 
 ///
@@ -200,7 +227,7 @@ NSInteger kPBAddressVerificationServiceApiMissingParamErrorCode = 234513;
 ///
 ///  @returns PBValidateMailingAddressResponse*
 ///
--(NSURLSessionTask*) validateMailingAddressWithInputAddress: (PBValidateMailingAddressRequest*) inputAddress
+-(NSNumber*) validateMailingAddressWithInputAddress: (PBValidateMailingAddressRequest*) inputAddress
     completionHandler: (void (^)(PBValidateMailingAddressResponse* output, NSError* error)) handler {
     // verify the required parameter 'inputAddress' is set
     if (inputAddress == nil) {
@@ -215,13 +242,16 @@ NSInteger kPBAddressVerificationServiceApiMissingParamErrorCode = 234513;
 
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/addressverification/v1/validatemailingaddress/results.json"];
 
+    // remove format in URL if needed
+    [resourcePath replaceOccurrencesOfString:@".{format}" withString:@".json" options:0 range:NSMakeRange(0,resourcePath.length)];
+
     NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
 
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
     NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.apiClient.configuration.defaultHeaders];
     [headerParams addEntriesFromDictionary:self.defaultHeaders];
     // HTTP header `Accept`
-    NSString *acceptHeader = [self.apiClient.sanitizer selectHeaderAccept:@[@"application/json", @"application/xml"]];
+    NSString *acceptHeader = [self.apiClient.sanitizer selectHeaderAccept:@[@"application/json"]];
     if(acceptHeader.length > 0) {
         headerParams[@"Accept"] = acceptHeader;
     }
@@ -256,7 +286,8 @@ NSInteger kPBAddressVerificationServiceApiMissingParamErrorCode = 234513;
                                 if(handler) {
                                     handler((PBValidateMailingAddressResponse*)data, error);
                                 }
-                            }];
+                           }
+          ];
 }
 
 ///
@@ -266,7 +297,7 @@ NSInteger kPBAddressVerificationServiceApiMissingParamErrorCode = 234513;
 ///
 ///  @returns PBValidateMailingAddressPremiumResponse*
 ///
--(NSURLSessionTask*) validateMailingAddressPremiumWithInputAddress: (PBValidateMailingAddressPremiumRequest*) inputAddress
+-(NSNumber*) validateMailingAddressPremiumWithInputAddress: (PBValidateMailingAddressPremiumRequest*) inputAddress
     completionHandler: (void (^)(PBValidateMailingAddressPremiumResponse* output, NSError* error)) handler {
     // verify the required parameter 'inputAddress' is set
     if (inputAddress == nil) {
@@ -281,13 +312,16 @@ NSInteger kPBAddressVerificationServiceApiMissingParamErrorCode = 234513;
 
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/addressverification/v1/validatemailingaddresspremium/results.json"];
 
+    // remove format in URL if needed
+    [resourcePath replaceOccurrencesOfString:@".{format}" withString:@".json" options:0 range:NSMakeRange(0,resourcePath.length)];
+
     NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
 
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
     NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.apiClient.configuration.defaultHeaders];
     [headerParams addEntriesFromDictionary:self.defaultHeaders];
     // HTTP header `Accept`
-    NSString *acceptHeader = [self.apiClient.sanitizer selectHeaderAccept:@[@"application/json", @"application/xml"]];
+    NSString *acceptHeader = [self.apiClient.sanitizer selectHeaderAccept:@[@"application/json"]];
     if(acceptHeader.length > 0) {
         headerParams[@"Accept"] = acceptHeader;
     }
@@ -322,7 +356,8 @@ NSInteger kPBAddressVerificationServiceApiMissingParamErrorCode = 234513;
                                 if(handler) {
                                     handler((PBValidateMailingAddressPremiumResponse*)data, error);
                                 }
-                            }];
+                           }
+          ];
 }
 
 ///
@@ -332,7 +367,7 @@ NSInteger kPBAddressVerificationServiceApiMissingParamErrorCode = 234513;
 ///
 ///  @returns PBValidateMailingAddressProResponse*
 ///
--(NSURLSessionTask*) validateMailingAddressProWithInputAddress: (PBValidateMailingAddressProRequest*) inputAddress
+-(NSNumber*) validateMailingAddressProWithInputAddress: (PBValidateMailingAddressProRequest*) inputAddress
     completionHandler: (void (^)(PBValidateMailingAddressProResponse* output, NSError* error)) handler {
     // verify the required parameter 'inputAddress' is set
     if (inputAddress == nil) {
@@ -347,13 +382,16 @@ NSInteger kPBAddressVerificationServiceApiMissingParamErrorCode = 234513;
 
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/addressverification/v1/validatemailingaddresspro/results.json"];
 
+    // remove format in URL if needed
+    [resourcePath replaceOccurrencesOfString:@".{format}" withString:@".json" options:0 range:NSMakeRange(0,resourcePath.length)];
+
     NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
 
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
     NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.apiClient.configuration.defaultHeaders];
     [headerParams addEntriesFromDictionary:self.defaultHeaders];
     // HTTP header `Accept`
-    NSString *acceptHeader = [self.apiClient.sanitizer selectHeaderAccept:@[@"application/json", @"application/xml"]];
+    NSString *acceptHeader = [self.apiClient.sanitizer selectHeaderAccept:@[@"application/json"]];
     if(acceptHeader.length > 0) {
         headerParams[@"Accept"] = acceptHeader;
     }
@@ -388,7 +426,8 @@ NSInteger kPBAddressVerificationServiceApiMissingParamErrorCode = 234513;
                                 if(handler) {
                                     handler((PBValidateMailingAddressProResponse*)data, error);
                                 }
-                            }];
+                           }
+          ];
 }
 
 ///
@@ -398,7 +437,7 @@ NSInteger kPBAddressVerificationServiceApiMissingParamErrorCode = 234513;
 ///
 ///  @returns PBValidateMailingAddressUSCANAPIResponse*
 ///
--(NSURLSessionTask*) validateMailingAddressUSCANWithInputAddress: (PBValidateMailingAddressUSCANAPIRequest*) inputAddress
+-(NSNumber*) validateMailingAddressUSCANWithInputAddress: (PBValidateMailingAddressUSCANAPIRequest*) inputAddress
     completionHandler: (void (^)(PBValidateMailingAddressUSCANAPIResponse* output, NSError* error)) handler {
     // verify the required parameter 'inputAddress' is set
     if (inputAddress == nil) {
@@ -413,13 +452,16 @@ NSInteger kPBAddressVerificationServiceApiMissingParamErrorCode = 234513;
 
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/addressverification/v1/validatemailingaddressuscan/results.json"];
 
+    // remove format in URL if needed
+    [resourcePath replaceOccurrencesOfString:@".{format}" withString:@".json" options:0 range:NSMakeRange(0,resourcePath.length)];
+
     NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
 
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
     NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.apiClient.configuration.defaultHeaders];
     [headerParams addEntriesFromDictionary:self.defaultHeaders];
     // HTTP header `Accept`
-    NSString *acceptHeader = [self.apiClient.sanitizer selectHeaderAccept:@[@"application/json", @"application/xml"]];
+    NSString *acceptHeader = [self.apiClient.sanitizer selectHeaderAccept:@[@"application/json"]];
     if(acceptHeader.length > 0) {
         headerParams[@"Accept"] = acceptHeader;
     }
@@ -454,7 +496,8 @@ NSInteger kPBAddressVerificationServiceApiMissingParamErrorCode = 234513;
                                 if(handler) {
                                     handler((PBValidateMailingAddressUSCANAPIResponse*)data, error);
                                 }
-                            }];
+                           }
+          ];
 }
 
 

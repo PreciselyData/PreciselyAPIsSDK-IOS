@@ -3,7 +3,6 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**_id** | **NSString*** |  | [optional] 
 **name** | **NSString*** |  | [optional] 
 **address** | [**PBAddress***](PBAddress.md) |  | [optional] 
 

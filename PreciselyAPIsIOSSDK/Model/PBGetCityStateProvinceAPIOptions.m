@@ -21,7 +21,7 @@
  * This method is used by `JSONModel`.
  */
 + (JSONKeyMapper *)keyMapper {
-  return [[JSONKeyMapper alloc] initWithModelToJSONDictionary:@{ @"outputVanityCity": @"OutputVanityCity", @"performCanadianProcessing": @"PerformCanadianProcessing", @"maximumResults": @"MaximumResults", @"performUSProcessing": @"PerformUSProcessing" }];
+  return [[JSONKeyMapper alloc] initWithDictionary:@{ @"OutputVanityCity": @"outputVanityCity", @"PerformCanadianProcessing": @"performCanadianProcessing", @"MaximumResults": @"maximumResults", @"PerformUSProcessing": @"performUSProcessing" }];
 }
 
 /**

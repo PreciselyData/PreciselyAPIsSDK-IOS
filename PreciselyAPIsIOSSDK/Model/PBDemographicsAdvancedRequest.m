@@ -17,7 +17,7 @@
  * This method is used by `JSONModel`.
  */
 + (JSONKeyMapper *)keyMapper {
-  return [[JSONKeyMapper alloc] initWithModelToJSONDictionary:@{ @"preferences": @"preferences", @"geometry": @"geometry", @"geometryAsText": @"geometryAsText" }];
+  return [[JSONKeyMapper alloc] initWithDictionary:@{ @"preferences": @"preferences", @"geometry": @"geometry", @"geometryAsText": @"geometryAsText" }];
 }
 
 /**

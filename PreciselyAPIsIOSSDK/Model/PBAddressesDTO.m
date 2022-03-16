@@ -17,7 +17,7 @@
  * This method is used by `JSONModel`.
  */
 + (JSONKeyMapper *)keyMapper {
-  return [[JSONKeyMapper alloc] initWithModelToJSONDictionary:@{ @"pbKey": @"pbKey", @"addressNumber": @"addressNumber", @"streetName": @"streetName", @"unitType": @"unitType", @"unitValue": @"unitValue", @"type": @"type", @"areaName1": @"areaName1", @"areaName2": @"areaName2", @"areaName3": @"areaName3", @"areaName4": @"areaName4", @"postCode": @"postCode", @"postCodeExt": @"postCodeExt", @"country": @"country", @"geometry": @"geometry", @"propertyType": @"propertyType", @"propertyTypeDescription": @"propertyTypeDescription", @"parentPbKey": @"parentPbKey", @"geoId": @"geoId" }];
+  return [[JSONKeyMapper alloc] initWithDictionary:@{ @"pbKey": @"pbKey", @"addressNumber": @"addressNumber", @"streetName": @"streetName", @"unitType": @"unitType", @"unitValue": @"unitValue", @"type": @"type", @"areaName1": @"areaName1", @"areaName2": @"areaName2", @"areaName3": @"areaName3", @"areaName4": @"areaName4", @"postCode": @"postCode", @"postCodeExt": @"postCodeExt", @"country": @"country", @"geometry": @"geometry", @"propertyType": @"propertyType", @"propertyTypeDescription": @"propertyTypeDescription", @"parentPbKey": @"parentPbKey", @"geoId": @"geoId" }];
 }
 
 /**

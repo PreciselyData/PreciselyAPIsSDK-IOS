@@ -17,7 +17,7 @@
  * This method is used by `JSONModel`.
  */
 + (JSONKeyMapper *)keyMapper {
-  return [[JSONKeyMapper alloc] initWithModelToJSONDictionary:@{ @"value": @"value", @"scale": @"scale", @"bodyWave": @"bodyWave", @"surfaceWave": @"surfaceWave", @"surfaceWaveValue": @"surfaceWaveValue", @"bodyWaveValue": @"bodyWaveValue" }];
+  return [[JSONKeyMapper alloc] initWithDictionary:@{ @"value": @"value", @"scale": @"scale", @"bodyWave": @"bodyWave", @"surfaceWave": @"surfaceWave" }];
 }
 
 /**
@@ -27,7 +27,7 @@
  */
 + (BOOL)propertyIsOptional:(NSString *)propertyName {
 
-  NSArray *optionalProperties = @[@"value", @"scale", @"bodyWave", @"surfaceWave", @"surfaceWaveValue", @"bodyWaveValue"];
+  NSArray *optionalProperties = @[@"value", @"scale", @"bodyWave", @"surfaceWave"];
   return [optionalProperties containsObject:propertyName];
 }
 

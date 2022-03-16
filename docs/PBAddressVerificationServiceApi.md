@@ -14,7 +14,7 @@ Method | HTTP request | Description
 
 # **getCityStateProvince**
 ```objc
--(NSURLSessionTask*) getCityStateProvinceWithInputAddress: (PBGetCityStateProvinceAPIRequest*) inputAddress
+-(NSNumber*) getCityStateProvinceWithInputAddress: (PBGetCityStateProvinceAPIRequest*) inputAddress
         completionHandler: (void (^)(PBGetCityStateProvinceAPIResponse* output, NSError* error)) handler;
 ```
 
@@ -22,9 +22,9 @@ GetCityStateProvince
 
 GetCityStateProvince returns a city and state/province for a given input postal code for U.S. and Canadian addresses.
 
-### Example
+### Example 
 ```objc
-PBDefaultConfiguration *apiConfig = [PBDefaultConfiguration sharedConfig];
+PBConfiguration *apiConfig = [PBConfiguration sharedConfig];
 
 // Configure OAuth2 access token for authorization: (authentication scheme: oAuth2Password)
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
@@ -50,7 +50,7 @@ PBAddressVerificationServiceApi*apiInstance = [[PBAddressVerificationServiceApi 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **inputAddress** | [**PBGetCityStateProvinceAPIRequest***](PBGetCityStateProvinceAPIRequest.md)|  | 
+ **inputAddress** | [**PBGetCityStateProvinceAPIRequest***](PBGetCityStateProvinceAPIRequest*.md)|  | 
 
 ### Return type
 
@@ -63,13 +63,13 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
  - **Content-Type**: application/json
- - **Accept**: application/json, application/xml
+ - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **getPostalCodes**
 ```objc
--(NSURLSessionTask*) getPostalCodesWithInputAddress: (PBGetPostalCodesAPIRequest*) inputAddress
+-(NSNumber*) getPostalCodesWithInputAddress: (PBGetPostalCodesAPIRequest*) inputAddress
         completionHandler: (void (^)(PBGetPostalCodesAPIResponse* output, NSError* error)) handler;
 ```
 
@@ -77,9 +77,9 @@ GetPostalCodes
 
 GetPostalCodes takes a city and state as input for U.S. addresses and returns the postal codes for that city.
 
-### Example
+### Example 
 ```objc
-PBDefaultConfiguration *apiConfig = [PBDefaultConfiguration sharedConfig];
+PBConfiguration *apiConfig = [PBConfiguration sharedConfig];
 
 // Configure OAuth2 access token for authorization: (authentication scheme: oAuth2Password)
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
@@ -105,7 +105,7 @@ PBAddressVerificationServiceApi*apiInstance = [[PBAddressVerificationServiceApi 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **inputAddress** | [**PBGetPostalCodesAPIRequest***](PBGetPostalCodesAPIRequest.md)|  | 
+ **inputAddress** | [**PBGetPostalCodesAPIRequest***](PBGetPostalCodesAPIRequest*.md)|  | 
 
 ### Return type
 
@@ -118,13 +118,13 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
  - **Content-Type**: application/json
- - **Accept**: application/json, application/xml
+ - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **validateMailingAddress**
 ```objc
--(NSURLSessionTask*) validateMailingAddressWithInputAddress: (PBValidateMailingAddressRequest*) inputAddress
+-(NSNumber*) validateMailingAddressWithInputAddress: (PBValidateMailingAddressRequest*) inputAddress
         completionHandler: (void (^)(PBValidateMailingAddressResponse* output, NSError* error)) handler;
 ```
 
@@ -132,9 +132,9 @@ ValidateMailingAddress
 
 ValidateMailingAddress analyses and compares the input addresses against the known address databases around the world to output a standardized detail.
 
-### Example
+### Example 
 ```objc
-PBDefaultConfiguration *apiConfig = [PBDefaultConfiguration sharedConfig];
+PBConfiguration *apiConfig = [PBConfiguration sharedConfig];
 
 // Configure OAuth2 access token for authorization: (authentication scheme: oAuth2Password)
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
@@ -160,7 +160,7 @@ PBAddressVerificationServiceApi*apiInstance = [[PBAddressVerificationServiceApi 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **inputAddress** | [**PBValidateMailingAddressRequest***](PBValidateMailingAddressRequest.md)|  | 
+ **inputAddress** | [**PBValidateMailingAddressRequest***](PBValidateMailingAddressRequest*.md)|  | 
 
 ### Return type
 
@@ -173,13 +173,13 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
  - **Content-Type**: application/json
- - **Accept**: application/json, application/xml
+ - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **validateMailingAddressPremium**
 ```objc
--(NSURLSessionTask*) validateMailingAddressPremiumWithInputAddress: (PBValidateMailingAddressPremiumRequest*) inputAddress
+-(NSNumber*) validateMailingAddressPremiumWithInputAddress: (PBValidateMailingAddressPremiumRequest*) inputAddress
         completionHandler: (void (^)(PBValidateMailingAddressPremiumResponse* output, NSError* error)) handler;
 ```
 
@@ -187,9 +187,9 @@ ValidateMailingAddressPremium
 
 ValidateMailing AddressPremium expands on the ValidateMailingAddressPro service by adding premium address data sources to get the best address validation result possible.
 
-### Example
+### Example 
 ```objc
-PBDefaultConfiguration *apiConfig = [PBDefaultConfiguration sharedConfig];
+PBConfiguration *apiConfig = [PBConfiguration sharedConfig];
 
 // Configure OAuth2 access token for authorization: (authentication scheme: oAuth2Password)
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
@@ -215,7 +215,7 @@ PBAddressVerificationServiceApi*apiInstance = [[PBAddressVerificationServiceApi 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **inputAddress** | [**PBValidateMailingAddressPremiumRequest***](PBValidateMailingAddressPremiumRequest.md)|  | 
+ **inputAddress** | [**PBValidateMailingAddressPremiumRequest***](PBValidateMailingAddressPremiumRequest*.md)|  | 
 
 ### Return type
 
@@ -228,13 +228,13 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
  - **Content-Type**: application/json
- - **Accept**: application/json, application/xml
+ - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **validateMailingAddressPro**
 ```objc
--(NSURLSessionTask*) validateMailingAddressProWithInputAddress: (PBValidateMailingAddressProRequest*) inputAddress
+-(NSNumber*) validateMailingAddressProWithInputAddress: (PBValidateMailingAddressProRequest*) inputAddress
         completionHandler: (void (^)(PBValidateMailingAddressProResponse* output, NSError* error)) handler;
 ```
 
@@ -242,9 +242,9 @@ ValidateMailingAddressPro
 
 ValidateMailingAddressPro builds upon the ValidateMailingAddress service by using additional address databases so it can provide enhanced detail.
 
-### Example
+### Example 
 ```objc
-PBDefaultConfiguration *apiConfig = [PBDefaultConfiguration sharedConfig];
+PBConfiguration *apiConfig = [PBConfiguration sharedConfig];
 
 // Configure OAuth2 access token for authorization: (authentication scheme: oAuth2Password)
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
@@ -270,7 +270,7 @@ PBAddressVerificationServiceApi*apiInstance = [[PBAddressVerificationServiceApi 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **inputAddress** | [**PBValidateMailingAddressProRequest***](PBValidateMailingAddressProRequest.md)|  | 
+ **inputAddress** | [**PBValidateMailingAddressProRequest***](PBValidateMailingAddressProRequest*.md)|  | 
 
 ### Return type
 
@@ -283,13 +283,13 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
  - **Content-Type**: application/json
- - **Accept**: application/json, application/xml
+ - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **validateMailingAddressUSCAN**
 ```objc
--(NSURLSessionTask*) validateMailingAddressUSCANWithInputAddress: (PBValidateMailingAddressUSCANAPIRequest*) inputAddress
+-(NSNumber*) validateMailingAddressUSCANWithInputAddress: (PBValidateMailingAddressUSCANAPIRequest*) inputAddress
         completionHandler: (void (^)(PBValidateMailingAddressUSCANAPIResponse* output, NSError* error)) handler;
 ```
 
@@ -297,9 +297,9 @@ ValidateMailingAddressUSCAN
 
 ValidateMailingAddressUSCAN analyses and compares the input addresses against the known address databases around the world to output a standardized detail for US and CANADAIt gives RDI and DPV also along with other US/CAN specific functionalities.
 
-### Example
+### Example 
 ```objc
-PBDefaultConfiguration *apiConfig = [PBDefaultConfiguration sharedConfig];
+PBConfiguration *apiConfig = [PBConfiguration sharedConfig];
 
 // Configure OAuth2 access token for authorization: (authentication scheme: oAuth2Password)
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
@@ -325,7 +325,7 @@ PBAddressVerificationServiceApi*apiInstance = [[PBAddressVerificationServiceApi 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **inputAddress** | [**PBValidateMailingAddressUSCANAPIRequest***](PBValidateMailingAddressUSCANAPIRequest.md)|  | 
+ **inputAddress** | [**PBValidateMailingAddressUSCANAPIRequest***](PBValidateMailingAddressUSCANAPIRequest*.md)|  | 
 
 ### Return type
 
@@ -338,7 +338,7 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
  - **Content-Type**: application/json
- - **Accept**: application/json, application/xml
+ - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

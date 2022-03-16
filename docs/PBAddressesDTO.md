@@ -16,7 +16,7 @@ Name | Type | Description | Notes
 **postCode** | **NSString*** |  | [optional] 
 **postCodeExt** | **NSString*** |  | [optional] 
 **country** | **NSString*** |  | [optional] 
-**geometry** | [**PBGeometry***](PBGeometry.md) |  | [optional] 
+**geometry** | [**PBCommonGeometry***](PBCommonGeometry.md) |  | [optional] 
 **propertyType** | **NSString*** |  | [optional] 
 **propertyTypeDescription** | **NSString*** |  | [optional] 
 **parentPbKey** | **NSString*** |  | [optional] 

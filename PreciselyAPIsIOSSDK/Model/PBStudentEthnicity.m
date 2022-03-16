@@ -17,7 +17,7 @@
  * This method is used by `JSONModel`.
  */
 + (JSONKeyMapper *)keyMapper {
-  return [[JSONKeyMapper alloc] initWithModelToJSONDictionary:@{ @"indianAlaskaNative": @"indianAlaskaNative", @"asian": @"asian", @"hispanic": @"hispanic", @"black": @"black", @"white": @"white", @"hawaiianPacificlslander": @"hawaiianPacificlslander", @"twoOrMoreRaces": @"twoOrMoreRaces" }];
+  return [[JSONKeyMapper alloc] initWithDictionary:@{ @"indianAlaskaNative": @"indianAlaskaNative", @"asian": @"asian", @"hispanic": @"hispanic", @"black": @"black", @"white": @"white", @"hawaiianPacificlslander": @"hawaiianPacificlslander", @"twoOrMoreRaces": @"twoOrMoreRaces" }];
 }
 
 /**

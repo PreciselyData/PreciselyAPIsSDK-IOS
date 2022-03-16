@@ -3,7 +3,7 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**preferences** | [**PBLocalTaxPreferences***](PBLocalTaxPreferences.md) |  | [optional] 
+**preferences** | [**PBPreferences***](PBPreferences.md) |  | [optional] 
 **taxRateAddresses** | [**NSArray&lt;PBTaxRateAddress&gt;***](PBTaxRateAddress.md) |  | 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

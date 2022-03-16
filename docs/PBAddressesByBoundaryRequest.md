@@ -4,7 +4,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **preferences** | [**PBAddressesPreferences***](PBAddressesPreferences.md) |  | [optional] 
-**geometry** | [**PBGeometry***](PBGeometry.md) |  | [optional] 
+**geometry** | [**PBCommonGeometry***](PBCommonGeometry.md) |  | [optional] 
 **geometryAsText** | **NSString*** |  | [optional] 
 **latitude** | **NSNumber*** |  | [optional] 
 **longitude** | **NSNumber*** |  | [optional] 

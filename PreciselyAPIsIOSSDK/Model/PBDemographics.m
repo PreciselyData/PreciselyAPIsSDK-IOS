@@ -17,7 +17,7 @@
  * This method is used by `JSONModel`.
  */
 + (JSONKeyMapper *)keyMapper {
-  return [[JSONKeyMapper alloc] initWithModelToJSONDictionary:@{ @"boundaries": @"boundaries", @"themes": @"themes", @"boundaryThemes": @"boundaryThemes" }];
+  return [[JSONKeyMapper alloc] initWithDictionary:@{ @"boundaries": @"boundaries", @"themes": @"themes", @"boundaryThemes": @"boundaryThemes" }];
 }
 
 /**

@@ -7,8 +7,6 @@ Name | Type | Description | Notes
 **scale** | **NSString*** |  | [optional] 
 **bodyWave** | **NSNumber*** |  | [optional] 
 **surfaceWave** | **NSNumber*** |  | [optional] 
-**surfaceWaveValue** | **NSNumber*** |  | [optional] 
-**bodyWaveValue** | **NSNumber*** |  | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

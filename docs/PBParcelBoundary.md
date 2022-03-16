@@ -8,7 +8,7 @@ Name | Type | Description | Notes
 **pid** | **NSString*** |  | [optional] 
 **center** | [**PBCenter***](PBCenter.md) |  | [optional] 
 **countyfips** | **NSString*** |  | [optional] 
-**geometry** | [**PBPropertyInformationGeometry***](PBPropertyInformationGeometry.md) |  | [optional] 
+**geometry** | [**PBCommonGeometry***](PBCommonGeometry.md) |  | [optional] 
 **parcelList** | [**NSArray&lt;PBParcel&gt;***](PBParcel.md) |  | [optional] 
 **adjacentParcelBoundary** | [**NSArray&lt;PBParcelBoundary&gt;***](PBParcelBoundary.md) |  | [optional] 
 **matchedAddress** | [**PBMatchedAddress***](PBMatchedAddress.md) |  | [optional] 

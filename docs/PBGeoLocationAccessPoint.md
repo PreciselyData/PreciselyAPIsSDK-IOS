@@ -3,7 +3,7 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**geometry** | [**PBGeolocationGeometry***](PBGeolocationGeometry.md) |  | [optional] 
+**geometry** | [**PBGeometry***](PBGeometry.md) |  | [optional] 
 **accuracy** | [**PBAccuracy***](PBAccuracy.md) |  | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

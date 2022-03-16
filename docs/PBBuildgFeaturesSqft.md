@@ -3,7 +3,7 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**featureAreaSqFt** | **NSString*** |  | [optional] 
+**featureAreaSqft** | **NSString*** |  | [optional] 
 **areaIndicator** | **NSString*** |  | [optional] 
 **_description** | **NSString*** |  | [optional] 
 
