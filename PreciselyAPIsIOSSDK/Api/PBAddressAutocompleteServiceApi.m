@@ -1,18 +1,18 @@
-#import "PBTypeaheadServiceApi.h"
+#import "PBAddressAutocompleteServiceApi.h"
 #import "PBQueryParamCollection.h"
 #import "PBGeosearchLocations.h"
 
 
-@interface PBTypeaheadServiceApi ()
+@interface PBAddressAutocompleteServiceApi ()
 
 @property (nonatomic, strong) NSMutableDictionary *defaultHeaders;
 
 @end
 
-@implementation PBTypeaheadServiceApi
+@implementation PBAddressAutocompleteServiceApi
 
-NSString* kPBTypeaheadServiceApiErrorDomain = @"PBTypeaheadServiceApiErrorDomain";
-NSInteger kPBTypeaheadServiceApiMissingParamErrorCode = 234513;
+NSString* kPBAddressAutocompleteServiceApiErrorDomain = @"PBAddressAutocompleteServiceApiErrorDomain";
+NSInteger kPBAddressAutocompleteServiceApiMissingParamErrorCode = 234513;
 
 @synthesize apiClient = _apiClient;
 
@@ -43,7 +43,7 @@ NSInteger kPBTypeaheadServiceApiMissingParamErrorCode = 234513;
 #pragma mark -
 
 + (instancetype)sharedAPI {
-    static PBTypeaheadServiceApi *sharedAPI;
+    static PBAddressAutocompleteServiceApi *sharedAPI;
     static dispatch_once_t once;
     dispatch_once(&once, ^{
         sharedAPI = [[self alloc] init];
@@ -70,7 +70,7 @@ NSInteger kPBTypeaheadServiceApiMissingParamErrorCode = 234513;
 #pragma mark - Api Methods
 
 ///
-/// Typeahead Search
+/// Address Autocomplete Search
 /// Performs search to retrieve list of places by input text and location vicinity.
 ///  @param searchText The input to be searched. 
 ///
@@ -131,7 +131,7 @@ NSInteger kPBTypeaheadServiceApiMissingParamErrorCode = 234513;
         NSParameterAssert(searchText);
         if(handler) {
             NSDictionary * userInfo = @{NSLocalizedDescriptionKey : [NSString stringWithFormat:NSLocalizedString(@"Missing required parameter '%@'", nil),@"searchText"] };
-            NSError* error = [NSError errorWithDomain:kPBTypeaheadServiceApiErrorDomain code:kPBTypeaheadServiceApiMissingParamErrorCode userInfo:userInfo];
+            NSError* error = [NSError errorWithDomain:kPBAddressAutocompleteServiceApiErrorDomain code:kPBAddressAutocompleteServiceApiMissingParamErrorCode userInfo:userInfo];
             handler(nil, error);
         }
         return nil;

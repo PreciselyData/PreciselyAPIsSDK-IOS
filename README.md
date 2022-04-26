@@ -9,7 +9,7 @@
 
 * [Geocode](https://developer.precisely.com/apis/geocode): Accurate Geocoding. Convert individual or batch collections of addresses to latitude & longitude coordinates and vice versa. Useful for enhancing & enriching your customer addresses.
 
-* [Typeahead](https://developer.precisely.com/apis/typeahead): Address Autocomplete. Build Address typeahead into your websites. The Typeahead API returns an autocompleted list of addresses based on the input of a partial address. Useful for any local search, checkout, shipping, or billing experiences on your website. Increase e-commerce conversion by 3-6%!
+* [Address Autocomplete](https://developer.precisely.com/apis/typeahead): Address Autocomplete. Build Address Autocomplete into your websites. The Address Autocomplete API returns an autocompleted list of addresses based on the input of a partial address. Useful for any local search, checkout, shipping, or billing experiences on your website. Increase e-commerce conversion by 3-6%!
 
 * [Maps](https://developer.precisely.com/apis/maps): Beautiful Visualization. Add your data and/or Precisely data atop beautiful maps for visualizations. Choose from three map styles - Bronze, Iron, and Steel.
 
@@ -56,6 +56,7 @@ The following platforms are supported by Precisely SDKs:
 *	[iOS](https://developer.precisely.com/apis/docs/index.html#iOS%20SDK/ios_intro.html)
 *	[Java](https://developer.precisely.com/apis/docs/index.html#Java%20SDK/java_intro.html)
 *	[C#](https://developer.precisely.com/apis/docs/index.html#C_sdk/java_intro.html)  
+*   Python
 
 [Click here](https://developer.precisely.com/apis/docs/index.html) for detailed Documentation on Precisely APIs 
 
@@ -316,6 +317,11 @@ Import the following:
 #import <PreciselyAPIsIOSSDK/PBHousingTheme.h>
 #import <PreciselyAPIsIOSSDK/PBIPDTaxByAddressBatchRequest.h>
 #import <PreciselyAPIsIOSSDK/PBIPDTaxJurisdiction.h>
+#import <PreciselyAPIsIOSSDK/PBIdentity.h>
+#import <PreciselyAPIsIOSSDK/PBIdentityDemographics.h>
+#import <PreciselyAPIsIOSSDK/PBIdentityDetail.h>
+#import <PreciselyAPIsIOSSDK/PBIdentityName.h>
+#import <PreciselyAPIsIOSSDK/PBIdentityResponse.h>
 #import <PreciselyAPIsIOSSDK/PBIncomeTheme.h>
 #import <PreciselyAPIsIOSSDK/PBIncomeThemeV2.h>
 #import <PreciselyAPIsIOSSDK/PBIndexVariable.h>
@@ -514,12 +520,14 @@ Import the following:
 #import <PreciselyAPIsIOSSDK/PBWaterBodyLocationResponse.h>
 #import <PreciselyAPIsIOSSDK/PBWaterBodyResponse.h>
 // load API classes for accessing endpoints
+#import <PreciselyAPIsIOSSDK/PBAddressAutocompleteServiceApi.h>
 #import <PreciselyAPIsIOSSDK/PBAddressVerificationServiceApi.h>
 #import <PreciselyAPIsIOSSDK/PBAddressesAPIServiceApi.h>
 #import <PreciselyAPIsIOSSDK/PBDemographicsServiceApi.h>
 #import <PreciselyAPIsIOSSDK/PBEmailVerificationServiceApi.h>
 #import <PreciselyAPIsIOSSDK/PBGeocodeServiceApi.h>
 #import <PreciselyAPIsIOSSDK/PBGeolocationServiceApi.h>
+#import <PreciselyAPIsIOSSDK/PBIdentityProfilesServiceApi.h>
 #import <PreciselyAPIsIOSSDK/PBLocalTaxServiceApi.h>
 #import <PreciselyAPIsIOSSDK/PBNeighborhoodsServiceApi.h>
 #import <PreciselyAPIsIOSSDK/PBPhoneVerificationServiceApi.h>
@@ -531,7 +539,6 @@ Import the following:
 #import <PreciselyAPIsIOSSDK/PBStreetsServiceApi.h>
 #import <PreciselyAPIsIOSSDK/PBTelecommInfoServiceApi.h>
 #import <PreciselyAPIsIOSSDK/PBTimeZoneServiceApi.h>
-#import <PreciselyAPIsIOSSDK/PBTypeaheadServiceApi.h>
 #import <PreciselyAPIsIOSSDK/PBZonesServiceApi.h>
 #import <PreciselyAPIsIOSSDK/PB911PSAPServiceApi.h>
 
@@ -553,13 +560,45 @@ PBConfiguration *apiConfig = [PBConfiguration sharedConfig];
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
 
 
-PBGetCityStateProvinceAPIRequest* *inputAddress = [[PBGetCityStateProvinceAPIRequest alloc] init]; // 
+NSString* *searchText = @"searchText_example"; // The input to be searched.
+NSString* *latitude = @"latitude_example"; // Latitude of the location. Either the latitude or the longitude must be provided. (optional)
+NSString* *longitude = @"longitude_example"; // Longitude of the location. Either the latitude or the longitude must be provided. (optional)
+NSString* *searchRadius = @"searchRadius_example"; // Radius range within which search is performed. (optional)
+NSString* *searchRadiusUnit = @"searchRadiusUnit_example"; // Radius unit such as Feet, Kilometers, Miles or Meters. (optional)
+NSString* *maxCandidates = @"maxCandidates_example"; // Maximum number of addresses that can be retrieved. (optional)
+NSString* *country = @"country_example"; // Country ISO code. We need to make sure that either Lat/Lng or Country is provided to API (optional)
+NSString* *matchOnAddressNumber = @"matchOnAddressNumber_example"; // Option so that we force api to match on address number (optional)
+NSString* *autoDetectLocation = @"true"; // Option to allow API to detect origin of API request automatically (optional) (default to true)
+NSString* *ipAddress = @"ipAddress_example"; //  (optional)
+NSString* *areaName1 = @"areaName1_example"; // State province of the input to be searched (optional)
+NSString* *areaName3 = @"areaName3_example"; // City of the input to be searched (optional)
+NSString* *postCode = @"postCode_example"; // Postal Code of the input to be searched (optional)
+NSString* *returnAdminAreasOnly = @"N"; // if value set 'Y' then it will only do a matching on postcode or areaName1, areaName2, areaName3 and areaName4 fields in the data (optional) (default to N)
+NSString* *includeRangesDetails = @"Y"; // if value set 'Y' then display all unit info of ranges, if value set 'N' then don't show ranges (optional) (default to Y)
+NSString* *searchType = @"ADDRESS"; // Preference to control search type of interactive requests. (optional) (default to ADDRESS)
+NSString* *searchOnAddressNumber = @"N"; // if value set 'Y' then display searchOnAddressNumber (optional) (default to N)
 
-PBAddressVerificationServiceApi *apiInstance = [[PBAddressVerificationServiceApi alloc] init];
+PBAddressAutocompleteServiceApi *apiInstance = [[PBAddressAutocompleteServiceApi alloc] init];
 
-// GetCityStateProvince
-[apiInstance getCityStateProvinceWithInputAddress:inputAddress
-              completionHandler: ^(PBGetCityStateProvinceAPIResponse* output, NSError* error) {
+// Address Autocomplete Search
+[apiInstance searchWithSearchText:searchText
+    latitude:latitude
+    longitude:longitude
+    searchRadius:searchRadius
+    searchRadiusUnit:searchRadiusUnit
+    maxCandidates:maxCandidates
+    country:country
+    matchOnAddressNumber:matchOnAddressNumber
+    autoDetectLocation:autoDetectLocation
+    ipAddress:ipAddress
+    areaName1:areaName1
+    areaName3:areaName3
+    postCode:postCode
+    returnAdminAreasOnly:returnAdminAreasOnly
+    includeRangesDetails:includeRangesDetails
+    searchType:searchType
+    searchOnAddressNumber:searchOnAddressNumber
+              completionHandler: ^(PBGeosearchLocations* output, NSError* error) {
                             if (output) {
                                 NSLog(@"%@", output);
                             }
@@ -576,6 +615,7 @@ All URIs are relative to *https://api.precisely.com*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
+*PBAddressAutocompleteServiceApi* | [**search**](docs/PBAddressAutocompleteServiceApi.md#search) | **GET** /typeahead/v1/locations | Address Autocomplete Search
 *PBAddressVerificationServiceApi* | [**getCityStateProvince**](docs/PBAddressVerificationServiceApi.md#getcitystateprovince) | **POST** /addressverification/v1/getcitystateprovince/results.json | GetCityStateProvince
 *PBAddressVerificationServiceApi* | [**getPostalCodes**](docs/PBAddressVerificationServiceApi.md#getpostalcodes) | **POST** /addressverification/v1/getpostalcodes/results.json | GetPostalCodes
 *PBAddressVerificationServiceApi* | [**validateMailingAddress**](docs/PBAddressVerificationServiceApi.md#validatemailingaddress) | **POST** /addressverification/v1/validatemailingaddress/results.json | ValidateMailingAddress
@@ -606,6 +646,9 @@ Class | Method | HTTP request | Description
 *PBGeocodeServiceApi* | [**reverseGeocode**](docs/PBGeocodeServiceApi.md#reversegeocode) | **GET** /geocode/v1/{datapackBundle}/reverseGeocode | Get Reverse Geocode
 *PBGeolocationServiceApi* | [**getLocationByIPAddress**](docs/PBGeolocationServiceApi.md#getlocationbyipaddress) | **GET** /geolocation/v1/location/byipaddress | Location By IP Address.
 *PBGeolocationServiceApi* | [**getLocationByWiFiAccessPoint**](docs/PBGeolocationServiceApi.md#getlocationbywifiaccesspoint) | **GET** /geolocation/v1/location/byaccesspoint | Location by WiFi Access Point.
+*PBIdentityProfilesServiceApi* | [**getIdentityByAddress**](docs/PBIdentityProfilesServiceApi.md#getidentitybyaddress) | **GET** /identityprofiles/v1/identity/byaddress | Identities By Address
+*PBIdentityProfilesServiceApi* | [**getIdentityByEmail**](docs/PBIdentityProfilesServiceApi.md#getidentitybyemail) | **GET** /identityprofiles/v1/identity/byemail | Identity By Email
+*PBIdentityProfilesServiceApi* | [**getIdentityByTwitter**](docs/PBIdentityProfilesServiceApi.md#getidentitybytwitter) | **GET** /identityprofiles/v1/identity/bytwitter | Identity By Twitter
 *PBLocalTaxServiceApi* | [**getBatchTaxByAddress**](docs/PBLocalTaxServiceApi.md#getbatchtaxbyaddress) | **POST** /localtax/v1/tax/{taxRateTypeId}/byaddress | Post Tax By Address
 *PBLocalTaxServiceApi* | [**getBatchTaxByLocation**](docs/PBLocalTaxServiceApi.md#getbatchtaxbylocation) | **POST** /localtax/v1/tax/{taxRateTypeId}/bylocation | Post Tax By Location
 *PBLocalTaxServiceApi* | [**getBatchTaxRateByAddress**](docs/PBLocalTaxServiceApi.md#getbatchtaxratebyaddress) | **POST** /localtax/v1/taxrate/{taxRateTypeId}/byaddress | Post Taxrate By Address
@@ -669,7 +712,6 @@ Class | Method | HTTP request | Description
 *PBTimeZoneServiceApi* | [**getBatchTimezoneByLocation**](docs/PBTimeZoneServiceApi.md#getbatchtimezonebylocation) | **POST** /timezone/v1/timezone/bylocation | Timezone Batch by Location
 *PBTimeZoneServiceApi* | [**getTimezoneByAddress**](docs/PBTimeZoneServiceApi.md#gettimezonebyaddress) | **GET** /timezone/v1/timezone/byaddress | Timezone By Address.
 *PBTimeZoneServiceApi* | [**getTimezoneByLocation**](docs/PBTimeZoneServiceApi.md#gettimezonebylocation) | **GET** /timezone/v1/timezone/bylocation | Timezone By Location.
-*PBTypeaheadServiceApi* | [**search**](docs/PBTypeaheadServiceApi.md#search) | **GET** /typeahead/v1/locations | Typeahead Search
 *PBZonesServiceApi* | [**getBasicBoundaryByAddress**](docs/PBZonesServiceApi.md#getbasicboundarybyaddress) | **GET** /zones/v1/basicboundary/byaddress | Gets Basic Boundary by Address
 *PBZonesServiceApi* | [**getBasicBoundaryByLocation**](docs/PBZonesServiceApi.md#getbasicboundarybylocation) | **GET** /zones/v1/basicboundary/bylocation | Gets Basic Boundary by Location
 *PBZonesServiceApi* | [**getPOIBoundaryByAddress**](docs/PBZonesServiceApi.md#getpoiboundarybyaddress) | **GET** /zones/v1/poiboundary/byaddress | Get Point of Interests Boundary by Address
@@ -899,6 +941,11 @@ Class | Method | HTTP request | Description
  - [PBHousingTheme](docs/PBHousingTheme.md)
  - [PBIPDTaxByAddressBatchRequest](docs/PBIPDTaxByAddressBatchRequest.md)
  - [PBIPDTaxJurisdiction](docs/PBIPDTaxJurisdiction.md)
+ - [PBIdentity](docs/PBIdentity.md)
+ - [PBIdentityDemographics](docs/PBIdentityDemographics.md)
+ - [PBIdentityDetail](docs/PBIdentityDetail.md)
+ - [PBIdentityName](docs/PBIdentityName.md)
+ - [PBIdentityResponse](docs/PBIdentityResponse.md)
  - [PBIncomeTheme](docs/PBIncomeTheme.md)
  - [PBIncomeThemeV2](docs/PBIncomeThemeV2.md)
  - [PBIndexVariable](docs/PBIndexVariable.md)
@@ -1110,11 +1157,6 @@ Class | Method | HTTP request | Description
 
 
 ## Author
-
-
-
-
-
 
 
 
