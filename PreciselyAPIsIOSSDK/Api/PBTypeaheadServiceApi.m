@@ -1,18 +1,18 @@
-#import "PBAddressAutocompleteServiceApi.h"
+#import "PBTypeaheadServiceApi.h"
 #import "PBQueryParamCollection.h"
 #import "PBGeosearchLocations.h"
 
 
-@interface PBAddressAutocompleteServiceApi ()
+@interface PBTypeaheadServiceApi ()
 
 @property (nonatomic, strong) NSMutableDictionary *defaultHeaders;
 
 @end
 
-@implementation PBAddressAutocompleteServiceApi
+@implementation PBTypeaheadServiceApi
 
-NSString* kPBAddressAutocompleteServiceApiErrorDomain = @"PBAddressAutocompleteServiceApiErrorDomain";
-NSInteger kPBAddressAutocompleteServiceApiMissingParamErrorCode = 234513;
+NSString* kPBTypeaheadServiceApiErrorDomain = @"PBTypeaheadServiceApiErrorDomain";
+NSInteger kPBTypeaheadServiceApiMissingParamErrorCode = 234513;
 
 @synthesize apiClient = _apiClient;
 
@@ -43,7 +43,7 @@ NSInteger kPBAddressAutocompleteServiceApiMissingParamErrorCode = 234513;
 #pragma mark -
 
 + (instancetype)sharedAPI {
-    static PBAddressAutocompleteServiceApi *sharedAPI;
+    static PBTypeaheadServiceApi *sharedAPI;
     static dispatch_once_t once;
     dispatch_once(&once, ^{
         sharedAPI = [[self alloc] init];
@@ -70,7 +70,7 @@ NSInteger kPBAddressAutocompleteServiceApiMissingParamErrorCode = 234513;
 #pragma mark - Api Methods
 
 ///
-/// Address Autocomplete Search
+/// Typeahead Search
 /// Performs search to retrieve list of places by input text and location vicinity.
 ///  @param searchText The input to be searched. 
 ///
@@ -131,7 +131,7 @@ NSInteger kPBAddressAutocompleteServiceApiMissingParamErrorCode = 234513;
         NSParameterAssert(searchText);
         if(handler) {
             NSDictionary * userInfo = @{NSLocalizedDescriptionKey : [NSString stringWithFormat:NSLocalizedString(@"Missing required parameter '%@'", nil),@"searchText"] };
-            NSError* error = [NSError errorWithDomain:kPBAddressAutocompleteServiceApiErrorDomain code:kPBAddressAutocompleteServiceApiMissingParamErrorCode userInfo:userInfo];
+            NSError* error = [NSError errorWithDomain:kPBTypeaheadServiceApiErrorDomain code:kPBTypeaheadServiceApiMissingParamErrorCode userInfo:userInfo];
             handler(nil, error);
         }
         return nil;

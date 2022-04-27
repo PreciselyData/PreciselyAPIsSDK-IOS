@@ -1,10 +1,10 @@
-# PBAddressAutocompleteServiceApi
+# PBTypeaheadServiceApi
 
 All URIs are relative to *https://api.precisely.com*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**search**](PBAddressAutocompleteServiceApi.md#search) | **GET** /typeahead/v1/locations | Address Autocomplete Search
+[**search**](PBTypeaheadServiceApi.md#search) | **GET** /typeahead/v1/locations | Typeahead Search
 
 
 # **search**
@@ -29,7 +29,7 @@ Method | HTTP request | Description
         completionHandler: (void (^)(PBGeosearchLocations* output, NSError* error)) handler;
 ```
 
-Address Autocomplete Search
+Typeahead Search
 
 Performs search to retrieve list of places by input text and location vicinity.
 
@@ -59,9 +59,9 @@ NSString* includeRangesDetails = @"Y"; // if value set 'Y' then display all unit
 NSString* searchType = @"ADDRESS"; // Preference to control search type of interactive requests. (optional) (default to ADDRESS)
 NSString* searchOnAddressNumber = @"N"; // if value set 'Y' then display searchOnAddressNumber (optional) (default to N)
 
-PBAddressAutocompleteServiceApi*apiInstance = [[PBAddressAutocompleteServiceApi alloc] init];
+PBTypeaheadServiceApi*apiInstance = [[PBTypeaheadServiceApi alloc] init];
 
-// Address Autocomplete Search
+// Typeahead Search
 [apiInstance searchWithSearchText:searchText
               latitude:latitude
               longitude:longitude
@@ -84,7 +84,7 @@ PBAddressAutocompleteServiceApi*apiInstance = [[PBAddressAutocompleteServiceApi 
                             NSLog(@"%@", output);
                         }
                         if (error) {
-                            NSLog(@"Error calling PBAddressAutocompleteServiceApi->search: %@", error);
+                            NSLog(@"Error calling PBTypeaheadServiceApi->search: %@", error);
                         }
                     }];
 ```
