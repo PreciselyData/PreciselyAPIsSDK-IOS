@@ -27,14 +27,14 @@
 */
 
 
-@interface PBTypeaheadServiceApi: NSObject <PBApi>
+@interface PBAddressAutocompleteServiceApi: NSObject <PBApi>
 
-extern NSString* kPBTypeaheadServiceApiErrorDomain;
-extern NSInteger kPBTypeaheadServiceApiMissingParamErrorCode;
+extern NSString* kPBAddressAutocompleteServiceApiErrorDomain;
+extern NSInteger kPBAddressAutocompleteServiceApiMissingParamErrorCode;
 
 +(instancetype) sharedAPI;
 
-/// Typeahead Search
+/// Address Autocomplete Search
 /// Performs search to retrieve list of places by input text and location vicinity.
 ///
 /// @param searchText The input to be searched.
