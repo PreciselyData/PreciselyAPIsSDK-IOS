@@ -82,7 +82,7 @@ The SDK requires [**ARC (Automatic Reference Counting)**](http://stackoverflow.c
 Add the following to the Podfile:
 
 ```ruby
-pod 'PreciselyAPIsIOSSDK', :git => 'https://github.com/GIT_USER_ID/GIT_REPO_ID.git'
+pod 'PreciselyAPIsIOSSDK', :git =>'https://github.com/PreciselyData/PreciselyAPIsSDK-IOS.git'
 ```
 
 To specify a particular branch, append `, :branch => 'branch-name-here'`
