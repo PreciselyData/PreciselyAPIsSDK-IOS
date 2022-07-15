@@ -291,8 +291,6 @@
 #import "PBPOIByGeometryRequest.h"
 #import "PBPOIPlaces.h"
 #import "PBPSAPResponse.h"
-#import "PBParcel.h"
-#import "PBParcelBoundary.h"
 #import "PBParentBusiness.h"
 #import "PBPbKey.h"
 #import "PBPhoneVerification.h"
