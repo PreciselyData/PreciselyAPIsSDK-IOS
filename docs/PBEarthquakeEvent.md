@@ -3,7 +3,7 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**dateTime** | [**PBDateTimeEarthQuake***](PBDateTimeEarthQuake.md) |  | [optional] 
+**dateTime** | [**PBEarthquakeDateTime***](PBEarthquakeDateTime.md) |  | [optional] 
 **seismicRegionNumber** | **NSNumber*** |  | [optional] 
 **depth** | [**PBDepth***](PBDepth.md) |  | [optional] 
 **magnitude** | [**PBMagnitude***](PBMagnitude.md) |  | [optional] 

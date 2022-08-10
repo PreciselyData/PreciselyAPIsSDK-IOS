@@ -17,7 +17,7 @@
  * This method is used by `JSONModel`.
  */
 + (JSONKeyMapper *)keyMapper {
-  return [[JSONKeyMapper alloc] initWithDictionary:@{ @"currencyCode": @"currencyCode", @"worldBaseCurrencyCode": @"worldBaseCurrencyCode", @"value": @"value" }];
+  return [[JSONKeyMapper alloc] initWithModelToJSONDictionary:@{ @"currencyCode": @"currencyCode", @"worldBaseCurrencyCode": @"worldBaseCurrencyCode", @"value": @"value" }];
 }
 
 /**

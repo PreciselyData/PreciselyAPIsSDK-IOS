@@ -4,56 +4,56 @@ All URIs are relative to *https://api.precisely.com*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**getBasicBoundaryByAddress**](PBZonesServiceApi.md#getbasicboundarybyaddress) | **GET** /zones/v1/basicboundary/byaddress | Gets Basic Boundary by Address
-[**getBasicBoundaryByLocation**](PBZonesServiceApi.md#getbasicboundarybylocation) | **GET** /zones/v1/basicboundary/bylocation | Gets Basic Boundary by Location
-[**getPOIBoundaryByAddress**](PBZonesServiceApi.md#getpoiboundarybyaddress) | **GET** /zones/v1/poiboundary/byaddress | Get Point of Interests Boundary by Address
-[**getPOIBoundaryByAddressBatch**](PBZonesServiceApi.md#getpoiboundarybyaddressbatch) | **POST** /zones/v1/poiboundary/byaddress | Batch method for getting Point of Interests Boundary by Address
-[**getPOIBoundaryByLocation**](PBZonesServiceApi.md#getpoiboundarybylocation) | **GET** /zones/v1/poiboundary/bylocation | Get Point of Interests Boundary by Location
-[**getPOIBoundaryByLocationBatch**](PBZonesServiceApi.md#getpoiboundarybylocationbatch) | **POST** /zones/v1/poiboundary/bylocation | Batch method for getting Point of Interests Boundary by Location
-[**getTravelBoundaryByDistance**](PBZonesServiceApi.md#gettravelboundarybydistance) | **GET** /zones/v1/travelboundary/bydistance | Gets travel Boundary by Distance
-[**getTravelBoundaryByTime**](PBZonesServiceApi.md#gettravelboundarybytime) | **GET** /zones/v1/travelboundary/bytime | Gets travel Boundary by Time
+[**getBasicBoundaryByAddress**](PBZonesServiceApi.md#getbasicboundarybyaddress) | **GET** /zones/v1/basicboundary/byaddress | Gets Basic Boundary by Address.
+[**getBasicBoundaryByLocation**](PBZonesServiceApi.md#getbasicboundarybylocation) | **GET** /zones/v1/basicboundary/bylocation | Gets Basic Boundary by Location.
+[**getPOIBoundaryByAddress**](PBZonesServiceApi.md#getpoiboundarybyaddress) | **GET** /zones/v1/poiboundary/byaddress | Gets Point of Interests Boundary by Address.
+[**getPOIBoundaryByAddressBatch**](PBZonesServiceApi.md#getpoiboundarybyaddressbatch) | **POST** /zones/v1/poiboundary/byaddress | Batch method for getting Point of Interests Boundary by Address.
+[**getPOIBoundaryByLocation**](PBZonesServiceApi.md#getpoiboundarybylocation) | **GET** /zones/v1/poiboundary/bylocation | Get Point of Interests Boundary by Location.
+[**getPOIBoundaryByLocationBatch**](PBZonesServiceApi.md#getpoiboundarybylocationbatch) | **POST** /zones/v1/poiboundary/bylocation | Batch method for getting Point of Interests Boundary by Location.
+[**getTravelBoundaryByDistance**](PBZonesServiceApi.md#gettravelboundarybydistance) | **GET** /zones/v1/travelboundary/bydistance | Get TravelBoundary By Distance.
+[**getTravelBoundaryByTime**](PBZonesServiceApi.md#gettravelboundarybytime) | **GET** /zones/v1/travelboundary/bytime | Get TravelBoundary By Time.
 
 
 # **getBasicBoundaryByAddress**
 ```objc
--(NSNumber*) getBasicBoundaryByAddressWithAddress: (NSString*) address
-    distance: (NSString*) distance
+-(NSURLSessionTask*) getBasicBoundaryByAddressWithAddress: (NSString*) address
     country: (NSString*) country
+    distance: (NSString*) distance
     distanceUnit: (NSString*) distanceUnit
     resolution: (NSString*) resolution
     responseSrs: (NSString*) responseSrs
-        completionHandler: (void (^)(PBBasicBoundaryAddress* output, NSError* error)) handler;
+        completionHandler: (void (^)(PBBasicBoundary* output, NSError* error)) handler;
 ```
 
-Gets Basic Boundary by Address
+Gets Basic Boundary by Address.
 
-Gets Basic Boundary by Address
+Gets Basic Boundary by Address.
 
-### Example 
+### Example
 ```objc
-PBConfiguration *apiConfig = [PBConfiguration sharedConfig];
+PBDefaultConfiguration *apiConfig = [PBDefaultConfiguration sharedConfig];
 
 // Configure OAuth2 access token for authorization: (authentication scheme: oAuth2Password)
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
 
 
 NSString* address = @"address_example"; // Address around which Basic Boundary is requested
-NSString* distance = @"distance_example"; // This is width of the buffer (in a complete circular buffer, it would be radius of the buffer). This has to be a positive number.
-NSString* country = @"USA"; // Three digit ISO country code (optional) (default to USA)
-NSString* distanceUnit = @"feet"; // Longitude around which Basic Boundary is requested (optional) (default to feet)
+NSString* country = @"country_example"; // Three digit ISO country code (optional)
+NSString* distance = @"distance_example"; //  (optional)
+NSString* distanceUnit = @"distanceUnit_example"; //  (optional)
 NSString* resolution = @"resolution_example"; // This is resolution of the buffer. Curves generated in buffer are approximated by line segments and it is measured in segments per circle. The higher the resolution, the smoother the curves of the buffer but more points would be required in the boundary geometry. Number greater than 0 and in multiple of 4. If not in 4, then it is approximated to nearest multiple of 4. (optional)
-NSString* responseSrs = @"epsg:4326"; // The spatial reference system to express the response in. By default, it would be epsg:4326 (optional) (default to epsg:4326)
+NSString* responseSrs = @"responseSrs_example"; //  (optional)
 
 PBZonesServiceApi*apiInstance = [[PBZonesServiceApi alloc] init];
 
-// Gets Basic Boundary by Address
+// Gets Basic Boundary by Address.
 [apiInstance getBasicBoundaryByAddressWithAddress:address
-              distance:distance
               country:country
+              distance:distance
               distanceUnit:distanceUnit
               resolution:resolution
               responseSrs:responseSrs
-          completionHandler: ^(PBBasicBoundaryAddress* output, NSError* error) {
+          completionHandler: ^(PBBasicBoundary* output, NSError* error) {
                         if (output) {
                             NSLog(@"%@", output);
                         }
@@ -68,15 +68,15 @@ PBZonesServiceApi*apiInstance = [[PBZonesServiceApi alloc] init];
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **address** | **NSString***| Address around which Basic Boundary is requested | 
- **distance** | **NSString***| This is width of the buffer (in a complete circular buffer, it would be radius of the buffer). This has to be a positive number. | 
- **country** | **NSString***| Three digit ISO country code | [optional] [default to USA]
- **distanceUnit** | **NSString***| Longitude around which Basic Boundary is requested | [optional] [default to feet]
+ **country** | **NSString***| Three digit ISO country code | [optional] 
+ **distance** | **NSString***|  | [optional] 
+ **distanceUnit** | **NSString***|  | [optional] 
  **resolution** | **NSString***| This is resolution of the buffer. Curves generated in buffer are approximated by line segments and it is measured in segments per circle. The higher the resolution, the smoother the curves of the buffer but more points would be required in the boundary geometry. Number greater than 0 and in multiple of 4. If not in 4, then it is approximated to nearest multiple of 4. | [optional] 
- **responseSrs** | **NSString***| The spatial reference system to express the response in. By default, it would be epsg:4326 | [optional] [default to epsg:4326]
+ **responseSrs** | **NSString***|  | [optional] 
 
 ### Return type
 
-[**PBBasicBoundaryAddress***](PBBasicBoundaryAddress.md)
+[**PBBasicBoundary***](PBBasicBoundary.md)
 
 ### Authorization
 
@@ -84,14 +84,14 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json, application/xml
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **getBasicBoundaryByLocation**
 ```objc
--(NSNumber*) getBasicBoundaryByLocationWithLatitude: (NSString*) latitude
+-(NSURLSessionTask*) getBasicBoundaryByLocationWithLatitude: (NSString*) latitude
     longitude: (NSString*) longitude
     distance: (NSString*) distance
     distanceUnit: (NSString*) distanceUnit
@@ -101,13 +101,13 @@ Name | Type | Description  | Notes
         completionHandler: (void (^)(PBBasicBoundary* output, NSError* error)) handler;
 ```
 
-Gets Basic Boundary by Location
+Gets Basic Boundary by Location.
 
-Gets Basic Boundary by Location
+Gets Basic Boundary by Location.
 
-### Example 
+### Example
 ```objc
-PBConfiguration *apiConfig = [PBConfiguration sharedConfig];
+PBDefaultConfiguration *apiConfig = [PBDefaultConfiguration sharedConfig];
 
 // Configure OAuth2 access token for authorization: (authentication scheme: oAuth2Password)
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
@@ -116,14 +116,14 @@ PBConfiguration *apiConfig = [PBConfiguration sharedConfig];
 NSString* latitude = @"latitude_example"; // Latitude around which Basic Boundary is requested
 NSString* longitude = @"longitude_example"; // Longitude around which Basic Boundary is requested
 NSString* distance = @"distance_example"; // This is width of the buffer (in a complete circular buffer, it would be radius of the buffer). This has to be a positive number.
-NSString* distanceUnit = @"feet"; // Longitude around which Basic Boundary is requested (optional) (default to feet)
+NSString* distanceUnit = @"distanceUnit_example"; //  (optional)
 NSString* resolution = @"resolution_example"; // This is resolution of the buffer. Curves generated in buffer are approximated by line segments and it is measured in segments per circle. The higher the resolution, the smoother the curves of the buffer but more points would be required in the boundary geometry. Number greater than 0 and in multiple of 4. If not in 4, then it is approximated to nearest multiple of 4. (optional)
-NSString* responseSrs = @"epsg:4326"; // The spatial reference system to express the response in. By default, it would be epsg:4326 (optional) (default to epsg:4326)
-NSString* srsName = @"epsg:4326"; // The spatial reference system for input. By default, it would be epsg:4326 (optional) (default to epsg:4326)
+NSString* responseSrs = @"responseSrs_example"; //  (optional)
+NSString* srsName = @"srsName_example"; //  (optional)
 
 PBZonesServiceApi*apiInstance = [[PBZonesServiceApi alloc] init];
 
-// Gets Basic Boundary by Location
+// Gets Basic Boundary by Location.
 [apiInstance getBasicBoundaryByLocationWithLatitude:latitude
               longitude:longitude
               distance:distance
@@ -148,10 +148,10 @@ Name | Type | Description  | Notes
  **latitude** | **NSString***| Latitude around which Basic Boundary is requested | 
  **longitude** | **NSString***| Longitude around which Basic Boundary is requested | 
  **distance** | **NSString***| This is width of the buffer (in a complete circular buffer, it would be radius of the buffer). This has to be a positive number. | 
- **distanceUnit** | **NSString***| Longitude around which Basic Boundary is requested | [optional] [default to feet]
+ **distanceUnit** | **NSString***|  | [optional] 
  **resolution** | **NSString***| This is resolution of the buffer. Curves generated in buffer are approximated by line segments and it is measured in segments per circle. The higher the resolution, the smoother the curves of the buffer but more points would be required in the boundary geometry. Number greater than 0 and in multiple of 4. If not in 4, then it is approximated to nearest multiple of 4. | [optional] 
- **responseSrs** | **NSString***| The spatial reference system to express the response in. By default, it would be epsg:4326 | [optional] [default to epsg:4326]
- **srsName** | **NSString***| The spatial reference system for input. By default, it would be epsg:4326 | [optional] [default to epsg:4326]
+ **responseSrs** | **NSString***|  | [optional] 
+ **srsName** | **NSString***|  | [optional] 
 
 ### Return type
 
@@ -163,27 +163,27 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json, application/xml
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **getPOIBoundaryByAddress**
 ```objc
--(NSNumber*) getPOIBoundaryByAddressWithAddress: (NSString*) address
+-(NSURLSessionTask*) getPOIBoundaryByAddressWithAddress: (NSString*) address
     categoryCode: (NSString*) categoryCode
     sicCode: (NSString*) sicCode
     naicsCode: (NSString*) naicsCode
         completionHandler: (void (^)(PBPoiBoundary* output, NSError* error)) handler;
 ```
 
-Get Point of Interests Boundary by Address
+Gets Point of Interests Boundary by Address.
 
-Gets Point of Interests Boundary by Address
+Gets Point of Interests Boundary by Address.
 
-### Example 
+### Example
 ```objc
-PBConfiguration *apiConfig = [PBConfiguration sharedConfig];
+PBDefaultConfiguration *apiConfig = [PBDefaultConfiguration sharedConfig];
 
 // Configure OAuth2 access token for authorization: (authentication scheme: oAuth2Password)
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
@@ -196,7 +196,7 @@ NSString* naicsCode = @"naicsCode_example"; // Will accept naicsCode to filter P
 
 PBZonesServiceApi*apiInstance = [[PBZonesServiceApi alloc] init];
 
-// Get Point of Interests Boundary by Address
+// Gets Point of Interests Boundary by Address.
 [apiInstance getPOIBoundaryByAddressWithAddress:address
               categoryCode:categoryCode
               sicCode:sicCode
@@ -230,35 +230,35 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json, application/xml
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **getPOIBoundaryByAddressBatch**
 ```objc
--(NSNumber*) getPOIBoundaryByAddressBatchWithBody: (PBPOIBoundaryAddressRequest*) body
+-(NSURLSessionTask*) getPOIBoundaryByAddressBatchWithPOIBoundaryAddressRequest: (PBPOIBoundaryAddressRequest*) pOIBoundaryAddressRequest
         completionHandler: (void (^)(PBPOIBoundaryResponse* output, NSError* error)) handler;
 ```
 
-Batch method for getting Point of Interests Boundary by Address
+Batch method for getting Point of Interests Boundary by Address.
 
-Batch method for getting Point of Interests Boundary by Address
+Batch method for getting Point of Interests Boundary by Address.
 
-### Example 
+### Example
 ```objc
-PBConfiguration *apiConfig = [PBConfiguration sharedConfig];
+PBDefaultConfiguration *apiConfig = [PBDefaultConfiguration sharedConfig];
 
 // Configure OAuth2 access token for authorization: (authentication scheme: oAuth2Password)
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
 
 
-PBPOIBoundaryAddressRequest* body = [[PBPOIBoundaryAddressRequest alloc] init]; //  (optional)
+PBPOIBoundaryAddressRequest* pOIBoundaryAddressRequest = [[PBPOIBoundaryAddressRequest alloc] init]; // 
 
 PBZonesServiceApi*apiInstance = [[PBZonesServiceApi alloc] init];
 
-// Batch method for getting Point of Interests Boundary by Address
-[apiInstance getPOIBoundaryByAddressBatchWithBody:body
+// Batch method for getting Point of Interests Boundary by Address.
+[apiInstance getPOIBoundaryByAddressBatchWithPOIBoundaryAddressRequest:pOIBoundaryAddressRequest
           completionHandler: ^(PBPOIBoundaryResponse* output, NSError* error) {
                         if (output) {
                             NSLog(@"%@", output);
@@ -273,7 +273,7 @@ PBZonesServiceApi*apiInstance = [[PBZonesServiceApi alloc] init];
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**PBPOIBoundaryAddressRequest***](PBPOIBoundaryAddressRequest*.md)|  | [optional] 
+ **pOIBoundaryAddressRequest** | [**PBPOIBoundaryAddressRequest***](PBPOIBoundaryAddressRequest.md)|  | 
 
 ### Return type
 
@@ -285,14 +285,14 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json, application/xml
+ - **Content-Type**: application/json
  - **Accept**: application/json, application/xml
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **getPOIBoundaryByLocation**
 ```objc
--(NSNumber*) getPOIBoundaryByLocationWithLatitude: (NSString*) latitude
+-(NSURLSessionTask*) getPOIBoundaryByLocationWithLatitude: (NSString*) latitude
     longitude: (NSString*) longitude
     categoryCode: (NSString*) categoryCode
     sicCode: (NSString*) sicCode
@@ -300,13 +300,13 @@ Name | Type | Description  | Notes
         completionHandler: (void (^)(PBPoiBoundary* output, NSError* error)) handler;
 ```
 
-Get Point of Interests Boundary by Location
+Get Point of Interests Boundary by Location.
 
-Get Point of Interests Boundary by Location
+Get Point of Interests Boundary by Location.
 
-### Example 
+### Example
 ```objc
-PBConfiguration *apiConfig = [PBConfiguration sharedConfig];
+PBDefaultConfiguration *apiConfig = [PBDefaultConfiguration sharedConfig];
 
 // Configure OAuth2 access token for authorization: (authentication scheme: oAuth2Password)
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
@@ -320,7 +320,7 @@ NSString* naicsCode = @"naicsCode_example"; // Will accept naicsCode to filter P
 
 PBZonesServiceApi*apiInstance = [[PBZonesServiceApi alloc] init];
 
-// Get Point of Interests Boundary by Location
+// Get Point of Interests Boundary by Location.
 [apiInstance getPOIBoundaryByLocationWithLatitude:latitude
               longitude:longitude
               categoryCode:categoryCode
@@ -356,35 +356,35 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json, application/xml
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **getPOIBoundaryByLocationBatch**
 ```objc
--(NSNumber*) getPOIBoundaryByLocationBatchWithBody: (PBPOIBoundaryLocationRequest*) body
+-(NSURLSessionTask*) getPOIBoundaryByLocationBatchWithPOIBoundaryLocationRequest: (PBPOIBoundaryLocationRequest*) pOIBoundaryLocationRequest
         completionHandler: (void (^)(PBPOIBoundaryResponse* output, NSError* error)) handler;
 ```
 
-Batch method for getting Point of Interests Boundary by Location
+Batch method for getting Point of Interests Boundary by Location.
 
-Batch method for getting Point of Interests Boundary by Location
+Batch method for getting Point of Interests Boundary by Location.
 
-### Example 
+### Example
 ```objc
-PBConfiguration *apiConfig = [PBConfiguration sharedConfig];
+PBDefaultConfiguration *apiConfig = [PBDefaultConfiguration sharedConfig];
 
 // Configure OAuth2 access token for authorization: (authentication scheme: oAuth2Password)
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
 
 
-PBPOIBoundaryLocationRequest* body = [[PBPOIBoundaryLocationRequest alloc] init]; //  (optional)
+PBPOIBoundaryLocationRequest* pOIBoundaryLocationRequest = [[PBPOIBoundaryLocationRequest alloc] init]; // 
 
 PBZonesServiceApi*apiInstance = [[PBZonesServiceApi alloc] init];
 
-// Batch method for getting Point of Interests Boundary by Location
-[apiInstance getPOIBoundaryByLocationBatchWithBody:body
+// Batch method for getting Point of Interests Boundary by Location.
+[apiInstance getPOIBoundaryByLocationBatchWithPOIBoundaryLocationRequest:pOIBoundaryLocationRequest
           completionHandler: ^(PBPOIBoundaryResponse* output, NSError* error) {
                         if (output) {
                             NSLog(@"%@", output);
@@ -399,7 +399,7 @@ PBZonesServiceApi*apiInstance = [[PBZonesServiceApi alloc] init];
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**PBPOIBoundaryLocationRequest***](PBPOIBoundaryLocationRequest*.md)|  | [optional] 
+ **pOIBoundaryLocationRequest** | [**PBPOIBoundaryLocationRequest***](PBPOIBoundaryLocationRequest.md)|  | 
 
 ### Return type
 
@@ -411,16 +411,16 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json, application/xml
+ - **Content-Type**: application/json
  - **Accept**: application/json, application/xml
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **getTravelBoundaryByDistance**
 ```objc
--(NSNumber*) getTravelBoundaryByDistanceWithCosts: (NSString*) costs
-    point: (NSString*) point
+-(NSURLSessionTask*) getTravelBoundaryByDistanceWithPoint: (NSString*) point
     address: (NSString*) address
+    costs: (NSString*) costs
     costUnit: (NSString*) costUnit
     db: (NSString*) db
     country: (NSString*) country
@@ -438,42 +438,42 @@ Name | Type | Description  | Notes
         completionHandler: (void (^)(PBTravelBoundaries* output, NSError* error)) handler;
 ```
 
-Gets travel Boundary by Distance
+Get TravelBoundary By Distance.
 
 Returns the travel boundary based on travel distance.
 
-### Example 
+### Example
 ```objc
-PBConfiguration *apiConfig = [PBConfiguration sharedConfig];
+PBDefaultConfiguration *apiConfig = [PBDefaultConfiguration sharedConfig];
 
 // Configure OAuth2 access token for authorization: (authentication scheme: oAuth2Password)
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
 
 
-NSString* costs = @"costs_example"; // Travel distance(s)
-NSString* point = @"point_example"; // Starting point from where the travel boundary is calculated. Point in 'Lat,Long,coordsys' format (optional)
-NSString* address = @"address_example"; // Starting address from where the travel boundary is calculated. (optional)
-NSString* costUnit = @"m"; // Travel distance such as ft(Foot), km(Kilometer), mi(Mile), m(Meter) or yd(Yard). (optional) (default to m)
-NSString* db = @"driving"; // Mode of commute. (optional) (default to driving)
-NSString* country = @"USA"; // Three digit ISO country code. (optional) (default to USA)
+NSString* point = @"point_example"; // Starting point from where the travel boundary is calculated. Point in Lat,Long,coordsys format (optional)
+NSString* address = @"address_example"; // Address around which Basic Boundary is requested. (optional)
+NSString* costs = @"costs_example"; // Travel time used to calculate the travel boundary. (optional)
+NSString* costUnit = @"costUnit_example"; // Travel time unit such as min(Minute), h(Hour), s(Second) or msec(Millisecond). (optional)
+NSString* db = @"db_example"; // Mode of commute. (optional)
+NSString* country = @"country_example"; // 3 character ISO code or country name. (optional)
 NSString* maxOffroadDistance = @"maxOffroadDistance_example"; // Maximum distance to allow travel off the road network. (optional)
 NSString* maxOffroadDistanceUnit = @"maxOffroadDistanceUnit_example"; // MaxOffroad Distance Unit such as ft(Foot), km(Kilometer), mi(Mile), m(Meter) or yd(Yard). (optional)
 NSString* destinationSrs = @"destinationSrs_example"; // Desired coordinate system of the travel boundary. (optional)
-NSString* majorRoads = @"false"; // Whether to include all roads in the calculation or just major roads. (optional) (default to false)
-NSString* returnHoles = @"false"; // Whether to return holes, which are areas within the larger boundary that cannot be reached within the desired distance. (optional) (default to false)
-NSString* returnIslands = @"false"; // Whether to return islands, which are small areas outside the main boundary that can be reached within the desired distance. (optional) (default to false)
-NSString* simplificationFactor = @"0.5"; // Number between 0.0 and 1.0 where 0.0 is very simple and 1.0 means the most complex. (optional) (default to 0.5)
-NSString* bandingStyle = @"Donut"; // Style of banding to be used in the result. (optional) (default to Donut)
-NSString* historicTrafficTimeBucket = @"None"; // Whether routing calculation uses the historic traffic speeds. (optional) (default to None)
+NSString* majorRoads = @"true"; // Whether to include all roads in the calculation or just major roads. (optional) (default to @"true")
+NSString* returnHoles = @"returnHoles_example"; // Whether to return holes, which are areas within the larger boundary that cannot be reached within the desired time (optional)
+NSString* returnIslands = @"returnIslands_example"; // Whether to return islands, which are small areas outside the main boundary that can be reached within the desired time (optional)
+NSString* simplificationFactor = @"simplificationFactor_example"; // Number between 0.0 and 1.0 where 0.0 is very simple and 1.0 means the most complex (optional)
+NSString* bandingStyle = @"bandingStyle_example"; // Style of banding to be used in the result (optional)
+NSString* historicTrafficTimeBucket = @"historicTrafficTimeBucket_example"; // Whether routing calculation uses the historic traffic speeds (optional)
 NSString* defaultAmbientSpeed = @"defaultAmbientSpeed_example"; // The speed to travel when going off a network road to find the travel boundary (for all road types). (optional)
-NSString* ambientSpeedUnit = @"MPH"; // The unit of measure to use to calculate the ambient speed. (optional) (default to MPH)
+NSString* ambientSpeedUnit = @"ambientSpeedUnit_example"; // The unit of measure to use to calculate the ambient speed. (optional)
 
 PBZonesServiceApi*apiInstance = [[PBZonesServiceApi alloc] init];
 
-// Gets travel Boundary by Distance
-[apiInstance getTravelBoundaryByDistanceWithCosts:costs
-              point:point
+// Get TravelBoundary By Distance.
+[apiInstance getTravelBoundaryByDistanceWithPoint:point
               address:address
+              costs:costs
               costUnit:costUnit
               db:db
               country:country
@@ -502,23 +502,23 @@ PBZonesServiceApi*apiInstance = [[PBZonesServiceApi alloc] init];
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **costs** | **NSString***| Travel distance(s) | 
- **point** | **NSString***| Starting point from where the travel boundary is calculated. Point in &#39;Lat,Long,coordsys&#39; format | [optional] 
- **address** | **NSString***| Starting address from where the travel boundary is calculated. | [optional] 
- **costUnit** | **NSString***| Travel distance such as ft(Foot), km(Kilometer), mi(Mile), m(Meter) or yd(Yard). | [optional] [default to m]
- **db** | **NSString***| Mode of commute. | [optional] [default to driving]
- **country** | **NSString***| Three digit ISO country code. | [optional] [default to USA]
+ **point** | **NSString***| Starting point from where the travel boundary is calculated. Point in Lat,Long,coordsys format | [optional] 
+ **address** | **NSString***| Address around which Basic Boundary is requested. | [optional] 
+ **costs** | **NSString***| Travel time used to calculate the travel boundary. | [optional] 
+ **costUnit** | **NSString***| Travel time unit such as min(Minute), h(Hour), s(Second) or msec(Millisecond). | [optional] 
+ **db** | **NSString***| Mode of commute. | [optional] 
+ **country** | **NSString***| 3 character ISO code or country name. | [optional] 
  **maxOffroadDistance** | **NSString***| Maximum distance to allow travel off the road network. | [optional] 
  **maxOffroadDistanceUnit** | **NSString***| MaxOffroad Distance Unit such as ft(Foot), km(Kilometer), mi(Mile), m(Meter) or yd(Yard). | [optional] 
  **destinationSrs** | **NSString***| Desired coordinate system of the travel boundary. | [optional] 
- **majorRoads** | **NSString***| Whether to include all roads in the calculation or just major roads. | [optional] [default to false]
- **returnHoles** | **NSString***| Whether to return holes, which are areas within the larger boundary that cannot be reached within the desired distance. | [optional] [default to false]
- **returnIslands** | **NSString***| Whether to return islands, which are small areas outside the main boundary that can be reached within the desired distance. | [optional] [default to false]
- **simplificationFactor** | **NSString***| Number between 0.0 and 1.0 where 0.0 is very simple and 1.0 means the most complex. | [optional] [default to 0.5]
- **bandingStyle** | **NSString***| Style of banding to be used in the result. | [optional] [default to Donut]
- **historicTrafficTimeBucket** | **NSString***| Whether routing calculation uses the historic traffic speeds. | [optional] [default to None]
+ **majorRoads** | **NSString***| Whether to include all roads in the calculation or just major roads. | [optional] [default to @&quot;true&quot;]
+ **returnHoles** | **NSString***| Whether to return holes, which are areas within the larger boundary that cannot be reached within the desired time | [optional] 
+ **returnIslands** | **NSString***| Whether to return islands, which are small areas outside the main boundary that can be reached within the desired time | [optional] 
+ **simplificationFactor** | **NSString***| Number between 0.0 and 1.0 where 0.0 is very simple and 1.0 means the most complex | [optional] 
+ **bandingStyle** | **NSString***| Style of banding to be used in the result | [optional] 
+ **historicTrafficTimeBucket** | **NSString***| Whether routing calculation uses the historic traffic speeds | [optional] 
  **defaultAmbientSpeed** | **NSString***| The speed to travel when going off a network road to find the travel boundary (for all road types). | [optional] 
- **ambientSpeedUnit** | **NSString***| The unit of measure to use to calculate the ambient speed. | [optional] [default to MPH]
+ **ambientSpeedUnit** | **NSString***| The unit of measure to use to calculate the ambient speed. | [optional] 
 
 ### Return type
 
@@ -530,16 +530,16 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json, application/xml
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **getTravelBoundaryByTime**
 ```objc
--(NSNumber*) getTravelBoundaryByTimeWithCosts: (NSString*) costs
-    point: (NSString*) point
+-(NSURLSessionTask*) getTravelBoundaryByTimeWithPoint: (NSString*) point
     address: (NSString*) address
+    costs: (NSString*) costs
     costUnit: (NSString*) costUnit
     db: (NSString*) db
     country: (NSString*) country
@@ -557,42 +557,42 @@ Name | Type | Description  | Notes
         completionHandler: (void (^)(PBTravelBoundaries* output, NSError* error)) handler;
 ```
 
-Gets travel Boundary by Time
+Get TravelBoundary By Time.
 
 Travel boundary based on travel time.
 
-### Example 
+### Example
 ```objc
-PBConfiguration *apiConfig = [PBConfiguration sharedConfig];
+PBDefaultConfiguration *apiConfig = [PBDefaultConfiguration sharedConfig];
 
 // Configure OAuth2 access token for authorization: (authentication scheme: oAuth2Password)
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
 
 
-NSString* costs = @"costs_example"; // Travel time used to calculate the travel boundary.
 NSString* point = @"point_example"; // Starting point from where the travel boundary is calculated. Point in Lat,Long,coordsys format (optional)
 NSString* address = @"address_example"; // Starting address from where the travel boundary is calculated. (optional)
-NSString* costUnit = @"min"; // Travel time unit such as min(Minute), h(Hour), s(Second) or msec(Millisecond). (optional) (default to min)
-NSString* db = @"driving"; // Mode of commute. (optional) (default to driving)
-NSString* country = @"USA"; // 3 character ISO code or country name. (optional) (default to USA)
+NSString* costs = @"costs_example"; // Travel time used to calculate the travel boundary. (optional)
+NSString* costUnit = @"costUnit_example"; // Travel time unit such as min(Minute), h(Hour), s(Second) or msec(Millisecond). (optional)
+NSString* db = @"db_example"; // Mode of commute. (optional)
+NSString* country = @"country_example"; // 3 character ISO code or country name. (optional)
 NSString* maxOffroadDistance = @"maxOffroadDistance_example"; // Maximum distance to allow travel off the road network. (optional)
 NSString* maxOffroadDistanceUnit = @"maxOffroadDistanceUnit_example"; // MaxOffroad Distance Unit such as ft(Foot), km(Kilometer), mi(Mile), m(Meter) or yd(Yard). (optional)
 NSString* destinationSrs = @"destinationSrs_example"; // Desired coordinate system of the travel boundary. (optional)
-NSString* majorRoads = @"false"; // Whether to include all roads in the calculation or just major roads. (optional) (default to false)
-NSString* returnHoles = @"false"; // Whether to return holes, which are areas within the larger boundary that cannot be reached within the desired time. (optional) (default to false)
-NSString* returnIslands = @"false"; // Whether to return islands, which are small areas outside the main boundary that can be reached within the desired time. (optional) (default to false)
-NSString* simplificationFactor = @"0.5"; // Number between 0.0 and 1.0 where 0.0 is very simple and 1.0 means the most complex. (optional) (default to 0.5)
-NSString* bandingStyle = @"Donut"; // Style of banding to be used in the result. (optional) (default to Donut)
-NSString* historicTrafficTimeBucket = @"None"; // Whether routing calculation uses the historic traffic speeds. (optional) (default to None)
+NSString* majorRoads = @"true"; // Whether to include all roads in the calculation or just major roads. (optional) (default to @"true")
+NSString* returnHoles = @"returnHoles_example"; // Whether to return holes, which are areas within the larger boundary that cannot be reached within the desired time (optional)
+NSString* returnIslands = @"returnIslands_example"; // Whether to return islands, which are small areas outside the main boundary that can be reached within the desired time (optional)
+NSString* simplificationFactor = @"simplificationFactor_example"; // Number between 0.0 and 1.0 where 0.0 is very simple and 1.0 means the most complex (optional)
+NSString* bandingStyle = @"bandingStyle_example"; // Style of banding to be used in the result (optional)
+NSString* historicTrafficTimeBucket = @"historicTrafficTimeBucket_example"; // Whether routing calculation uses the historic traffic speeds (optional)
 NSString* defaultAmbientSpeed = @"defaultAmbientSpeed_example"; // The speed to travel when going off a network road to find the travel boundary (for all road types). (optional)
-NSString* ambientSpeedUnit = @"MPH"; // The unit of measure to use to calculate the ambient speed. (optional) (default to MPH)
+NSString* ambientSpeedUnit = @"ambientSpeedUnit_example"; // The unit of measure to use to calculate the ambient speed. (optional)
 
 PBZonesServiceApi*apiInstance = [[PBZonesServiceApi alloc] init];
 
-// Gets travel Boundary by Time
-[apiInstance getTravelBoundaryByTimeWithCosts:costs
-              point:point
+// Get TravelBoundary By Time.
+[apiInstance getTravelBoundaryByTimeWithPoint:point
               address:address
+              costs:costs
               costUnit:costUnit
               db:db
               country:country
@@ -621,23 +621,23 @@ PBZonesServiceApi*apiInstance = [[PBZonesServiceApi alloc] init];
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **costs** | **NSString***| Travel time used to calculate the travel boundary. | 
  **point** | **NSString***| Starting point from where the travel boundary is calculated. Point in Lat,Long,coordsys format | [optional] 
  **address** | **NSString***| Starting address from where the travel boundary is calculated. | [optional] 
- **costUnit** | **NSString***| Travel time unit such as min(Minute), h(Hour), s(Second) or msec(Millisecond). | [optional] [default to min]
- **db** | **NSString***| Mode of commute. | [optional] [default to driving]
- **country** | **NSString***| 3 character ISO code or country name. | [optional] [default to USA]
+ **costs** | **NSString***| Travel time used to calculate the travel boundary. | [optional] 
+ **costUnit** | **NSString***| Travel time unit such as min(Minute), h(Hour), s(Second) or msec(Millisecond). | [optional] 
+ **db** | **NSString***| Mode of commute. | [optional] 
+ **country** | **NSString***| 3 character ISO code or country name. | [optional] 
  **maxOffroadDistance** | **NSString***| Maximum distance to allow travel off the road network. | [optional] 
  **maxOffroadDistanceUnit** | **NSString***| MaxOffroad Distance Unit such as ft(Foot), km(Kilometer), mi(Mile), m(Meter) or yd(Yard). | [optional] 
  **destinationSrs** | **NSString***| Desired coordinate system of the travel boundary. | [optional] 
- **majorRoads** | **NSString***| Whether to include all roads in the calculation or just major roads. | [optional] [default to false]
- **returnHoles** | **NSString***| Whether to return holes, which are areas within the larger boundary that cannot be reached within the desired time. | [optional] [default to false]
- **returnIslands** | **NSString***| Whether to return islands, which are small areas outside the main boundary that can be reached within the desired time. | [optional] [default to false]
- **simplificationFactor** | **NSString***| Number between 0.0 and 1.0 where 0.0 is very simple and 1.0 means the most complex. | [optional] [default to 0.5]
- **bandingStyle** | **NSString***| Style of banding to be used in the result. | [optional] [default to Donut]
- **historicTrafficTimeBucket** | **NSString***| Whether routing calculation uses the historic traffic speeds. | [optional] [default to None]
+ **majorRoads** | **NSString***| Whether to include all roads in the calculation or just major roads. | [optional] [default to @&quot;true&quot;]
+ **returnHoles** | **NSString***| Whether to return holes, which are areas within the larger boundary that cannot be reached within the desired time | [optional] 
+ **returnIslands** | **NSString***| Whether to return islands, which are small areas outside the main boundary that can be reached within the desired time | [optional] 
+ **simplificationFactor** | **NSString***| Number between 0.0 and 1.0 where 0.0 is very simple and 1.0 means the most complex | [optional] 
+ **bandingStyle** | **NSString***| Style of banding to be used in the result | [optional] 
+ **historicTrafficTimeBucket** | **NSString***| Whether routing calculation uses the historic traffic speeds | [optional] 
  **defaultAmbientSpeed** | **NSString***| The speed to travel when going off a network road to find the travel boundary (for all road types). | [optional] 
- **ambientSpeedUnit** | **NSString***| The unit of measure to use to calculate the ambient speed. | [optional] [default to MPH]
+ **ambientSpeedUnit** | **NSString***| The unit of measure to use to calculate the ambient speed. | [optional] 
 
 ### Return type
 
@@ -649,7 +649,7 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json, application/xml
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

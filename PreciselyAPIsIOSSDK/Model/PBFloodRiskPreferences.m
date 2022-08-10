@@ -17,7 +17,7 @@
  * This method is used by `JSONModel`.
  */
 + (JSONKeyMapper *)keyMapper {
-  return [[JSONKeyMapper alloc] initWithDictionary:@{ @"includeGeometry": @"includeGeometry", @"includeZoneDesc": @"includeZoneDesc" }];
+  return [[JSONKeyMapper alloc] initWithModelToJSONDictionary:@{ @"includeGeometry": @"includeGeometry", @"includeZoneDesc": @"includeZoneDesc", @"richterValue": @"richterValue" }];
 }
 
 /**
@@ -27,7 +27,7 @@
  */
 + (BOOL)propertyIsOptional:(NSString *)propertyName {
 
-  NSArray *optionalProperties = @[@"includeGeometry", @"includeZoneDesc"];
+  NSArray *optionalProperties = @[@"includeGeometry", @"includeZoneDesc", @"richterValue"];
   return [optionalProperties containsObject:propertyName];
 }
 

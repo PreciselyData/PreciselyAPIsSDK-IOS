@@ -17,7 +17,7 @@
  * This method is used by `JSONModel`.
  */
 + (JSONKeyMapper *)keyMapper {
-  return [[JSONKeyMapper alloc] initWithDictionary:@{ @"travelBoundary": @"travelBoundary" }];
+  return [[JSONKeyMapper alloc] initWithModelToJSONDictionary:@{ @"travelBoundary": @"travelBoundary" }];
 }
 
 /**

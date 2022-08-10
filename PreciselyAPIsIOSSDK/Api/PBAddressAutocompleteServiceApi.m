@@ -1,11 +1,13 @@
 #import "PBAddressAutocompleteServiceApi.h"
 #import "PBQueryParamCollection.h"
-#import "PBGeosearchLocations.h"
+#import "PBApiClient.h"
+#import "PBErrorInfo.h"
+#import "PBTypeaheadLocations.h"
 
 
 @interface PBAddressAutocompleteServiceApi ()
 
-@property (nonatomic, strong) NSMutableDictionary *defaultHeaders;
+@property (nonatomic, strong, readwrite) NSMutableDictionary *mutableDefaultHeaders;
 
 @end
 
@@ -19,52 +21,31 @@ NSInteger kPBAddressAutocompleteServiceApiMissingParamErrorCode = 234513;
 #pragma mark - Initialize methods
 
 - (instancetype) init {
-    self = [super init];
-    if (self) {
-        PBConfiguration *config = [PBConfiguration sharedConfig];
-        if (config.apiClient == nil) {
-            config.apiClient = [[PBApiClient alloc] init];
-        }
-        _apiClient = config.apiClient;
-        _defaultHeaders = [NSMutableDictionary dictionary];
-    }
-    return self;
+    return [self initWithApiClient:[PBApiClient sharedClient]];
 }
 
-- (id) initWithApiClient:(PBApiClient *)apiClient {
+
+-(instancetype) initWithApiClient:(PBApiClient *)apiClient {
     self = [super init];
     if (self) {
         _apiClient = apiClient;
-        _defaultHeaders = [NSMutableDictionary dictionary];
+        _mutableDefaultHeaders = [NSMutableDictionary dictionary];
     }
     return self;
 }
 
 #pragma mark -
 
-+ (instancetype)sharedAPI {
-    static PBAddressAutocompleteServiceApi *sharedAPI;
-    static dispatch_once_t once;
-    dispatch_once(&once, ^{
-        sharedAPI = [[self alloc] init];
-    });
-    return sharedAPI;
-}
-
 -(NSString*) defaultHeaderForKey:(NSString*)key {
-    return self.defaultHeaders[key];
-}
-
--(void) addHeader:(NSString*)value forKey:(NSString*)key {
-    [self setDefaultHeaderValue:value forKey:key];
+    return self.mutableDefaultHeaders[key];
 }
 
 -(void) setDefaultHeaderValue:(NSString*) value forKey:(NSString*)key {
-    [self.defaultHeaders setValue:value forKey:key];
+    [self.mutableDefaultHeaders setValue:value forKey:key];
 }
 
--(NSUInteger) requestQueueSize {
-    return [PBApiClient requestQueueSize];
+-(NSDictionary *)defaultHeaders {
+    return self.mutableDefaultHeaders;
 }
 
 #pragma mark - Api Methods
@@ -74,21 +55,21 @@ NSInteger kPBAddressAutocompleteServiceApiMissingParamErrorCode = 234513;
 /// Performs search to retrieve list of places by input text and location vicinity.
 ///  @param searchText The input to be searched. 
 ///
-///  @param latitude Latitude of the location. Either the latitude or the longitude must be provided. (optional)
+///  @param latitude Latitude of the location. We need to make sure that either Lat/Lng or Country is provided to API (optional)
 ///
-///  @param longitude Longitude of the location. Either the latitude or the longitude must be provided. (optional)
+///  @param longitude Longitude of the location. We need to make sure that either Lat/Lng or Country is provided to API (optional)
 ///
 ///  @param searchRadius Radius range within which search is performed. (optional)
 ///
 ///  @param searchRadiusUnit Radius unit such as Feet, Kilometers, Miles or Meters. (optional)
 ///
-///  @param maxCandidates Maximum number of addresses that can be retrieved. (optional)
+///  @param maxCandidates Maximum number of POIs that can be retrieved. (optional)
 ///
 ///  @param country Country ISO code. We need to make sure that either Lat/Lng or Country is provided to API (optional)
 ///
 ///  @param matchOnAddressNumber Option so that we force api to match on address number (optional)
 ///
-///  @param autoDetectLocation Option to allow API to detect origin of API request automatically (optional, default to true)
+///  @param autoDetectLocation Option to allow API to detect origin of API request automatically (optional)
 ///
 ///  @param ipAddress  (optional)
 ///
@@ -98,17 +79,17 @@ NSInteger kPBAddressAutocompleteServiceApiMissingParamErrorCode = 234513;
 ///
 ///  @param postCode Postal Code of the input to be searched (optional)
 ///
-///  @param returnAdminAreasOnly if value set 'Y' then it will only do a matching on postcode or areaName1, areaName2, areaName3 and areaName4 fields in the data (optional, default to N)
+///  @param returnAdminAreasOnly if value set 'Y' then it will only do a matching on postcode or areaName1, areaName2, areaName3 and areaName4 fields in the data (optional)
 ///
-///  @param includeRangesDetails if value set 'Y' then display all unit info of ranges, if value set 'N' then don't show ranges (optional, default to Y)
+///  @param includeRangesDetails if value set 'Y' then display all unit info of ranges, if value set 'N' then don't show ranges (optional)
 ///
-///  @param searchType Preference to control search type of interactive requests. (optional, default to ADDRESS)
+///  @param searchType Preference to control search type of interactive requests. (optional)
 ///
-///  @param searchOnAddressNumber if value set 'Y' then display searchOnAddressNumber (optional, default to N)
+///  @param searchOnAddressNumber Preference to search on address number. (optional)
 ///
-///  @returns PBGeosearchLocations*
+///  @returns PBTypeaheadLocations*
 ///
--(NSNumber*) searchWithSearchText: (NSString*) searchText
+-(NSURLSessionTask*) searchV2WithSearchText: (NSString*) searchText
     latitude: (NSString*) latitude
     longitude: (NSString*) longitude
     searchRadius: (NSString*) searchRadius
@@ -125,7 +106,7 @@ NSInteger kPBAddressAutocompleteServiceApiMissingParamErrorCode = 234513;
     includeRangesDetails: (NSString*) includeRangesDetails
     searchType: (NSString*) searchType
     searchOnAddressNumber: (NSString*) searchOnAddressNumber
-    completionHandler: (void (^)(PBGeosearchLocations* output, NSError* error)) handler {
+    completionHandler: (void (^)(PBTypeaheadLocations* output, NSError* error)) handler {
     // verify the required parameter 'searchText' is set
     if (searchText == nil) {
         NSParameterAssert(searchText);
@@ -138,9 +119,6 @@ NSInteger kPBAddressAutocompleteServiceApiMissingParamErrorCode = 234513;
     }
 
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/typeahead/v1/locations"];
-
-    // remove format in URL if needed
-    [resourcePath replaceOccurrencesOfString:@".{format}" withString:@".json" options:0 range:NSMakeRange(0,resourcePath.length)];
 
     NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
 
@@ -208,7 +186,7 @@ NSInteger kPBAddressAutocompleteServiceApiMissingParamErrorCode = 234513;
     NSString *responseContentType = [[acceptHeader componentsSeparatedByString:@", "] firstObject] ?: @"";
 
     // request content type
-    NSString *requestContentType = [self.apiClient.sanitizer selectHeaderContentType:@[@"application/json", @"application/xml"]];
+    NSString *requestContentType = [self.apiClient.sanitizer selectHeaderContentType:@[]];
 
     // Authentication setting
     NSArray *authSettings = @[@"oAuth2Password"];
@@ -228,13 +206,12 @@ NSInteger kPBAddressAutocompleteServiceApiMissingParamErrorCode = 234513;
                               authSettings: authSettings
                         requestContentType: requestContentType
                        responseContentType: responseContentType
-                              responseType: @"PBGeosearchLocations*"
+                              responseType: @"PBTypeaheadLocations*"
                            completionBlock: ^(id data, NSError *error) {
                                 if(handler) {
-                                    handler((PBGeosearchLocations*)data, error);
+                                    handler((PBTypeaheadLocations*)data, error);
                                 }
-                           }
-          ];
+                            }];
 }
 
 

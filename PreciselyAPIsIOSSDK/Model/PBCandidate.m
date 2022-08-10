@@ -17,7 +17,7 @@
  * This method is used by `JSONModel`.
  */
 + (JSONKeyMapper *)keyMapper {
-  return [[JSONKeyMapper alloc] initWithDictionary:@{ @"precisionLevel": @"precisionLevel", @"formattedStreetAddress": @"formattedStreetAddress", @"formattedLocationAddress": @"formattedLocationAddress", @"identifier": @"identifier", @"precisionCode": @"precisionCode", @"sourceDictionary": @"sourceDictionary", @"matching": @"matching", @"geometry": @"geometry", @"address": @"address", @"ranges": @"ranges" }];
+  return [[JSONKeyMapper alloc] initWithModelToJSONDictionary:@{ @"precisionLevel": @"precisionLevel", @"formattedStreetAddress": @"formattedStreetAddress", @"formattedLocationAddress": @"formattedLocationAddress", @"identifier": @"identifier", @"precisionCode": @"precisionCode", @"sourceDictionary": @"sourceDictionary", @"matching": @"matching", @"geometry": @"geometry", @"address": @"address", @"ranges": @"ranges" }];
 }
 
 /**

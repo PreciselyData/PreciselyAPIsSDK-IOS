@@ -3,7 +3,8 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**geometry** | [**PBGeometry***](PBGeometry.md) |  | 
+**geometry** | [**PBTimezoneGeometry***](PBTimezoneGeometry.md) |  | 
+**purchaseAmount** | **NSString*** |  | [optional] 
 **objectId** | **NSString*** |  | [optional] 
 **timestamp** | **NSString*** |  | [optional] 
 

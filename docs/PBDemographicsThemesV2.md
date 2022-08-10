@@ -8,7 +8,7 @@ Name | Type | Description | Notes
 **raceAndEthnicityTheme** | [**PBRaceAndEthnicityTheme***](PBRaceAndEthnicityTheme.md) |  | [optional] 
 **healthTheme** | [**PBHealthTheme***](PBHealthTheme.md) |  | [optional] 
 **educationTheme** | [**PBEducationTheme***](PBEducationTheme.md) |  | [optional] 
-**incomeTheme** | [**PBIncomeThemeV2***](PBIncomeThemeV2.md) |  | [optional] 
+**incomeTheme** | [**PBIncomeTheme***](PBIncomeTheme.md) |  | [optional] 
 **assetsAndWealthTheme** | [**PBAssetsAndWealthTheme***](PBAssetsAndWealthTheme.md) |  | [optional] 
 **householdsTheme** | [**PBHouseholdsTheme***](PBHouseholdsTheme.md) |  | [optional] 
 **housingTheme** | [**PBHousingTheme***](PBHousingTheme.md) |  | [optional] 

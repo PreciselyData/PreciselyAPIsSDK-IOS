@@ -1,13 +1,15 @@
 #import "PBDemographicsServiceApi.h"
 #import "PBQueryParamCollection.h"
+#import "PBApiClient.h"
 #import "PBDemographics.h"
 #import "PBDemographicsAdvancedRequest.h"
+#import "PBErrorInfo.h"
 #import "PBSegmentation.h"
 
 
 @interface PBDemographicsServiceApi ()
 
-@property (nonatomic, strong) NSMutableDictionary *defaultHeaders;
+@property (nonatomic, strong, readwrite) NSMutableDictionary *mutableDefaultHeaders;
 
 @end
 
@@ -21,52 +23,31 @@ NSInteger kPBDemographicsServiceApiMissingParamErrorCode = 234513;
 #pragma mark - Initialize methods
 
 - (instancetype) init {
-    self = [super init];
-    if (self) {
-        PBConfiguration *config = [PBConfiguration sharedConfig];
-        if (config.apiClient == nil) {
-            config.apiClient = [[PBApiClient alloc] init];
-        }
-        _apiClient = config.apiClient;
-        _defaultHeaders = [NSMutableDictionary dictionary];
-    }
-    return self;
+    return [self initWithApiClient:[PBApiClient sharedClient]];
 }
 
-- (id) initWithApiClient:(PBApiClient *)apiClient {
+
+-(instancetype) initWithApiClient:(PBApiClient *)apiClient {
     self = [super init];
     if (self) {
         _apiClient = apiClient;
-        _defaultHeaders = [NSMutableDictionary dictionary];
+        _mutableDefaultHeaders = [NSMutableDictionary dictionary];
     }
     return self;
 }
 
 #pragma mark -
 
-+ (instancetype)sharedAPI {
-    static PBDemographicsServiceApi *sharedAPI;
-    static dispatch_once_t once;
-    dispatch_once(&once, ^{
-        sharedAPI = [[self alloc] init];
-    });
-    return sharedAPI;
-}
-
 -(NSString*) defaultHeaderForKey:(NSString*)key {
-    return self.defaultHeaders[key];
-}
-
--(void) addHeader:(NSString*)value forKey:(NSString*)key {
-    [self setDefaultHeaderValue:value forKey:key];
+    return self.mutableDefaultHeaders[key];
 }
 
 -(void) setDefaultHeaderValue:(NSString*) value forKey:(NSString*)key {
-    [self.defaultHeaders setValue:value forKey:key];
+    [self.mutableDefaultHeaders setValue:value forKey:key];
 }
 
--(NSUInteger) requestQueueSize {
-    return [PBApiClient requestQueueSize];
+-(NSDictionary *)defaultHeaders {
+    return self.mutableDefaultHeaders;
 }
 
 #pragma mark - Api Methods
@@ -74,16 +55,24 @@ NSInteger kPBDemographicsServiceApiMissingParamErrorCode = 234513;
 ///
 /// Demographics Advanced Endpoint
 /// Demographics Advanced Endpoint will return the aggregated values of the selected demographics variables of the regions falling inside a user provided geometry or travel time/distance boundaries. All the intersecting demographic boundaries will be snapped completely, and user will have option to request these boundaries in response.  
-///  @param body  (optional)
+///  @param demographicsAdvancedRequest  
 ///
 ///  @returns PBDemographics*
 ///
--(NSNumber*) getDemographicsAdvancedWithBody: (PBDemographicsAdvancedRequest*) body
+-(NSURLSessionTask*) getDemographicsAdvancedWithDemographicsAdvancedRequest: (PBDemographicsAdvancedRequest*) demographicsAdvancedRequest
     completionHandler: (void (^)(PBDemographics* output, NSError* error)) handler {
-    NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/demographics-segmentation/v1/advanced/demographics"];
+    // verify the required parameter 'demographicsAdvancedRequest' is set
+    if (demographicsAdvancedRequest == nil) {
+        NSParameterAssert(demographicsAdvancedRequest);
+        if(handler) {
+            NSDictionary * userInfo = @{NSLocalizedDescriptionKey : [NSString stringWithFormat:NSLocalizedString(@"Missing required parameter '%@'", nil),@"demographicsAdvancedRequest"] };
+            NSError* error = [NSError errorWithDomain:kPBDemographicsServiceApiErrorDomain code:kPBDemographicsServiceApiMissingParamErrorCode userInfo:userInfo];
+            handler(nil, error);
+        }
+        return nil;
+    }
 
-    // remove format in URL if needed
-    [resourcePath replaceOccurrencesOfString:@".{format}" withString:@".json" options:0 range:NSMakeRange(0,resourcePath.length)];
+    NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/demographics-segmentation/v1/advanced/demographics"];
 
     NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
 
@@ -100,7 +89,7 @@ NSInteger kPBDemographicsServiceApiMissingParamErrorCode = 234513;
     NSString *responseContentType = [[acceptHeader componentsSeparatedByString:@", "] firstObject] ?: @"";
 
     // request content type
-    NSString *requestContentType = [self.apiClient.sanitizer selectHeaderContentType:@[@"application/json", @"application/xml"]];
+    NSString *requestContentType = [self.apiClient.sanitizer selectHeaderContentType:@[@"application/json"]];
 
     // Authentication setting
     NSArray *authSettings = @[@"oAuth2Password"];
@@ -108,7 +97,7 @@ NSInteger kPBDemographicsServiceApiMissingParamErrorCode = 234513;
     id bodyParam = nil;
     NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
     NSMutableDictionary *localVarFiles = [[NSMutableDictionary alloc] init];
-    bodyParam = body;
+    bodyParam = demographicsAdvancedRequest;
 
     return [self.apiClient requestWithPath: resourcePath
                                     method: @"POST"
@@ -126,8 +115,7 @@ NSInteger kPBDemographicsServiceApiMissingParamErrorCode = 234513;
                                 if(handler) {
                                     handler((PBDemographics*)data, error);
                                 }
-                           }
-          ];
+                            }];
 }
 
 ///
@@ -163,7 +151,7 @@ NSInteger kPBDemographicsServiceApiMissingParamErrorCode = 234513;
 ///
 ///  @returns PBDemographics*
 ///
--(NSNumber*) getDemographicsBasicWithAddress: (NSString*) address
+-(NSURLSessionTask*) getDemographicsBasicWithAddress: (NSString*) address
     longitude: (NSString*) longitude
     latitude: (NSString*) latitude
     searchRadius: (NSString*) searchRadius
@@ -179,9 +167,6 @@ NSInteger kPBDemographicsServiceApiMissingParamErrorCode = 234513;
     includeGeometry: (NSString*) includeGeometry
     completionHandler: (void (^)(PBDemographics* output, NSError* error)) handler {
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/demographics-segmentation/v1/basic/demographics"];
-
-    // remove format in URL if needed
-    [resourcePath replaceOccurrencesOfString:@".{format}" withString:@".json" options:0 range:NSMakeRange(0,resourcePath.length)];
 
     NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
 
@@ -240,7 +225,7 @@ NSInteger kPBDemographicsServiceApiMissingParamErrorCode = 234513;
     NSString *responseContentType = [[acceptHeader componentsSeparatedByString:@", "] firstObject] ?: @"";
 
     // request content type
-    NSString *requestContentType = [self.apiClient.sanitizer selectHeaderContentType:@[@"application/json", @"application/xml"]];
+    NSString *requestContentType = [self.apiClient.sanitizer selectHeaderContentType:@[]];
 
     // Authentication setting
     NSArray *authSettings = @[@"oAuth2Password"];
@@ -265,8 +250,7 @@ NSInteger kPBDemographicsServiceApiMissingParamErrorCode = 234513;
                                 if(handler) {
                                     handler((PBDemographics*)data, error);
                                 }
-                           }
-          ];
+                            }];
 }
 
 ///
@@ -276,17 +260,17 @@ NSInteger kPBDemographicsServiceApiMissingParamErrorCode = 234513;
 ///
 ///  @param country 3 letter ISO code of the country to be searched.Allowed values USA,CAN,GBR,AUS. (optional)
 ///
-///  @param profile Retrieves the sorted demographic data on the basis of pre-defined profiles that can display the top 3 or top 5 results (by address) either in ascending or descending order.Allowed values Top5Ascending,Top5Descending,Top3Ascending,Top3Descending (optional)
+///  @param profile Retrieves the sorted demographic data on the basis of pre-defined profiles that can display the top 3 or top 5 results (by location) either in ascending or descending order.Allowed values Top5Ascending,Top5Descending,Top3Ascending,Top3Descending (optional)
 ///
 ///  @param filter The 'filter' parameter retrieves the demographic data based upon specified input themes. (optional)
 ///
-///  @param valueFormat The 'valueFormat' parameter is applicable for few ranged variables where percent & count both are available and filter response based on the input value. (optional, default to PercentAsAvailable)
+///  @param valueFormat The 'valueFormat' parameter is applicable for few ranged variables where percent & count both are available and filter response based on the input value. (optional)
 ///
-///  @param variableLevel The 'variableLevel' retrieves demographic facts in response based on the input value (optional, default to Key)
+///  @param variableLevel The 'variableLevel' retrieves demographic facts in response based on the input value (optional)
 ///
 ///  @returns PBDemographics*
 ///
--(NSNumber*) getDemographicsByAddressV2WithAddress: (NSString*) address
+-(NSURLSessionTask*) getDemographicsByAddressWithAddress: (NSString*) address
     country: (NSString*) country
     profile: (NSString*) profile
     filter: (NSString*) filter
@@ -305,9 +289,6 @@ NSInteger kPBDemographicsServiceApiMissingParamErrorCode = 234513;
     }
 
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/demographics-segmentation/v1/demographics/byaddress"];
-
-    // remove format in URL if needed
-    [resourcePath replaceOccurrencesOfString:@".{format}" withString:@".json" options:0 range:NSMakeRange(0,resourcePath.length)];
 
     NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
 
@@ -342,7 +323,7 @@ NSInteger kPBDemographicsServiceApiMissingParamErrorCode = 234513;
     NSString *responseContentType = [[acceptHeader componentsSeparatedByString:@", "] firstObject] ?: @"";
 
     // request content type
-    NSString *requestContentType = [self.apiClient.sanitizer selectHeaderContentType:@[@"application/json", @"application/xml"]];
+    NSString *requestContentType = [self.apiClient.sanitizer selectHeaderContentType:@[]];
 
     // Authentication setting
     NSArray *authSettings = @[@"oAuth2Password"];
@@ -367,8 +348,7 @@ NSInteger kPBDemographicsServiceApiMissingParamErrorCode = 234513;
                                 if(handler) {
                                     handler((PBDemographics*)data, error);
                                 }
-                           }
-          ];
+                            }];
 }
 
 ///
@@ -386,16 +366,13 @@ NSInteger kPBDemographicsServiceApiMissingParamErrorCode = 234513;
 ///
 ///  @returns PBDemographics*
 ///
--(NSNumber*) getDemographicsByBoundaryIdsWithBoundaryIds: (NSString*) boundaryIds
+-(NSURLSessionTask*) getDemographicsByBoundaryIdsWithBoundaryIds: (NSString*) boundaryIds
     profile: (NSString*) profile
     filter: (NSString*) filter
     valueFormat: (NSString*) valueFormat
     variableLevel: (NSString*) variableLevel
     completionHandler: (void (^)(PBDemographics* output, NSError* error)) handler {
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/demographics-segmentation/v1/demographics/byboundaryids"];
-
-    // remove format in URL if needed
-    [resourcePath replaceOccurrencesOfString:@".{format}" withString:@".json" options:0 range:NSMakeRange(0,resourcePath.length)];
 
     NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
 
@@ -427,7 +404,7 @@ NSInteger kPBDemographicsServiceApiMissingParamErrorCode = 234513;
     NSString *responseContentType = [[acceptHeader componentsSeparatedByString:@", "] firstObject] ?: @"";
 
     // request content type
-    NSString *requestContentType = [self.apiClient.sanitizer selectHeaderContentType:@[@"application/json", @"application/xml"]];
+    NSString *requestContentType = [self.apiClient.sanitizer selectHeaderContentType:@[]];
 
     // Authentication setting
     NSArray *authSettings = @[@"oAuth2Password"];
@@ -452,60 +429,34 @@ NSInteger kPBDemographicsServiceApiMissingParamErrorCode = 234513;
                                 if(handler) {
                                     handler((PBDemographics*)data, error);
                                 }
-                           }
-          ];
+                            }];
 }
 
 ///
 /// Demographics By Location.
 /// Provides the demographic details around a specified location. GeoLife 'bylocation' service accepts longitude and latitude as an input to return a specific population segment's age group, ethnicity, income, purchasing behaviour, commuter patterns and more.
-///  @param longitude Longitude of the location. 
+///  @param longitude Longitude of the location. (optional)
 ///
-///  @param latitude Latitude of the location. 
+///  @param latitude Latitude of the location. (optional)
 ///
 ///  @param profile Retrieves the sorted demographic data on the basis of pre-defined profiles that can display the top 3 or top 5 results (by location) either in ascending or descending order.Allowed values Top5Ascending,Top5Descending,Top3Ascending,Top3Descending (optional)
 ///
 ///  @param filter The 'filter' parameter retrieves the demographic data based upon specified input themes. (optional)
 ///
-///  @param valueFormat The 'valueFormat' parameter is applicable for few ranged variables where percent & count both are available and filter response based on the input value. (optional, default to PercentAsAvailable)
+///  @param valueFormat The 'valueFormat' parameter is applicable for few ranged variables where percent & count both are available and filter response based on the input value. (optional)
 ///
-///  @param variableLevel The 'variableLevel' retrieves demographic facts in response based on the input value (optional, default to Key)
+///  @param variableLevel The 'variableLevel' retrieves demographic facts in response based on the input value (optional)
 ///
 ///  @returns PBDemographics*
 ///
--(NSNumber*) getDemographicsByLocationV2WithLongitude: (NSString*) longitude
+-(NSURLSessionTask*) getDemographicsByLocationWithLongitude: (NSString*) longitude
     latitude: (NSString*) latitude
     profile: (NSString*) profile
     filter: (NSString*) filter
     valueFormat: (NSString*) valueFormat
     variableLevel: (NSString*) variableLevel
     completionHandler: (void (^)(PBDemographics* output, NSError* error)) handler {
-    // verify the required parameter 'longitude' is set
-    if (longitude == nil) {
-        NSParameterAssert(longitude);
-        if(handler) {
-            NSDictionary * userInfo = @{NSLocalizedDescriptionKey : [NSString stringWithFormat:NSLocalizedString(@"Missing required parameter '%@'", nil),@"longitude"] };
-            NSError* error = [NSError errorWithDomain:kPBDemographicsServiceApiErrorDomain code:kPBDemographicsServiceApiMissingParamErrorCode userInfo:userInfo];
-            handler(nil, error);
-        }
-        return nil;
-    }
-
-    // verify the required parameter 'latitude' is set
-    if (latitude == nil) {
-        NSParameterAssert(latitude);
-        if(handler) {
-            NSDictionary * userInfo = @{NSLocalizedDescriptionKey : [NSString stringWithFormat:NSLocalizedString(@"Missing required parameter '%@'", nil),@"latitude"] };
-            NSError* error = [NSError errorWithDomain:kPBDemographicsServiceApiErrorDomain code:kPBDemographicsServiceApiMissingParamErrorCode userInfo:userInfo];
-            handler(nil, error);
-        }
-        return nil;
-    }
-
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/demographics-segmentation/v1/demographics/bylocation"];
-
-    // remove format in URL if needed
-    [resourcePath replaceOccurrencesOfString:@".{format}" withString:@".json" options:0 range:NSMakeRange(0,resourcePath.length)];
 
     NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
 
@@ -540,7 +491,7 @@ NSInteger kPBDemographicsServiceApiMissingParamErrorCode = 234513;
     NSString *responseContentType = [[acceptHeader componentsSeparatedByString:@", "] firstObject] ?: @"";
 
     // request content type
-    NSString *requestContentType = [self.apiClient.sanitizer selectHeaderContentType:@[@"application/json", @"application/xml"]];
+    NSString *requestContentType = [self.apiClient.sanitizer selectHeaderContentType:@[]];
 
     // Authentication setting
     NSArray *authSettings = @[@"oAuth2Password"];
@@ -565,8 +516,7 @@ NSInteger kPBDemographicsServiceApiMissingParamErrorCode = 234513;
                                 if(handler) {
                                     handler((PBDemographics*)data, error);
                                 }
-                           }
-          ];
+                            }];
 }
 
 ///
@@ -578,7 +528,7 @@ NSInteger kPBDemographicsServiceApiMissingParamErrorCode = 234513;
 ///
 ///  @returns PBSegmentation*
 ///
--(NSNumber*) getSegmentationByAddressWithAddress: (NSString*) address
+-(NSURLSessionTask*) getSegmentationByAddressWithAddress: (NSString*) address
     country: (NSString*) country
     completionHandler: (void (^)(PBSegmentation* output, NSError* error)) handler {
     // verify the required parameter 'address' is set
@@ -593,9 +543,6 @@ NSInteger kPBDemographicsServiceApiMissingParamErrorCode = 234513;
     }
 
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/demographics-segmentation/v1/segmentation/byaddress"];
-
-    // remove format in URL if needed
-    [resourcePath replaceOccurrencesOfString:@".{format}" withString:@".json" options:0 range:NSMakeRange(0,resourcePath.length)];
 
     NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
 
@@ -618,7 +565,7 @@ NSInteger kPBDemographicsServiceApiMissingParamErrorCode = 234513;
     NSString *responseContentType = [[acceptHeader componentsSeparatedByString:@", "] firstObject] ?: @"";
 
     // request content type
-    NSString *requestContentType = [self.apiClient.sanitizer selectHeaderContentType:@[@"application/json", @"application/xml"]];
+    NSString *requestContentType = [self.apiClient.sanitizer selectHeaderContentType:@[]];
 
     // Authentication setting
     NSArray *authSettings = @[@"oAuth2Password"];
@@ -643,8 +590,7 @@ NSInteger kPBDemographicsServiceApiMissingParamErrorCode = 234513;
                                 if(handler) {
                                     handler((PBSegmentation*)data, error);
                                 }
-                           }
-          ];
+                            }];
 }
 
 ///
@@ -656,7 +602,7 @@ NSInteger kPBDemographicsServiceApiMissingParamErrorCode = 234513;
 ///
 ///  @returns PBSegmentation*
 ///
--(NSNumber*) getSegmentationByLocationWithLongitude: (NSString*) longitude
+-(NSURLSessionTask*) getSegmentationByLocationWithLongitude: (NSString*) longitude
     latitude: (NSString*) latitude
     completionHandler: (void (^)(PBSegmentation* output, NSError* error)) handler {
     // verify the required parameter 'longitude' is set
@@ -683,9 +629,6 @@ NSInteger kPBDemographicsServiceApiMissingParamErrorCode = 234513;
 
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/demographics-segmentation/v1/segmentation/bylocation"];
 
-    // remove format in URL if needed
-    [resourcePath replaceOccurrencesOfString:@".{format}" withString:@".json" options:0 range:NSMakeRange(0,resourcePath.length)];
-
     NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
 
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
@@ -707,7 +650,7 @@ NSInteger kPBDemographicsServiceApiMissingParamErrorCode = 234513;
     NSString *responseContentType = [[acceptHeader componentsSeparatedByString:@", "] firstObject] ?: @"";
 
     // request content type
-    NSString *requestContentType = [self.apiClient.sanitizer selectHeaderContentType:@[@"application/json", @"application/xml"]];
+    NSString *requestContentType = [self.apiClient.sanitizer selectHeaderContentType:@[]];
 
     // Authentication setting
     NSArray *authSettings = @[@"oAuth2Password"];
@@ -732,8 +675,7 @@ NSInteger kPBDemographicsServiceApiMissingParamErrorCode = 234513;
                                 if(handler) {
                                     handler((PBSegmentation*)data, error);
                                 }
-                           }
-          ];
+                            }];
 }
 
 

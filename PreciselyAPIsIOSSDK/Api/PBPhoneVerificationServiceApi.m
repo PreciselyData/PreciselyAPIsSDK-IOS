@@ -1,11 +1,13 @@
 #import "PBPhoneVerificationServiceApi.h"
 #import "PBQueryParamCollection.h"
+#import "PBApiClient.h"
+#import "PBErrorInfo.h"
 #import "PBPhoneVerification.h"
 
 
 @interface PBPhoneVerificationServiceApi ()
 
-@property (nonatomic, strong) NSMutableDictionary *defaultHeaders;
+@property (nonatomic, strong, readwrite) NSMutableDictionary *mutableDefaultHeaders;
 
 @end
 
@@ -19,52 +21,31 @@ NSInteger kPBPhoneVerificationServiceApiMissingParamErrorCode = 234513;
 #pragma mark - Initialize methods
 
 - (instancetype) init {
-    self = [super init];
-    if (self) {
-        PBConfiguration *config = [PBConfiguration sharedConfig];
-        if (config.apiClient == nil) {
-            config.apiClient = [[PBApiClient alloc] init];
-        }
-        _apiClient = config.apiClient;
-        _defaultHeaders = [NSMutableDictionary dictionary];
-    }
-    return self;
+    return [self initWithApiClient:[PBApiClient sharedClient]];
 }
 
-- (id) initWithApiClient:(PBApiClient *)apiClient {
+
+-(instancetype) initWithApiClient:(PBApiClient *)apiClient {
     self = [super init];
     if (self) {
         _apiClient = apiClient;
-        _defaultHeaders = [NSMutableDictionary dictionary];
+        _mutableDefaultHeaders = [NSMutableDictionary dictionary];
     }
     return self;
 }
 
 #pragma mark -
 
-+ (instancetype)sharedAPI {
-    static PBPhoneVerificationServiceApi *sharedAPI;
-    static dispatch_once_t once;
-    dispatch_once(&once, ^{
-        sharedAPI = [[self alloc] init];
-    });
-    return sharedAPI;
-}
-
 -(NSString*) defaultHeaderForKey:(NSString*)key {
-    return self.defaultHeaders[key];
-}
-
--(void) addHeader:(NSString*)value forKey:(NSString*)key {
-    [self setDefaultHeaderValue:value forKey:key];
+    return self.mutableDefaultHeaders[key];
 }
 
 -(void) setDefaultHeaderValue:(NSString*) value forKey:(NSString*)key {
-    [self.defaultHeaders setValue:value forKey:key];
+    [self.mutableDefaultHeaders setValue:value forKey:key];
 }
 
--(NSUInteger) requestQueueSize {
-    return [PBApiClient requestQueueSize];
+-(NSDictionary *)defaultHeaders {
+    return self.mutableDefaultHeaders;
 }
 
 #pragma mark - Api Methods
@@ -78,7 +59,7 @@ NSInteger kPBPhoneVerificationServiceApiMissingParamErrorCode = 234513;
 ///
 ///  @returns PBPhoneVerification*
 ///
--(NSNumber*) phoneVerificationWithPhoneNumber: (NSString*) phoneNumber
+-(NSURLSessionTask*) phoneVerificationWithPhoneNumber: (NSString*) phoneNumber
     includeNetworkInfo: (NSString*) includeNetworkInfo
     completionHandler: (void (^)(PBPhoneVerification* output, NSError* error)) handler {
     // verify the required parameter 'phoneNumber' is set
@@ -93,9 +74,6 @@ NSInteger kPBPhoneVerificationServiceApiMissingParamErrorCode = 234513;
     }
 
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/phoneverification/v1/phoneverification"];
-
-    // remove format in URL if needed
-    [resourcePath replaceOccurrencesOfString:@".{format}" withString:@".json" options:0 range:NSMakeRange(0,resourcePath.length)];
 
     NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
 
@@ -118,7 +96,7 @@ NSInteger kPBPhoneVerificationServiceApiMissingParamErrorCode = 234513;
     NSString *responseContentType = [[acceptHeader componentsSeparatedByString:@", "] firstObject] ?: @"";
 
     // request content type
-    NSString *requestContentType = [self.apiClient.sanitizer selectHeaderContentType:@[@"application/json", @"application/xml"]];
+    NSString *requestContentType = [self.apiClient.sanitizer selectHeaderContentType:@[]];
 
     // Authentication setting
     NSArray *authSettings = @[@"oAuth2Password"];
@@ -143,8 +121,7 @@ NSInteger kPBPhoneVerificationServiceApiMissingParamErrorCode = 234513;
                                 if(handler) {
                                     handler((PBPhoneVerification*)data, error);
                                 }
-                           }
-          ];
+                            }];
 }
 
 

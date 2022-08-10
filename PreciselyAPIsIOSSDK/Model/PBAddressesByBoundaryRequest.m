@@ -17,7 +17,7 @@
  * This method is used by `JSONModel`.
  */
 + (JSONKeyMapper *)keyMapper {
-  return [[JSONKeyMapper alloc] initWithDictionary:@{ @"preferences": @"preferences", @"geometry": @"geometry", @"geometryAsText": @"geometryAsText", @"latitude": @"latitude", @"longitude": @"longitude", @"travelTime": @"travelTime", @"travelTimeUnit": @"travelTimeUnit", @"travelDistance": @"travelDistance", @"travelDistanceUnit": @"travelDistanceUnit", @"travelMode": @"travelMode" }];
+  return [[JSONKeyMapper alloc] initWithModelToJSONDictionary:@{ @"preferences": @"preferences", @"geometry": @"geometry", @"geometryAsText": @"geometryAsText", @"latitude": @"latitude", @"longitude": @"longitude", @"travelTime": @"travelTime", @"travelTimeUnit": @"travelTimeUnit", @"travelDistance": @"travelDistance", @"travelDistanceUnit": @"travelDistanceUnit", @"travelMode": @"travelMode" }];
 }
 
 /**

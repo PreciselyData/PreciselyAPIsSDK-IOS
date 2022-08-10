@@ -6,16 +6,16 @@ Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**getDemographicsAdvanced**](PBDemographicsServiceApi.md#getdemographicsadvanced) | **POST** /demographics-segmentation/v1/advanced/demographics | Demographics Advanced Endpoint
 [**getDemographicsBasic**](PBDemographicsServiceApi.md#getdemographicsbasic) | **GET** /demographics-segmentation/v1/basic/demographics | Demographics Basic
-[**getDemographicsByAddressV2**](PBDemographicsServiceApi.md#getdemographicsbyaddressv2) | **GET** /demographics-segmentation/v1/demographics/byaddress | Demographics By Address.
+[**getDemographicsByAddress**](PBDemographicsServiceApi.md#getdemographicsbyaddress) | **GET** /demographics-segmentation/v1/demographics/byaddress | Demographics By Address.
 [**getDemographicsByBoundaryIds**](PBDemographicsServiceApi.md#getdemographicsbyboundaryids) | **GET** /demographics-segmentation/v1/demographics/byboundaryids | Demographics By Boundaryids.
-[**getDemographicsByLocationV2**](PBDemographicsServiceApi.md#getdemographicsbylocationv2) | **GET** /demographics-segmentation/v1/demographics/bylocation | Demographics By Location.
+[**getDemographicsByLocation**](PBDemographicsServiceApi.md#getdemographicsbylocation) | **GET** /demographics-segmentation/v1/demographics/bylocation | Demographics By Location.
 [**getSegmentationByAddress**](PBDemographicsServiceApi.md#getsegmentationbyaddress) | **GET** /demographics-segmentation/v1/segmentation/byaddress | Segmentation By Address.
 [**getSegmentationByLocation**](PBDemographicsServiceApi.md#getsegmentationbylocation) | **GET** /demographics-segmentation/v1/segmentation/bylocation | Segmentation By Location.
 
 
 # **getDemographicsAdvanced**
 ```objc
--(NSNumber*) getDemographicsAdvancedWithBody: (PBDemographicsAdvancedRequest*) body
+-(NSURLSessionTask*) getDemographicsAdvancedWithDemographicsAdvancedRequest: (PBDemographicsAdvancedRequest*) demographicsAdvancedRequest
         completionHandler: (void (^)(PBDemographics* output, NSError* error)) handler;
 ```
 
@@ -23,20 +23,20 @@ Demographics Advanced Endpoint
 
 Demographics Advanced Endpoint will return the aggregated values of the selected demographics variables of the regions falling inside a user provided geometry or travel time/distance boundaries. All the intersecting demographic boundaries will be snapped completely, and user will have option to request these boundaries in response.  
 
-### Example 
+### Example
 ```objc
-PBConfiguration *apiConfig = [PBConfiguration sharedConfig];
+PBDefaultConfiguration *apiConfig = [PBDefaultConfiguration sharedConfig];
 
 // Configure OAuth2 access token for authorization: (authentication scheme: oAuth2Password)
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
 
 
-PBDemographicsAdvancedRequest* body = [[PBDemographicsAdvancedRequest alloc] init]; //  (optional)
+PBDemographicsAdvancedRequest* demographicsAdvancedRequest = [[PBDemographicsAdvancedRequest alloc] init]; // 
 
 PBDemographicsServiceApi*apiInstance = [[PBDemographicsServiceApi alloc] init];
 
 // Demographics Advanced Endpoint
-[apiInstance getDemographicsAdvancedWithBody:body
+[apiInstance getDemographicsAdvancedWithDemographicsAdvancedRequest:demographicsAdvancedRequest
           completionHandler: ^(PBDemographics* output, NSError* error) {
                         if (output) {
                             NSLog(@"%@", output);
@@ -51,7 +51,7 @@ PBDemographicsServiceApi*apiInstance = [[PBDemographicsServiceApi alloc] init];
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**PBDemographicsAdvancedRequest***](PBDemographicsAdvancedRequest*.md)|  | [optional] 
+ **demographicsAdvancedRequest** | [**PBDemographicsAdvancedRequest***](PBDemographicsAdvancedRequest.md)|  | 
 
 ### Return type
 
@@ -63,14 +63,14 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json, application/xml
+ - **Content-Type**: application/json
  - **Accept**: application/json, application/xml
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **getDemographicsBasic**
 ```objc
--(NSNumber*) getDemographicsBasicWithAddress: (NSString*) address
+-(NSURLSessionTask*) getDemographicsBasicWithAddress: (NSString*) address
     longitude: (NSString*) longitude
     latitude: (NSString*) latitude
     searchRadius: (NSString*) searchRadius
@@ -91,9 +91,9 @@ Demographics Basic
 
 Demographics Basic Endpoint will return the aggregated values of the selected demographics variables of the regions falling inside the search radius. All the intersecting demographic boundaries will be snapped completely and user will have option to request these boundaries in response.  
 
-### Example 
+### Example
 ```objc
-PBConfiguration *apiConfig = [PBConfiguration sharedConfig];
+PBDefaultConfiguration *apiConfig = [PBDefaultConfiguration sharedConfig];
 
 // Configure OAuth2 access token for authorization: (authentication scheme: oAuth2Password)
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
@@ -170,14 +170,14 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json, application/xml
+ - **Content-Type**: Not defined
  - **Accept**: application/json, application/xml
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **getDemographicsByAddressV2**
+# **getDemographicsByAddress**
 ```objc
--(NSNumber*) getDemographicsByAddressV2WithAddress: (NSString*) address
+-(NSURLSessionTask*) getDemographicsByAddressWithAddress: (NSString*) address
     country: (NSString*) country
     profile: (NSString*) profile
     filter: (NSString*) filter
@@ -190,9 +190,9 @@ Demographics By Address.
 
 Provides the demographic details around a specified address. GeoLife 'byaddress' service accepts address as an input to return a specific population segment's age group, ethnicity, income, purchasing behaviour, commuter patterns and more.
 
-### Example 
+### Example
 ```objc
-PBConfiguration *apiConfig = [PBConfiguration sharedConfig];
+PBDefaultConfiguration *apiConfig = [PBDefaultConfiguration sharedConfig];
 
 // Configure OAuth2 access token for authorization: (authentication scheme: oAuth2Password)
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
@@ -200,15 +200,15 @@ PBConfiguration *apiConfig = [PBConfiguration sharedConfig];
 
 NSString* address = @"address_example"; // The address to be searched.
 NSString* country = @"country_example"; // 3 letter ISO code of the country to be searched.Allowed values USA,CAN,GBR,AUS. (optional)
-NSString* profile = @"profile_example"; // Retrieves the sorted demographic data on the basis of pre-defined profiles that can display the top 3 or top 5 results (by address) either in ascending or descending order.Allowed values Top5Ascending,Top5Descending,Top3Ascending,Top3Descending (optional)
+NSString* profile = @"profile_example"; // Retrieves the sorted demographic data on the basis of pre-defined profiles that can display the top 3 or top 5 results (by location) either in ascending or descending order.Allowed values Top5Ascending,Top5Descending,Top3Ascending,Top3Descending (optional)
 NSString* filter = @"filter_example"; // The 'filter' parameter retrieves the demographic data based upon specified input themes. (optional)
-NSString* valueFormat = @"PercentAsAvailable"; // The 'valueFormat' parameter is applicable for few ranged variables where percent & count both are available and filter response based on the input value. (optional) (default to PercentAsAvailable)
-NSString* variableLevel = @"Key"; // The 'variableLevel' retrieves demographic facts in response based on the input value (optional) (default to Key)
+NSString* valueFormat = @"valueFormat_example"; // The 'valueFormat' parameter is applicable for few ranged variables where percent & count both are available and filter response based on the input value. (optional)
+NSString* variableLevel = @"variableLevel_example"; // The 'variableLevel' retrieves demographic facts in response based on the input value (optional)
 
 PBDemographicsServiceApi*apiInstance = [[PBDemographicsServiceApi alloc] init];
 
 // Demographics By Address.
-[apiInstance getDemographicsByAddressV2WithAddress:address
+[apiInstance getDemographicsByAddressWithAddress:address
               country:country
               profile:profile
               filter:filter
@@ -219,7 +219,7 @@ PBDemographicsServiceApi*apiInstance = [[PBDemographicsServiceApi alloc] init];
                             NSLog(@"%@", output);
                         }
                         if (error) {
-                            NSLog(@"Error calling PBDemographicsServiceApi->getDemographicsByAddressV2: %@", error);
+                            NSLog(@"Error calling PBDemographicsServiceApi->getDemographicsByAddress: %@", error);
                         }
                     }];
 ```
@@ -230,10 +230,10 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **address** | **NSString***| The address to be searched. | 
  **country** | **NSString***| 3 letter ISO code of the country to be searched.Allowed values USA,CAN,GBR,AUS. | [optional] 
- **profile** | **NSString***| Retrieves the sorted demographic data on the basis of pre-defined profiles that can display the top 3 or top 5 results (by address) either in ascending or descending order.Allowed values Top5Ascending,Top5Descending,Top3Ascending,Top3Descending | [optional] 
+ **profile** | **NSString***| Retrieves the sorted demographic data on the basis of pre-defined profiles that can display the top 3 or top 5 results (by location) either in ascending or descending order.Allowed values Top5Ascending,Top5Descending,Top3Ascending,Top3Descending | [optional] 
  **filter** | **NSString***| The &#39;filter&#39; parameter retrieves the demographic data based upon specified input themes. | [optional] 
- **valueFormat** | **NSString***| The &#39;valueFormat&#39; parameter is applicable for few ranged variables where percent &amp; count both are available and filter response based on the input value. | [optional] [default to PercentAsAvailable]
- **variableLevel** | **NSString***| The &#39;variableLevel&#39; retrieves demographic facts in response based on the input value | [optional] [default to Key]
+ **valueFormat** | **NSString***| The &#39;valueFormat&#39; parameter is applicable for few ranged variables where percent &amp; count both are available and filter response based on the input value. | [optional] 
+ **variableLevel** | **NSString***| The &#39;variableLevel&#39; retrieves demographic facts in response based on the input value | [optional] 
 
 ### Return type
 
@@ -245,14 +245,14 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json, application/xml
+ - **Content-Type**: Not defined
  - **Accept**: application/json, application/xml
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **getDemographicsByBoundaryIds**
 ```objc
--(NSNumber*) getDemographicsByBoundaryIdsWithBoundaryIds: (NSString*) boundaryIds
+-(NSURLSessionTask*) getDemographicsByBoundaryIdsWithBoundaryIds: (NSString*) boundaryIds
     profile: (NSString*) profile
     filter: (NSString*) filter
     valueFormat: (NSString*) valueFormat
@@ -264,9 +264,9 @@ Demographics By Boundaryids.
 
 This endpoint will allow the user to request demographics details by census boundary id. Multiple comma separated boundary ids will be accepted. 
 
-### Example 
+### Example
 ```objc
-PBConfiguration *apiConfig = [PBConfiguration sharedConfig];
+PBDefaultConfiguration *apiConfig = [PBDefaultConfiguration sharedConfig];
 
 // Configure OAuth2 access token for authorization: (authentication scheme: oAuth2Password)
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
@@ -316,14 +316,14 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json, application/xml
+ - **Content-Type**: Not defined
  - **Accept**: application/json, application/xml
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **getDemographicsByLocationV2**
+# **getDemographicsByLocation**
 ```objc
--(NSNumber*) getDemographicsByLocationV2WithLongitude: (NSString*) longitude
+-(NSURLSessionTask*) getDemographicsByLocationWithLongitude: (NSString*) longitude
     latitude: (NSString*) latitude
     profile: (NSString*) profile
     filter: (NSString*) filter
@@ -336,25 +336,25 @@ Demographics By Location.
 
 Provides the demographic details around a specified location. GeoLife 'bylocation' service accepts longitude and latitude as an input to return a specific population segment's age group, ethnicity, income, purchasing behaviour, commuter patterns and more.
 
-### Example 
+### Example
 ```objc
-PBConfiguration *apiConfig = [PBConfiguration sharedConfig];
+PBDefaultConfiguration *apiConfig = [PBDefaultConfiguration sharedConfig];
 
 // Configure OAuth2 access token for authorization: (authentication scheme: oAuth2Password)
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
 
 
-NSString* longitude = @"longitude_example"; // Longitude of the location.
-NSString* latitude = @"latitude_example"; // Latitude of the location.
+NSString* longitude = @"longitude_example"; // Longitude of the location. (optional)
+NSString* latitude = @"latitude_example"; // Latitude of the location. (optional)
 NSString* profile = @"profile_example"; // Retrieves the sorted demographic data on the basis of pre-defined profiles that can display the top 3 or top 5 results (by location) either in ascending or descending order.Allowed values Top5Ascending,Top5Descending,Top3Ascending,Top3Descending (optional)
 NSString* filter = @"filter_example"; // The 'filter' parameter retrieves the demographic data based upon specified input themes. (optional)
-NSString* valueFormat = @"PercentAsAvailable"; // The 'valueFormat' parameter is applicable for few ranged variables where percent & count both are available and filter response based on the input value. (optional) (default to PercentAsAvailable)
-NSString* variableLevel = @"Key"; // The 'variableLevel' retrieves demographic facts in response based on the input value (optional) (default to Key)
+NSString* valueFormat = @"valueFormat_example"; // The 'valueFormat' parameter is applicable for few ranged variables where percent & count both are available and filter response based on the input value. (optional)
+NSString* variableLevel = @"variableLevel_example"; // The 'variableLevel' retrieves demographic facts in response based on the input value (optional)
 
 PBDemographicsServiceApi*apiInstance = [[PBDemographicsServiceApi alloc] init];
 
 // Demographics By Location.
-[apiInstance getDemographicsByLocationV2WithLongitude:longitude
+[apiInstance getDemographicsByLocationWithLongitude:longitude
               latitude:latitude
               profile:profile
               filter:filter
@@ -365,7 +365,7 @@ PBDemographicsServiceApi*apiInstance = [[PBDemographicsServiceApi alloc] init];
                             NSLog(@"%@", output);
                         }
                         if (error) {
-                            NSLog(@"Error calling PBDemographicsServiceApi->getDemographicsByLocationV2: %@", error);
+                            NSLog(@"Error calling PBDemographicsServiceApi->getDemographicsByLocation: %@", error);
                         }
                     }];
 ```
@@ -374,12 +374,12 @@ PBDemographicsServiceApi*apiInstance = [[PBDemographicsServiceApi alloc] init];
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **longitude** | **NSString***| Longitude of the location. | 
- **latitude** | **NSString***| Latitude of the location. | 
+ **longitude** | **NSString***| Longitude of the location. | [optional] 
+ **latitude** | **NSString***| Latitude of the location. | [optional] 
  **profile** | **NSString***| Retrieves the sorted demographic data on the basis of pre-defined profiles that can display the top 3 or top 5 results (by location) either in ascending or descending order.Allowed values Top5Ascending,Top5Descending,Top3Ascending,Top3Descending | [optional] 
  **filter** | **NSString***| The &#39;filter&#39; parameter retrieves the demographic data based upon specified input themes. | [optional] 
- **valueFormat** | **NSString***| The &#39;valueFormat&#39; parameter is applicable for few ranged variables where percent &amp; count both are available and filter response based on the input value. | [optional] [default to PercentAsAvailable]
- **variableLevel** | **NSString***| The &#39;variableLevel&#39; retrieves demographic facts in response based on the input value | [optional] [default to Key]
+ **valueFormat** | **NSString***| The &#39;valueFormat&#39; parameter is applicable for few ranged variables where percent &amp; count both are available and filter response based on the input value. | [optional] 
+ **variableLevel** | **NSString***| The &#39;variableLevel&#39; retrieves demographic facts in response based on the input value | [optional] 
 
 ### Return type
 
@@ -391,14 +391,14 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json, application/xml
+ - **Content-Type**: Not defined
  - **Accept**: application/json, application/xml
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **getSegmentationByAddress**
 ```objc
--(NSNumber*) getSegmentationByAddressWithAddress: (NSString*) address
+-(NSURLSessionTask*) getSegmentationByAddressWithAddress: (NSString*) address
     country: (NSString*) country
         completionHandler: (void (^)(PBSegmentation* output, NSError* error)) handler;
 ```
@@ -407,9 +407,9 @@ Segmentation By Address.
 
 Provides the segmentation details around a specified address. GeoLife 'Segmentation by Address' service accepts address as an input to return the lifestyle characteristics of households in terms of their family status, children characteristics, income behaviors, financial preferences and interests.
 
-### Example 
+### Example
 ```objc
-PBConfiguration *apiConfig = [PBConfiguration sharedConfig];
+PBDefaultConfiguration *apiConfig = [PBDefaultConfiguration sharedConfig];
 
 // Configure OAuth2 access token for authorization: (authentication scheme: oAuth2Password)
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
@@ -450,14 +450,14 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json, application/xml
+ - **Content-Type**: Not defined
  - **Accept**: application/json, application/xml
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **getSegmentationByLocation**
 ```objc
--(NSNumber*) getSegmentationByLocationWithLongitude: (NSString*) longitude
+-(NSURLSessionTask*) getSegmentationByLocationWithLongitude: (NSString*) longitude
     latitude: (NSString*) latitude
         completionHandler: (void (^)(PBSegmentation* output, NSError* error)) handler;
 ```
@@ -466,9 +466,9 @@ Segmentation By Location.
 
 Provides the segmentation details around a specified location. GeoLife 'segmentation bylocation' service accepts longitude and latitude as an input to return the lifestyle characteristics of households in terms of their family status, children characteristics, income behaviors, financial preferences and interests.
 
-### Example 
+### Example
 ```objc
-PBConfiguration *apiConfig = [PBConfiguration sharedConfig];
+PBDefaultConfiguration *apiConfig = [PBDefaultConfiguration sharedConfig];
 
 // Configure OAuth2 access token for authorization: (authentication scheme: oAuth2Password)
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
@@ -509,7 +509,7 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json, application/xml
+ - **Content-Type**: Not defined
  - **Accept**: application/json, application/xml
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

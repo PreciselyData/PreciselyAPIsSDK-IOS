@@ -9,7 +9,7 @@ Method | HTTP request | Description
 
 # **getSchoolsByAddress**
 ```objc
--(NSNumber*) getSchoolsByAddressWithAddress: (NSString*) address
+-(NSURLSessionTask*) getSchoolsByAddressWithAddress: (NSString*) address
     edLevel: (NSString*) edLevel
     schoolType: (NSString*) schoolType
     schoolSubType: (NSString*) schoolSubType
@@ -31,9 +31,9 @@ Search Nearby Schools by Address
 
 Search Nearby Schools by Address
 
-### Example 
+### Example
 ```objc
-PBConfiguration *apiConfig = [PBConfiguration sharedConfig];
+PBDefaultConfiguration *apiConfig = [PBDefaultConfiguration sharedConfig];
 
 // Configure OAuth2 access token for authorization: (authentication scheme: oAuth2Password)
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
@@ -43,7 +43,7 @@ NSString* address = @"address_example"; // free form address text
 NSString* edLevel = @"edLevel_example"; // Single digit code for education level applicable values are P -> primary, M -> Middle, H -> High, O -> Mixed Grades for public school type andE -> Elementary , S -> Secondary , O -> Others mixed grades for private schools  (optional)
 NSString* schoolType = @"schoolType_example"; // Single digit code for schoolTypes applicable values are PRI and PUB (optional)
 NSString* schoolSubType = @"schoolSubType_example"; // Single digit code for schoolSubType Applicable values are C, M, A, R, I, L, P, V, U, S (i.e. Charter, Magnet, Alternative, Regular, Indian, Military, Reportable Program, Vocational, Unknown, Special Education) (optional)
-NSString* gender = @"gender_example"; // Single digit code for gender Applicable values are C, F, M (Coed, All Females, All Males) (optional)
+NSString* gender = @"gender_example"; // Single digit code for gender Applicable values are C, F, M (Coed, All Females, All Males) Applicable for Private Schools Only (optional)
 NSString* assignedSchoolsOnly = @"assignedSchoolsOnly_example"; // Single digit code for assignedSchoolOnly applicable values are  Y/N  (optional)
 NSString* districtSchoolsOnly = @"districtSchoolsOnly_example"; // Single digit code for districtSchoolOnly applicable values are Y/N  (optional)
 NSString* searchRadius = @"searchRadius_example"; // Search Radius within which schools are searched (optional)
@@ -53,7 +53,7 @@ NSString* travelTimeUnit = @"travelTimeUnit_example"; // Travel Time unit applic
 NSString* travelDistance = @"travelDistance_example"; // Travel Distance based on ‘travelMode’ within which schools are searched. (optional)
 NSString* travelDistanceUnit = @"travelDistanceUnit_example"; // Travel distanceUnit applicable values are feet,kilometers,miles,meters (optional)
 NSString* travelMode = @"travelMode_example"; // Travel mode Required when travelDistance or travelTime is specified. Accepted values are walking,driving (optional)
-NSString* maxCandidates = @"10"; // Max result to search  (optional) (default to 10)
+NSString* maxCandidates = @"maxCandidates_example"; // Max result to search  (optional)
 
 PBSchoolsServiceApi*apiInstance = [[PBSchoolsServiceApi alloc] init];
 
@@ -91,7 +91,7 @@ Name | Type | Description  | Notes
  **edLevel** | **NSString***| Single digit code for education level applicable values are P -&gt; primary, M -&gt; Middle, H -&gt; High, O -&gt; Mixed Grades for public school type andE -&gt; Elementary , S -&gt; Secondary , O -&gt; Others mixed grades for private schools  | [optional] 
  **schoolType** | **NSString***| Single digit code for schoolTypes applicable values are PRI and PUB | [optional] 
  **schoolSubType** | **NSString***| Single digit code for schoolSubType Applicable values are C, M, A, R, I, L, P, V, U, S (i.e. Charter, Magnet, Alternative, Regular, Indian, Military, Reportable Program, Vocational, Unknown, Special Education) | [optional] 
- **gender** | **NSString***| Single digit code for gender Applicable values are C, F, M (Coed, All Females, All Males) | [optional] 
+ **gender** | **NSString***| Single digit code for gender Applicable values are C, F, M (Coed, All Females, All Males) Applicable for Private Schools Only | [optional] 
  **assignedSchoolsOnly** | **NSString***| Single digit code for assignedSchoolOnly applicable values are  Y/N  | [optional] 
  **districtSchoolsOnly** | **NSString***| Single digit code for districtSchoolOnly applicable values are Y/N  | [optional] 
  **searchRadius** | **NSString***| Search Radius within which schools are searched | [optional] 
@@ -101,7 +101,7 @@ Name | Type | Description  | Notes
  **travelDistance** | **NSString***| Travel Distance based on ‘travelMode’ within which schools are searched. | [optional] 
  **travelDistanceUnit** | **NSString***| Travel distanceUnit applicable values are feet,kilometers,miles,meters | [optional] 
  **travelMode** | **NSString***| Travel mode Required when travelDistance or travelTime is specified. Accepted values are walking,driving | [optional] 
- **maxCandidates** | **NSString***| Max result to search  | [optional] [default to 10]
+ **maxCandidates** | **NSString***| Max result to search  | [optional] 
 
 ### Return type
 
@@ -113,7 +113,7 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json, application/xml
+ - **Content-Type**: Not defined
  - **Accept**: application/json, application/xml
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

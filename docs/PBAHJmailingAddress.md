@@ -3,6 +3,21 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**objectId** | **NSString*** |  | [optional] 
+**displayName** | **NSString*** |  | [optional] 
+**streetSide** | **NSString*** |  | [optional] 
+**businessName** | **NSString*** |  | [optional] 
+**addressLine1** | **NSString*** |  | [optional] 
+**addressLine2** | **NSString*** |  | [optional] 
+**addressLine3** | **NSString*** |  | [optional] 
+**city** | **NSString*** |  | [optional] 
+**stateProvince** | **NSString*** |  | [optional] 
+**county** | **NSString*** |  | [optional] 
+**postalCode** | **NSString*** |  | [optional] 
+**latitude** | **NSString*** |  | [optional] 
+**longitude** | **NSString*** |  | [optional] 
+**status** | **NSString*** |  | [optional] 
+**urbanizationName** | **NSString*** |  | [optional] 
 **formattedAddress** | **NSString*** |  | [optional] 
 **mainAddressLine** | **NSString*** |  | [optional] 
 **addressLastLine** | **NSString*** |  | [optional] 

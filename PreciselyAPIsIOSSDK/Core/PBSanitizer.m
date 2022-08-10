@@ -1,7 +1,10 @@
 #import "PBSanitizer.h"
 #import "PBObject.h"
 #import "PBQueryParamCollection.h"
+#import "PBDefaultConfiguration.h"
 #import <ISO8601/ISO8601.h>
+
+NSString * const kPBApplicationJSONType = @"application/json";
 
 NSString * PBPercentEscapedStringFromString(NSString *string) {
     static NSString * const kPBCharactersGeneralDelimitersToEncode = @":#[]@";
@@ -22,7 +25,7 @@ NSString * PBPercentEscapedStringFromString(NSString *string) {
         #pragma GCC diagnostic pop
         NSRange range = NSMakeRange(index, length);
 
-        // To avoid breaking up character sequences such as ðŸ‘´ðŸ�»ðŸ‘®ðŸ�½
+        // To avoid breaking up character sequences such as 👴🏻👮🏽
         range = [string rangeOfComposedCharacterSequencesForRange:range];
 
         NSString *substring = [string substringWithRange:range];
@@ -43,8 +46,6 @@ NSString * PBPercentEscapedStringFromString(NSString *string) {
 
 @implementation PBSanitizer
 
-static NSString * kApplicationJSONType = @"application/json";
-
 -(instancetype)init {
     self = [super init];
     if ( !self ) {
@@ -63,7 +64,7 @@ static NSString * kApplicationJSONType = @"application/json";
         return object;
     }
     else if ([object isKindOfClass:[NSDate class]]) {
-        return [self dateParameterToString:object];
+        return [PBSanitizer dateToString:object];
     }
     else if ([object isKindOfClass:[NSArray class]]) {
         NSArray *objectArray = object;
@@ -107,7 +108,7 @@ static NSString * kApplicationJSONType = @"application/json";
         return [param stringValue];
     }
     else if ([param isKindOfClass:[NSDate class]]) {
-        return [self dateParameterToString:param];
+        return [PBSanitizer dateToString:param];
     }
     else if ([param isKindOfClass:[NSArray class]]) {
         NSMutableArray *mutableParam = [NSMutableArray array];
@@ -125,8 +126,9 @@ static NSString * kApplicationJSONType = @"application/json";
     }
 }
 
-- (NSString *)dateParameterToString:(id)param {
-    return [param ISO8601String];
++ (NSString *)dateToString:(id)date {
+    NSTimeZone* timeZone = [PBDefaultConfiguration sharedConfig].serializationTimeZone;
+    return [date ISO8601StringWithTimeZone:timeZone usingCalendar:nil];
 }
 
 #pragma mark - Utility Methods
@@ -141,7 +143,7 @@ static NSString * kApplicationJSONType = @"application/json";
     NSMutableArray *lowerAccepts = [[NSMutableArray alloc] initWithCapacity:[accepts count]];
     for (NSString *string in accepts) {
         if ([self.jsonHeaderTypeExpression matchesInString:string options:0 range:NSMakeRange(0, [string length])].count > 0) {
-            return kApplicationJSONType;
+            return kPBApplicationJSONType;
         }
         [lowerAccepts addObject:[string lowercaseString]];
     }
@@ -153,12 +155,12 @@ static NSString * kApplicationJSONType = @"application/json";
  */
 - (NSString *) selectHeaderContentType:(NSArray *)contentTypes {
     if (contentTypes.count == 0) {
-        return kApplicationJSONType;
+        return kPBApplicationJSONType;
     }
     NSMutableArray *lowerContentTypes = [[NSMutableArray alloc] initWithCapacity:[contentTypes count]];
     for (NSString *string in contentTypes) {
         if([self.jsonHeaderTypeExpression matchesInString:string options:0 range:NSMakeRange(0, [string length])].count > 0){
-            return kApplicationJSONType;
+            return kPBApplicationJSONType;
         }
         [lowerContentTypes addObject:[string lowercaseString]];
     }

@@ -3,7 +3,7 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**userFields** | [**NSArray&lt;PBValidateMailingAddressInputRowUserFields&gt;***](PBValidateMailingAddressInputRowUserFields.md) | These fields are returned, unmodified, in the user_fields section of the response. | [optional] 
+**userFields** | [**NSArray&lt;PBGetPostalCodesAPIOutputUserFields&gt;***](PBGetPostalCodesAPIOutputUserFields.md) | These fields are returned, unmodified, in the user_fields section of the response. | [optional] 
 **status** | **NSString*** | Reports the success or failure of the match attempt. | [optional] 
 **statusCode** | **NSString*** | Reason for failure, if there is one. | [optional] 
 **statusDescription** | **NSString*** | Specifies the description of the problem, if there is one. | [optional] 

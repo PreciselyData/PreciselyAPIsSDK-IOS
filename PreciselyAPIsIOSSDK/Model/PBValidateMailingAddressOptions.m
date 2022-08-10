@@ -18,7 +18,7 @@
  * This method is used by `JSONModel`.
  */
 + (JSONKeyMapper *)keyMapper {
-  return [[JSONKeyMapper alloc] initWithDictionary:@{ @"OutputCasing": @"outputCasing" }];
+  return [[JSONKeyMapper alloc] initWithModelToJSONDictionary:@{ @"outputCasing": @"OutputCasing" }];
 }
 
 /**

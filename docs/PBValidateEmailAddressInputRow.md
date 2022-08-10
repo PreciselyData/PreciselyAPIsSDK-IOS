@@ -3,7 +3,7 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**userFields** | [**NSArray&lt;PBValidateMailingAddressInputRowUserFields&gt;***](PBValidateMailingAddressInputRowUserFields.md) | These fields are returned, unmodified, in the user_fields section of the response. | [optional] 
+**userFields** | [**NSArray&lt;PBGetPostalCodesAPIOutputUserFields&gt;***](PBGetPostalCodesAPIOutputUserFields.md) | These fields are returned, unmodified, in the user_fields section of the response. | [optional] 
 **rtc** | **NSString*** | Enables or disables real-time confirmation. If the deliverability of an email address cannot be determined via our knowledge base, a real-time confirmation can be attempted. | [optional] 
 **bogus** | **NSString*** | Specifies whether to check if the email address is fictitious. For example, bgates@microsoft.com. | [optional] 
 **role** | **NSString*** | Specifies whether to check if the email address has a non-personal handle, such as info@, sales@, or webmaster@. For example, sales@example.com. | [optional] 

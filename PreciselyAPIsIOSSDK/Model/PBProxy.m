@@ -17,7 +17,7 @@
  * This method is used by `JSONModel`.
  */
 + (JSONKeyMapper *)keyMapper {
-  return [[JSONKeyMapper alloc] initWithDictionary:@{ @"anonymizerStatus": @"anonymizerStatus", @"level": @"level", @"lastDetected": @"lastDetected", @"type": @"type" }];
+  return [[JSONKeyMapper alloc] initWithModelToJSONDictionary:@{ @"anonymizerStatus": @"anonymizerStatus", @"level": @"level", @"lastDetected": @"lastDetected", @"type": @"type" }];
 }
 
 /**

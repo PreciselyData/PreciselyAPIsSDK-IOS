@@ -19,7 +19,7 @@
  * This method is used by `JSONModel`.
  */
 + (JSONKeyMapper *)keyMapper {
-  return [[JSONKeyMapper alloc] initWithDictionary:@{ @"OutputCityType": @"outputCityType", @"OutputVanityCity": @"outputVanityCity" }];
+  return [[JSONKeyMapper alloc] initWithModelToJSONDictionary:@{ @"outputCityType": @"OutputCityType", @"outputVanityCity": @"OutputVanityCity" }];
 }
 
 /**

@@ -1,23 +1,21 @@
 #import "PBLocalTaxServiceApi.h"
 #import "PBQueryParamCollection.h"
-#import "PBTaxAddressRequest.h"
-#import "PBTaxResponses.h"
-#import "PBTaxLocationResponses.h"
-#import "PBTaxLocationRequest.h"
-#import "PBTaxRateResponses.h"
-#import "PBTaxRateAddressRequest.h"
-#import "PBTaxRateLocationResponses.h"
-#import "PBTaxRateLocationRequest.h"
-#import "PBTaxDistrictResponse.h"
+#import "PBApiClient.h"
+#import "PBErrorInfo.h"
 #import "PBIPDTaxByAddressBatchRequest.h"
+#import "PBTaxAddressRequest.h"
+#import "PBTaxDistrictResponse.h"
 #import "PBTaxDistrictResponseList.h"
-#import "PBTaxResponse.h"
+#import "PBTaxLocationRequest.h"
+#import "PBTaxRateAddressRequest.h"
+#import "PBTaxRateLocationRequest.h"
 #import "PBTaxRateResponse.h"
+#import "PBTaxResponses.h"
 
 
 @interface PBLocalTaxServiceApi ()
 
-@property (nonatomic, strong) NSMutableDictionary *defaultHeaders;
+@property (nonatomic, strong, readwrite) NSMutableDictionary *mutableDefaultHeaders;
 
 @end
 
@@ -31,52 +29,31 @@ NSInteger kPBLocalTaxServiceApiMissingParamErrorCode = 234513;
 #pragma mark - Initialize methods
 
 - (instancetype) init {
-    self = [super init];
-    if (self) {
-        PBConfiguration *config = [PBConfiguration sharedConfig];
-        if (config.apiClient == nil) {
-            config.apiClient = [[PBApiClient alloc] init];
-        }
-        _apiClient = config.apiClient;
-        _defaultHeaders = [NSMutableDictionary dictionary];
-    }
-    return self;
+    return [self initWithApiClient:[PBApiClient sharedClient]];
 }
 
-- (id) initWithApiClient:(PBApiClient *)apiClient {
+
+-(instancetype) initWithApiClient:(PBApiClient *)apiClient {
     self = [super init];
     if (self) {
         _apiClient = apiClient;
-        _defaultHeaders = [NSMutableDictionary dictionary];
+        _mutableDefaultHeaders = [NSMutableDictionary dictionary];
     }
     return self;
 }
 
 #pragma mark -
 
-+ (instancetype)sharedAPI {
-    static PBLocalTaxServiceApi *sharedAPI;
-    static dispatch_once_t once;
-    dispatch_once(&once, ^{
-        sharedAPI = [[self alloc] init];
-    });
-    return sharedAPI;
-}
-
 -(NSString*) defaultHeaderForKey:(NSString*)key {
-    return self.defaultHeaders[key];
-}
-
--(void) addHeader:(NSString*)value forKey:(NSString*)key {
-    [self setDefaultHeaderValue:value forKey:key];
+    return self.mutableDefaultHeaders[key];
 }
 
 -(void) setDefaultHeaderValue:(NSString*) value forKey:(NSString*)key {
-    [self.defaultHeaders setValue:value forKey:key];
+    [self.mutableDefaultHeaders setValue:value forKey:key];
 }
 
--(NSUInteger) requestQueueSize {
-    return [PBApiClient requestQueueSize];
+-(NSDictionary *)defaultHeaders {
+    return self.mutableDefaultHeaders;
 }
 
 #pragma mark - Api Methods
@@ -84,14 +61,14 @@ NSInteger kPBLocalTaxServiceApiMissingParamErrorCode = 234513;
 ///
 /// Post Tax By Address
 /// This is a Batch offering for 'Tax By Address' service. It accepts a single address, purchase amount or a list of addresses, purchase amounts and retrieve applicable taxes.
-///  @param taxRateTypeId The tax rate id. 
+///  @param taxRateTypeId  
 ///
-///  @param body TaxAddressRequest Class Object having tax request. 
+///  @param taxAddressRequest  
 ///
 ///  @returns PBTaxResponses*
 ///
--(NSNumber*) getBatchTaxByAddressWithTaxRateTypeId: (NSString*) taxRateTypeId
-    body: (PBTaxAddressRequest*) body
+-(NSURLSessionTask*) getBatchTaxByAddressWithTaxRateTypeId: (NSString*) taxRateTypeId
+    taxAddressRequest: (PBTaxAddressRequest*) taxAddressRequest
     completionHandler: (void (^)(PBTaxResponses* output, NSError* error)) handler {
     // verify the required parameter 'taxRateTypeId' is set
     if (taxRateTypeId == nil) {
@@ -104,11 +81,11 @@ NSInteger kPBLocalTaxServiceApiMissingParamErrorCode = 234513;
         return nil;
     }
 
-    // verify the required parameter 'body' is set
-    if (body == nil) {
-        NSParameterAssert(body);
+    // verify the required parameter 'taxAddressRequest' is set
+    if (taxAddressRequest == nil) {
+        NSParameterAssert(taxAddressRequest);
         if(handler) {
-            NSDictionary * userInfo = @{NSLocalizedDescriptionKey : [NSString stringWithFormat:NSLocalizedString(@"Missing required parameter '%@'", nil),@"body"] };
+            NSDictionary * userInfo = @{NSLocalizedDescriptionKey : [NSString stringWithFormat:NSLocalizedString(@"Missing required parameter '%@'", nil),@"taxAddressRequest"] };
             NSError* error = [NSError errorWithDomain:kPBLocalTaxServiceApiErrorDomain code:kPBLocalTaxServiceApiMissingParamErrorCode userInfo:userInfo];
             handler(nil, error);
         }
@@ -116,9 +93,6 @@ NSInteger kPBLocalTaxServiceApiMissingParamErrorCode = 234513;
     }
 
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/localtax/v1/tax/{taxRateTypeId}/byaddress"];
-
-    // remove format in URL if needed
-    [resourcePath replaceOccurrencesOfString:@".{format}" withString:@".json" options:0 range:NSMakeRange(0,resourcePath.length)];
 
     NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
     if (taxRateTypeId != nil) {
@@ -129,7 +103,7 @@ NSInteger kPBLocalTaxServiceApiMissingParamErrorCode = 234513;
     NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.apiClient.configuration.defaultHeaders];
     [headerParams addEntriesFromDictionary:self.defaultHeaders];
     // HTTP header `Accept`
-    NSString *acceptHeader = [self.apiClient.sanitizer selectHeaderAccept:@[@"application/xml", @"application/json"]];
+    NSString *acceptHeader = [self.apiClient.sanitizer selectHeaderAccept:@[@"application/json", @"application/xml"]];
     if(acceptHeader.length > 0) {
         headerParams[@"Accept"] = acceptHeader;
     }
@@ -138,7 +112,7 @@ NSInteger kPBLocalTaxServiceApiMissingParamErrorCode = 234513;
     NSString *responseContentType = [[acceptHeader componentsSeparatedByString:@", "] firstObject] ?: @"";
 
     // request content type
-    NSString *requestContentType = [self.apiClient.sanitizer selectHeaderContentType:@[@"application/json", @"application/xml"]];
+    NSString *requestContentType = [self.apiClient.sanitizer selectHeaderContentType:@[@"application/json"]];
 
     // Authentication setting
     NSArray *authSettings = @[@"oAuth2Password"];
@@ -146,7 +120,7 @@ NSInteger kPBLocalTaxServiceApiMissingParamErrorCode = 234513;
     id bodyParam = nil;
     NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
     NSMutableDictionary *localVarFiles = [[NSMutableDictionary alloc] init];
-    bodyParam = body;
+    bodyParam = taxAddressRequest;
 
     return [self.apiClient requestWithPath: resourcePath
                                     method: @"POST"
@@ -164,22 +138,21 @@ NSInteger kPBLocalTaxServiceApiMissingParamErrorCode = 234513;
                                 if(handler) {
                                     handler((PBTaxResponses*)data, error);
                                 }
-                           }
-          ];
+                            }];
 }
 
 ///
 /// Post Tax By Location
 /// This is a Batch offering for 'Tax By Location' service. It accepts a single location coordinate, purchase amount or a list of location coordinates, purchase amounts and retrieve applicable tax.
-///  @param taxRateTypeId The tax rate id. 
+///  @param taxRateTypeId  
 ///
-///  @param body TaxAddressRequest Class Object having tax request. 
+///  @param taxLocationRequest  
 ///
-///  @returns PBTaxLocationResponses*
+///  @returns PBTaxResponses*
 ///
--(NSNumber*) getBatchTaxByLocationWithTaxRateTypeId: (NSString*) taxRateTypeId
-    body: (PBTaxLocationRequest*) body
-    completionHandler: (void (^)(PBTaxLocationResponses* output, NSError* error)) handler {
+-(NSURLSessionTask*) getBatchTaxByLocationWithTaxRateTypeId: (NSString*) taxRateTypeId
+    taxLocationRequest: (PBTaxLocationRequest*) taxLocationRequest
+    completionHandler: (void (^)(PBTaxResponses* output, NSError* error)) handler {
     // verify the required parameter 'taxRateTypeId' is set
     if (taxRateTypeId == nil) {
         NSParameterAssert(taxRateTypeId);
@@ -191,11 +164,11 @@ NSInteger kPBLocalTaxServiceApiMissingParamErrorCode = 234513;
         return nil;
     }
 
-    // verify the required parameter 'body' is set
-    if (body == nil) {
-        NSParameterAssert(body);
+    // verify the required parameter 'taxLocationRequest' is set
+    if (taxLocationRequest == nil) {
+        NSParameterAssert(taxLocationRequest);
         if(handler) {
-            NSDictionary * userInfo = @{NSLocalizedDescriptionKey : [NSString stringWithFormat:NSLocalizedString(@"Missing required parameter '%@'", nil),@"body"] };
+            NSDictionary * userInfo = @{NSLocalizedDescriptionKey : [NSString stringWithFormat:NSLocalizedString(@"Missing required parameter '%@'", nil),@"taxLocationRequest"] };
             NSError* error = [NSError errorWithDomain:kPBLocalTaxServiceApiErrorDomain code:kPBLocalTaxServiceApiMissingParamErrorCode userInfo:userInfo];
             handler(nil, error);
         }
@@ -204,9 +177,6 @@ NSInteger kPBLocalTaxServiceApiMissingParamErrorCode = 234513;
 
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/localtax/v1/tax/{taxRateTypeId}/bylocation"];
 
-    // remove format in URL if needed
-    [resourcePath replaceOccurrencesOfString:@".{format}" withString:@".json" options:0 range:NSMakeRange(0,resourcePath.length)];
-
     NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
     if (taxRateTypeId != nil) {
         pathParams[@"taxRateTypeId"] = taxRateTypeId;
@@ -216,7 +186,7 @@ NSInteger kPBLocalTaxServiceApiMissingParamErrorCode = 234513;
     NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.apiClient.configuration.defaultHeaders];
     [headerParams addEntriesFromDictionary:self.defaultHeaders];
     // HTTP header `Accept`
-    NSString *acceptHeader = [self.apiClient.sanitizer selectHeaderAccept:@[@"application/xml", @"application/json"]];
+    NSString *acceptHeader = [self.apiClient.sanitizer selectHeaderAccept:@[@"application/json", @"application/xml"]];
     if(acceptHeader.length > 0) {
         headerParams[@"Accept"] = acceptHeader;
     }
@@ -225,7 +195,7 @@ NSInteger kPBLocalTaxServiceApiMissingParamErrorCode = 234513;
     NSString *responseContentType = [[acceptHeader componentsSeparatedByString:@", "] firstObject] ?: @"";
 
     // request content type
-    NSString *requestContentType = [self.apiClient.sanitizer selectHeaderContentType:@[@"application/json", @"application/xml"]];
+    NSString *requestContentType = [self.apiClient.sanitizer selectHeaderContentType:@[@"application/json"]];
 
     // Authentication setting
     NSArray *authSettings = @[@"oAuth2Password"];
@@ -233,7 +203,7 @@ NSInteger kPBLocalTaxServiceApiMissingParamErrorCode = 234513;
     id bodyParam = nil;
     NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
     NSMutableDictionary *localVarFiles = [[NSMutableDictionary alloc] init];
-    bodyParam = body;
+    bodyParam = taxLocationRequest;
 
     return [self.apiClient requestWithPath: resourcePath
                                     method: @"POST"
@@ -246,27 +216,26 @@ NSInteger kPBLocalTaxServiceApiMissingParamErrorCode = 234513;
                               authSettings: authSettings
                         requestContentType: requestContentType
                        responseContentType: responseContentType
-                              responseType: @"PBTaxLocationResponses*"
+                              responseType: @"PBTaxResponses*"
                            completionBlock: ^(id data, NSError *error) {
                                 if(handler) {
-                                    handler((PBTaxLocationResponses*)data, error);
+                                    handler((PBTaxResponses*)data, error);
                                 }
-                           }
-          ];
+                            }];
 }
 
 ///
 /// Post Taxrate By Address
 /// This is a Batch offering for 'Taxrate By Address' service. It accepts a single address or a list of addresses and retrieve applicable tax rates.
-///  @param taxRateTypeId The tax rate id. 
+///  @param taxRateTypeId  
 ///
-///  @param body TaxRateAddressRequest Class Object having tax rate request. 
+///  @param taxRateAddressRequest  
 ///
-///  @returns PBTaxRateResponses*
+///  @returns PBTaxResponses*
 ///
--(NSNumber*) getBatchTaxRateByAddressWithTaxRateTypeId: (NSString*) taxRateTypeId
-    body: (PBTaxRateAddressRequest*) body
-    completionHandler: (void (^)(PBTaxRateResponses* output, NSError* error)) handler {
+-(NSURLSessionTask*) getBatchTaxRateByAddressWithTaxRateTypeId: (NSString*) taxRateTypeId
+    taxRateAddressRequest: (PBTaxRateAddressRequest*) taxRateAddressRequest
+    completionHandler: (void (^)(PBTaxResponses* output, NSError* error)) handler {
     // verify the required parameter 'taxRateTypeId' is set
     if (taxRateTypeId == nil) {
         NSParameterAssert(taxRateTypeId);
@@ -278,11 +247,11 @@ NSInteger kPBLocalTaxServiceApiMissingParamErrorCode = 234513;
         return nil;
     }
 
-    // verify the required parameter 'body' is set
-    if (body == nil) {
-        NSParameterAssert(body);
+    // verify the required parameter 'taxRateAddressRequest' is set
+    if (taxRateAddressRequest == nil) {
+        NSParameterAssert(taxRateAddressRequest);
         if(handler) {
-            NSDictionary * userInfo = @{NSLocalizedDescriptionKey : [NSString stringWithFormat:NSLocalizedString(@"Missing required parameter '%@'", nil),@"body"] };
+            NSDictionary * userInfo = @{NSLocalizedDescriptionKey : [NSString stringWithFormat:NSLocalizedString(@"Missing required parameter '%@'", nil),@"taxRateAddressRequest"] };
             NSError* error = [NSError errorWithDomain:kPBLocalTaxServiceApiErrorDomain code:kPBLocalTaxServiceApiMissingParamErrorCode userInfo:userInfo];
             handler(nil, error);
         }
@@ -291,9 +260,6 @@ NSInteger kPBLocalTaxServiceApiMissingParamErrorCode = 234513;
 
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/localtax/v1/taxrate/{taxRateTypeId}/byaddress"];
 
-    // remove format in URL if needed
-    [resourcePath replaceOccurrencesOfString:@".{format}" withString:@".json" options:0 range:NSMakeRange(0,resourcePath.length)];
-
     NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
     if (taxRateTypeId != nil) {
         pathParams[@"taxRateTypeId"] = taxRateTypeId;
@@ -303,7 +269,7 @@ NSInteger kPBLocalTaxServiceApiMissingParamErrorCode = 234513;
     NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.apiClient.configuration.defaultHeaders];
     [headerParams addEntriesFromDictionary:self.defaultHeaders];
     // HTTP header `Accept`
-    NSString *acceptHeader = [self.apiClient.sanitizer selectHeaderAccept:@[@"application/xml", @"application/json"]];
+    NSString *acceptHeader = [self.apiClient.sanitizer selectHeaderAccept:@[@"application/json", @"application/xml"]];
     if(acceptHeader.length > 0) {
         headerParams[@"Accept"] = acceptHeader;
     }
@@ -312,7 +278,7 @@ NSInteger kPBLocalTaxServiceApiMissingParamErrorCode = 234513;
     NSString *responseContentType = [[acceptHeader componentsSeparatedByString:@", "] firstObject] ?: @"";
 
     // request content type
-    NSString *requestContentType = [self.apiClient.sanitizer selectHeaderContentType:@[@"application/xml", @"application/json"]];
+    NSString *requestContentType = [self.apiClient.sanitizer selectHeaderContentType:@[@"application/json"]];
 
     // Authentication setting
     NSArray *authSettings = @[@"oAuth2Password"];
@@ -320,7 +286,7 @@ NSInteger kPBLocalTaxServiceApiMissingParamErrorCode = 234513;
     id bodyParam = nil;
     NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
     NSMutableDictionary *localVarFiles = [[NSMutableDictionary alloc] init];
-    bodyParam = body;
+    bodyParam = taxRateAddressRequest;
 
     return [self.apiClient requestWithPath: resourcePath
                                     method: @"POST"
@@ -333,27 +299,26 @@ NSInteger kPBLocalTaxServiceApiMissingParamErrorCode = 234513;
                               authSettings: authSettings
                         requestContentType: requestContentType
                        responseContentType: responseContentType
-                              responseType: @"PBTaxRateResponses*"
+                              responseType: @"PBTaxResponses*"
                            completionBlock: ^(id data, NSError *error) {
                                 if(handler) {
-                                    handler((PBTaxRateResponses*)data, error);
+                                    handler((PBTaxResponses*)data, error);
                                 }
-                           }
-          ];
+                            }];
 }
 
 ///
 /// Post Taxrate By Location
 /// This is a Batch offering for 'Taxrate By Location' service. It accepts a single location coordinate or a list of location coordinates and retrieve applicable tax rates.
-///  @param taxRateTypeId The tax rate id. 
+///  @param taxRateTypeId  
 ///
-///  @param body TaxRateLocationRequest Class Object having tax rate request. 
+///  @param taxRateLocationRequest  
 ///
-///  @returns PBTaxRateLocationResponses*
+///  @returns PBTaxResponses*
 ///
--(NSNumber*) getBatchTaxRateByLocationWithTaxRateTypeId: (NSString*) taxRateTypeId
-    body: (PBTaxRateLocationRequest*) body
-    completionHandler: (void (^)(PBTaxRateLocationResponses* output, NSError* error)) handler {
+-(NSURLSessionTask*) getBatchTaxRateByLocationWithTaxRateTypeId: (NSString*) taxRateTypeId
+    taxRateLocationRequest: (PBTaxRateLocationRequest*) taxRateLocationRequest
+    completionHandler: (void (^)(PBTaxResponses* output, NSError* error)) handler {
     // verify the required parameter 'taxRateTypeId' is set
     if (taxRateTypeId == nil) {
         NSParameterAssert(taxRateTypeId);
@@ -365,11 +330,11 @@ NSInteger kPBLocalTaxServiceApiMissingParamErrorCode = 234513;
         return nil;
     }
 
-    // verify the required parameter 'body' is set
-    if (body == nil) {
-        NSParameterAssert(body);
+    // verify the required parameter 'taxRateLocationRequest' is set
+    if (taxRateLocationRequest == nil) {
+        NSParameterAssert(taxRateLocationRequest);
         if(handler) {
-            NSDictionary * userInfo = @{NSLocalizedDescriptionKey : [NSString stringWithFormat:NSLocalizedString(@"Missing required parameter '%@'", nil),@"body"] };
+            NSDictionary * userInfo = @{NSLocalizedDescriptionKey : [NSString stringWithFormat:NSLocalizedString(@"Missing required parameter '%@'", nil),@"taxRateLocationRequest"] };
             NSError* error = [NSError errorWithDomain:kPBLocalTaxServiceApiErrorDomain code:kPBLocalTaxServiceApiMissingParamErrorCode userInfo:userInfo];
             handler(nil, error);
         }
@@ -377,9 +342,6 @@ NSInteger kPBLocalTaxServiceApiMissingParamErrorCode = 234513;
     }
 
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/localtax/v1/taxrate/{taxRateTypeId}/bylocation"];
-
-    // remove format in URL if needed
-    [resourcePath replaceOccurrencesOfString:@".{format}" withString:@".json" options:0 range:NSMakeRange(0,resourcePath.length)];
 
     NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
     if (taxRateTypeId != nil) {
@@ -390,7 +352,7 @@ NSInteger kPBLocalTaxServiceApiMissingParamErrorCode = 234513;
     NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.apiClient.configuration.defaultHeaders];
     [headerParams addEntriesFromDictionary:self.defaultHeaders];
     // HTTP header `Accept`
-    NSString *acceptHeader = [self.apiClient.sanitizer selectHeaderAccept:@[@"application/xml", @"application/json"]];
+    NSString *acceptHeader = [self.apiClient.sanitizer selectHeaderAccept:@[@"application/json", @"application/xml"]];
     if(acceptHeader.length > 0) {
         headerParams[@"Accept"] = acceptHeader;
     }
@@ -399,7 +361,7 @@ NSInteger kPBLocalTaxServiceApiMissingParamErrorCode = 234513;
     NSString *responseContentType = [[acceptHeader componentsSeparatedByString:@", "] firstObject] ?: @"";
 
     // request content type
-    NSString *requestContentType = [self.apiClient.sanitizer selectHeaderContentType:@[@"application/xml", @"application/json"]];
+    NSString *requestContentType = [self.apiClient.sanitizer selectHeaderContentType:@[@"application/json"]];
 
     // Authentication setting
     NSArray *authSettings = @[@"oAuth2Password"];
@@ -407,7 +369,7 @@ NSInteger kPBLocalTaxServiceApiMissingParamErrorCode = 234513;
     id bodyParam = nil;
     NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
     NSMutableDictionary *localVarFiles = [[NSMutableDictionary alloc] init];
-    bodyParam = body;
+    bodyParam = taxRateLocationRequest;
 
     return [self.apiClient requestWithPath: resourcePath
                                     method: @"POST"
@@ -420,27 +382,26 @@ NSInteger kPBLocalTaxServiceApiMissingParamErrorCode = 234513;
                               authSettings: authSettings
                         requestContentType: requestContentType
                        responseContentType: responseContentType
-                              responseType: @"PBTaxRateLocationResponses*"
+                              responseType: @"PBTaxResponses*"
                            completionBlock: ^(id data, NSError *error) {
                                 if(handler) {
-                                    handler((PBTaxRateLocationResponses*)data, error);
+                                    handler((PBTaxResponses*)data, error);
                                 }
-                           }
-          ];
+                            }];
 }
 
 ///
 /// Get IPD Tax by Address
-/// This will accept 'address' as a parameter and will return one or many IPDs details for that region in which address will fall.
+/// Retrieves IPD (Insurance Premium District) tax rates applicable to a specific address. This service accepts address as input and returns one or many IPD tax rate details for that region in which address falls.
 ///  @param address The address to be searched. 
 ///
-///  @param returnLatLongFields Y or N (default is N) - Returns Latitude Longitude Fields (optional)
+///  @param returnLatLongFields Y or N (default is N) - Returns Latitude Longitude Fields. (optional)
 ///
-///  @param latLongFormat (default is Decimal) - Returns Desired Latitude Longitude Format (optional)
+///  @param latLongFormat (default is Decimal) - Returns Desired Latitude Longitude Format. (optional)
 ///
 ///  @returns PBTaxDistrictResponse*
 ///
--(NSNumber*) getIPDTaxByAddressWithAddress: (NSString*) address
+-(NSURLSessionTask*) getIPDTaxByAddressWithAddress: (NSString*) address
     returnLatLongFields: (NSString*) returnLatLongFields
     latLongFormat: (NSString*) latLongFormat
     completionHandler: (void (^)(PBTaxDistrictResponse* output, NSError* error)) handler {
@@ -456,9 +417,6 @@ NSInteger kPBLocalTaxServiceApiMissingParamErrorCode = 234513;
     }
 
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/localtax/v1/taxdistrict/ipd/byaddress"];
-
-    // remove format in URL if needed
-    [resourcePath replaceOccurrencesOfString:@".{format}" withString:@".json" options:0 range:NSMakeRange(0,resourcePath.length)];
 
     NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
 
@@ -484,7 +442,7 @@ NSInteger kPBLocalTaxServiceApiMissingParamErrorCode = 234513;
     NSString *responseContentType = [[acceptHeader componentsSeparatedByString:@", "] firstObject] ?: @"";
 
     // request content type
-    NSString *requestContentType = [self.apiClient.sanitizer selectHeaderContentType:@[@"application/json", @"application/xml"]];
+    NSString *requestContentType = [self.apiClient.sanitizer selectHeaderContentType:@[]];
 
     // Authentication setting
     NSArray *authSettings = @[@"oAuth2Password"];
@@ -509,24 +467,23 @@ NSInteger kPBLocalTaxServiceApiMissingParamErrorCode = 234513;
                                 if(handler) {
                                     handler((PBTaxDistrictResponse*)data, error);
                                 }
-                           }
-          ];
+                            }];
 }
 
 ///
-/// Get IPD Tax for batch requests
-/// Get IPD Tax for batch requests
-///  @param body IPDTaxByAddressBatchRequest Class Object having IPD tax request 
+/// Get IPD Tax for batch requests.
+/// This is a Batch offering for 'IPD Tax rates By Address'. It accepts multiple addresses as parameters along with geocoding and matching preferences and returns one or many IPD tax rate details for each address.
+///  @param iPDTaxByAddressBatchRequest  
 ///
 ///  @returns PBTaxDistrictResponseList*
 ///
--(NSNumber*) getIPDTaxByAddressBatchWithBody: (PBIPDTaxByAddressBatchRequest*) body
+-(NSURLSessionTask*) getIPDTaxByAddressBatchWithIPDTaxByAddressBatchRequest: (PBIPDTaxByAddressBatchRequest*) iPDTaxByAddressBatchRequest
     completionHandler: (void (^)(PBTaxDistrictResponseList* output, NSError* error)) handler {
-    // verify the required parameter 'body' is set
-    if (body == nil) {
-        NSParameterAssert(body);
+    // verify the required parameter 'iPDTaxByAddressBatchRequest' is set
+    if (iPDTaxByAddressBatchRequest == nil) {
+        NSParameterAssert(iPDTaxByAddressBatchRequest);
         if(handler) {
-            NSDictionary * userInfo = @{NSLocalizedDescriptionKey : [NSString stringWithFormat:NSLocalizedString(@"Missing required parameter '%@'", nil),@"body"] };
+            NSDictionary * userInfo = @{NSLocalizedDescriptionKey : [NSString stringWithFormat:NSLocalizedString(@"Missing required parameter '%@'", nil),@"iPDTaxByAddressBatchRequest"] };
             NSError* error = [NSError errorWithDomain:kPBLocalTaxServiceApiErrorDomain code:kPBLocalTaxServiceApiMissingParamErrorCode userInfo:userInfo];
             handler(nil, error);
         }
@@ -534,9 +491,6 @@ NSInteger kPBLocalTaxServiceApiMissingParamErrorCode = 234513;
     }
 
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/localtax/v1/taxdistrict/ipd/byaddress"];
-
-    // remove format in URL if needed
-    [resourcePath replaceOccurrencesOfString:@".{format}" withString:@".json" options:0 range:NSMakeRange(0,resourcePath.length)];
 
     NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
 
@@ -553,7 +507,7 @@ NSInteger kPBLocalTaxServiceApiMissingParamErrorCode = 234513;
     NSString *responseContentType = [[acceptHeader componentsSeparatedByString:@", "] firstObject] ?: @"";
 
     // request content type
-    NSString *requestContentType = [self.apiClient.sanitizer selectHeaderContentType:@[@"application/json", @"application/xml"]];
+    NSString *requestContentType = [self.apiClient.sanitizer selectHeaderContentType:@[@"application/json"]];
 
     // Authentication setting
     NSArray *authSettings = @[@"oAuth2Password"];
@@ -561,7 +515,7 @@ NSInteger kPBLocalTaxServiceApiMissingParamErrorCode = 234513;
     id bodyParam = nil;
     NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
     NSMutableDictionary *localVarFiles = [[NSMutableDictionary alloc] init];
-    bodyParam = body;
+    bodyParam = iPDTaxByAddressBatchRequest;
 
     return [self.apiClient requestWithPath: resourcePath
                                     method: @"POST"
@@ -579,25 +533,24 @@ NSInteger kPBLocalTaxServiceApiMissingParamErrorCode = 234513;
                                 if(handler) {
                                     handler((PBTaxDistrictResponseList*)data, error);
                                 }
-                           }
-          ];
+                            }];
 }
 
 ///
 /// Get Tax By Address
 /// This service calculates and returns taxes applicable at a specific address. Address, purchase amount and supported tax rate type are inputs to the service.
-///  @param taxRateTypeId The tax rate id. 
+///  @param taxRateTypeId The tax rate id 
 ///
 ///  @param address The address to be searched. 
 ///
-///  @param purchaseAmount The amount on which tax to be calculated. 
+///  @param purchaseAmount The amount on which tax to be calculated 
 ///
-///  @returns PBTaxResponse*
+///  @returns PBTaxRateResponse*
 ///
--(NSNumber*) getSpecificTaxByAddressWithTaxRateTypeId: (NSString*) taxRateTypeId
+-(NSURLSessionTask*) getSpecificTaxByAddressWithTaxRateTypeId: (NSString*) taxRateTypeId
     address: (NSString*) address
     purchaseAmount: (NSString*) purchaseAmount
-    completionHandler: (void (^)(PBTaxResponse* output, NSError* error)) handler {
+    completionHandler: (void (^)(PBTaxRateResponse* output, NSError* error)) handler {
     // verify the required parameter 'taxRateTypeId' is set
     if (taxRateTypeId == nil) {
         NSParameterAssert(taxRateTypeId);
@@ -633,9 +586,6 @@ NSInteger kPBLocalTaxServiceApiMissingParamErrorCode = 234513;
 
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/localtax/v1/tax/{taxRateTypeId}/byaddress"];
 
-    // remove format in URL if needed
-    [resourcePath replaceOccurrencesOfString:@".{format}" withString:@".json" options:0 range:NSMakeRange(0,resourcePath.length)];
-
     NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
     if (taxRateTypeId != nil) {
         pathParams[@"taxRateTypeId"] = taxRateTypeId;
@@ -660,7 +610,7 @@ NSInteger kPBLocalTaxServiceApiMissingParamErrorCode = 234513;
     NSString *responseContentType = [[acceptHeader componentsSeparatedByString:@", "] firstObject] ?: @"";
 
     // request content type
-    NSString *requestContentType = [self.apiClient.sanitizer selectHeaderContentType:@[@"application/json", @"application/xml"]];
+    NSString *requestContentType = [self.apiClient.sanitizer selectHeaderContentType:@[]];
 
     // Authentication setting
     NSArray *authSettings = @[@"oAuth2Password"];
@@ -680,33 +630,32 @@ NSInteger kPBLocalTaxServiceApiMissingParamErrorCode = 234513;
                               authSettings: authSettings
                         requestContentType: requestContentType
                        responseContentType: responseContentType
-                              responseType: @"PBTaxResponse*"
+                              responseType: @"PBTaxRateResponse*"
                            completionBlock: ^(id data, NSError *error) {
                                 if(handler) {
-                                    handler((PBTaxResponse*)data, error);
+                                    handler((PBTaxRateResponse*)data, error);
                                 }
-                           }
-          ];
+                            }];
 }
 
 ///
 /// Get Tax By Location
 /// This service calculates and returns tax applicable at a specific location. Longitude, latitude, purchase amount and supported tax rate type are inputs to the service.
-///  @param taxRateTypeId The tax rate id. 
+///  @param taxRateTypeId The tax rate id 
 ///
-///  @param latitude Latitude of the location. 
+///  @param latitude Latitude of the location 
 ///
-///  @param longitude Longitude of the location. 
+///  @param longitude Longitude of the location 
 ///
-///  @param purchaseAmount The amount on which tax to be calculated. 
+///  @param purchaseAmount The amount on which tax to be calculated 
 ///
-///  @returns PBTaxResponse*
+///  @returns PBTaxRateResponse*
 ///
--(NSNumber*) getSpecificTaxByLocationWithTaxRateTypeId: (NSString*) taxRateTypeId
+-(NSURLSessionTask*) getSpecificTaxByLocationWithTaxRateTypeId: (NSString*) taxRateTypeId
     latitude: (NSString*) latitude
     longitude: (NSString*) longitude
     purchaseAmount: (NSString*) purchaseAmount
-    completionHandler: (void (^)(PBTaxResponse* output, NSError* error)) handler {
+    completionHandler: (void (^)(PBTaxRateResponse* output, NSError* error)) handler {
     // verify the required parameter 'taxRateTypeId' is set
     if (taxRateTypeId == nil) {
         NSParameterAssert(taxRateTypeId);
@@ -753,9 +702,6 @@ NSInteger kPBLocalTaxServiceApiMissingParamErrorCode = 234513;
 
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/localtax/v1/tax/{taxRateTypeId}/bylocation"];
 
-    // remove format in URL if needed
-    [resourcePath replaceOccurrencesOfString:@".{format}" withString:@".json" options:0 range:NSMakeRange(0,resourcePath.length)];
-
     NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
     if (taxRateTypeId != nil) {
         pathParams[@"taxRateTypeId"] = taxRateTypeId;
@@ -783,7 +729,7 @@ NSInteger kPBLocalTaxServiceApiMissingParamErrorCode = 234513;
     NSString *responseContentType = [[acceptHeader componentsSeparatedByString:@", "] firstObject] ?: @"";
 
     // request content type
-    NSString *requestContentType = [self.apiClient.sanitizer selectHeaderContentType:@[@"application/json", @"application/xml"]];
+    NSString *requestContentType = [self.apiClient.sanitizer selectHeaderContentType:@[]];
 
     // Authentication setting
     NSArray *authSettings = @[@"oAuth2Password"];
@@ -803,25 +749,24 @@ NSInteger kPBLocalTaxServiceApiMissingParamErrorCode = 234513;
                               authSettings: authSettings
                         requestContentType: requestContentType
                        responseContentType: responseContentType
-                              responseType: @"PBTaxResponse*"
+                              responseType: @"PBTaxRateResponse*"
                            completionBlock: ^(id data, NSError *error) {
                                 if(handler) {
-                                    handler((PBTaxResponse*)data, error);
+                                    handler((PBTaxRateResponse*)data, error);
                                 }
-                           }
-          ];
+                            }];
 }
 
 ///
 /// Get Taxrate By Address
 /// Retrieves tax rates applicable to a specific address. This service accepts address and supported tax rate type as inputs to retrieve applicable tax rates.
-///  @param taxRateTypeId The tax rate id. 
+///  @param taxRateTypeId The tax rate id 
 ///
 ///  @param address The address to be searched. 
 ///
 ///  @returns PBTaxRateResponse*
 ///
--(NSNumber*) getSpecificTaxRateByAddressWithTaxRateTypeId: (NSString*) taxRateTypeId
+-(NSURLSessionTask*) getSpecificTaxRateByAddressWithTaxRateTypeId: (NSString*) taxRateTypeId
     address: (NSString*) address
     completionHandler: (void (^)(PBTaxRateResponse* output, NSError* error)) handler {
     // verify the required parameter 'taxRateTypeId' is set
@@ -848,9 +793,6 @@ NSInteger kPBLocalTaxServiceApiMissingParamErrorCode = 234513;
 
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/localtax/v1/taxrate/{taxRateTypeId}/byaddress"];
 
-    // remove format in URL if needed
-    [resourcePath replaceOccurrencesOfString:@".{format}" withString:@".json" options:0 range:NSMakeRange(0,resourcePath.length)];
-
     NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
     if (taxRateTypeId != nil) {
         pathParams[@"taxRateTypeId"] = taxRateTypeId;
@@ -872,7 +814,7 @@ NSInteger kPBLocalTaxServiceApiMissingParamErrorCode = 234513;
     NSString *responseContentType = [[acceptHeader componentsSeparatedByString:@", "] firstObject] ?: @"";
 
     // request content type
-    NSString *requestContentType = [self.apiClient.sanitizer selectHeaderContentType:@[@"application/json", @"application/xml"]];
+    NSString *requestContentType = [self.apiClient.sanitizer selectHeaderContentType:@[]];
 
     // Authentication setting
     NSArray *authSettings = @[@"oAuth2Password"];
@@ -897,22 +839,21 @@ NSInteger kPBLocalTaxServiceApiMissingParamErrorCode = 234513;
                                 if(handler) {
                                     handler((PBTaxRateResponse*)data, error);
                                 }
-                           }
-          ];
+                            }];
 }
 
 ///
 /// Get Taxrate By Location
 /// Retrieves tax rates applicable to a specific location. This service accepts longitude, latitude and supported tax rate type as inputs to retrieve applicable tax rates.
-///  @param taxRateTypeId The tax rate id. 
+///  @param taxRateTypeId The tax rate id 
 ///
-///  @param latitude Latitude of the location. 
+///  @param latitude Latitude of the location 
 ///
-///  @param longitude Longitude of the location. 
+///  @param longitude Longitude of the location 
 ///
 ///  @returns PBTaxRateResponse*
 ///
--(NSNumber*) getSpecificTaxRateByLocationWithTaxRateTypeId: (NSString*) taxRateTypeId
+-(NSURLSessionTask*) getSpecificTaxRateByLocationWithTaxRateTypeId: (NSString*) taxRateTypeId
     latitude: (NSString*) latitude
     longitude: (NSString*) longitude
     completionHandler: (void (^)(PBTaxRateResponse* output, NSError* error)) handler {
@@ -951,9 +892,6 @@ NSInteger kPBLocalTaxServiceApiMissingParamErrorCode = 234513;
 
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/localtax/v1/taxrate/{taxRateTypeId}/bylocation"];
 
-    // remove format in URL if needed
-    [resourcePath replaceOccurrencesOfString:@".{format}" withString:@".json" options:0 range:NSMakeRange(0,resourcePath.length)];
-
     NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
     if (taxRateTypeId != nil) {
         pathParams[@"taxRateTypeId"] = taxRateTypeId;
@@ -978,7 +916,7 @@ NSInteger kPBLocalTaxServiceApiMissingParamErrorCode = 234513;
     NSString *responseContentType = [[acceptHeader componentsSeparatedByString:@", "] firstObject] ?: @"";
 
     // request content type
-    NSString *requestContentType = [self.apiClient.sanitizer selectHeaderContentType:@[@"application/json", @"application/xml"]];
+    NSString *requestContentType = [self.apiClient.sanitizer selectHeaderContentType:@[]];
 
     // Authentication setting
     NSArray *authSettings = @[@"oAuth2Password"];
@@ -1003,8 +941,7 @@ NSInteger kPBLocalTaxServiceApiMissingParamErrorCode = 234513;
                                 if(handler) {
                                     handler((PBTaxRateResponse*)data, error);
                                 }
-                           }
-          ];
+                            }];
 }
 
 

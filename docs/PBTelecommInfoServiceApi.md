@@ -10,7 +10,7 @@ Method | HTTP request | Description
 
 # **getRateCenterByAddress**
 ```objc
--(NSNumber*) getRateCenterByAddressWithAddress: (NSString*) address
+-(NSURLSessionTask*) getRateCenterByAddressWithAddress: (NSString*) address
     country: (NSString*) country
     areaCodeInfo: (NSString*) areaCodeInfo
     level: (NSString*) level
@@ -21,18 +21,18 @@ Rate Center By Address.
 
 Accepts addresses as input and returns Incumbent Local Exchange Carrier (ILEC) doing-business-as names.
 
-### Example 
+### Example
 ```objc
-PBConfiguration *apiConfig = [PBConfiguration sharedConfig];
+PBDefaultConfiguration *apiConfig = [PBDefaultConfiguration sharedConfig];
 
 // Configure OAuth2 access token for authorization: (authentication scheme: oAuth2Password)
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
 
 
-NSString* address = @"address_example"; // The address to be searched.
-NSString* country = @"USA"; // 3 letter ISO code of the country to be searched. Allowed values USA,CAN (optional) (default to USA)
-NSString* areaCodeInfo = @"False"; // Specifies whether area code information will be part of response.Allowed values True,False (optional) (default to False)
-NSString* level = @"basic"; // Level (basic/detail).Allowed values detail,basic. (optional) (default to basic)
+NSString* address = @"address_example"; // The address to be searched (optional)
+NSString* country = @"country_example"; // 3 letter ISO code of the country to be searched. Allowed values USA,CAN (optional)
+NSString* areaCodeInfo = @"areaCodeInfo_example"; // Specifies whether area code information will be part of response.Allowed values True,False. (optional)
+NSString* level = @"level_example"; // Level (basic/detail).Allowed values detail,basic. (optional)
 
 PBTelecommInfoServiceApi*apiInstance = [[PBTelecommInfoServiceApi alloc] init];
 
@@ -55,10 +55,10 @@ PBTelecommInfoServiceApi*apiInstance = [[PBTelecommInfoServiceApi alloc] init];
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **address** | **NSString***| The address to be searched. | 
- **country** | **NSString***| 3 letter ISO code of the country to be searched. Allowed values USA,CAN | [optional] [default to USA]
- **areaCodeInfo** | **NSString***| Specifies whether area code information will be part of response.Allowed values True,False | [optional] [default to False]
- **level** | **NSString***| Level (basic/detail).Allowed values detail,basic. | [optional] [default to basic]
+ **address** | **NSString***| The address to be searched | [optional] 
+ **country** | **NSString***| 3 letter ISO code of the country to be searched. Allowed values USA,CAN | [optional] 
+ **areaCodeInfo** | **NSString***| Specifies whether area code information will be part of response.Allowed values True,False. | [optional] 
+ **level** | **NSString***| Level (basic/detail).Allowed values detail,basic. | [optional] 
 
 ### Return type
 
@@ -70,14 +70,14 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json, application/xml
- - **Accept**: application/xml, application/json
+ - **Content-Type**: Not defined
+ - **Accept**: application/json, application/xml
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **getRateCenterByLocation**
 ```objc
--(NSNumber*) getRateCenterByLocationWithLongitude: (NSString*) longitude
+-(NSURLSessionTask*) getRateCenterByLocationWithLongitude: (NSString*) longitude
     latitude: (NSString*) latitude
     areaCodeInfo: (NSString*) areaCodeInfo
     level: (NSString*) level
@@ -88,18 +88,18 @@ Rate Center By Location.
 
 Accepts latitude & longitude as input and returns Incumbent Local Exchange Carrier (ILEC) doing-business-as names.
 
-### Example 
+### Example
 ```objc
-PBConfiguration *apiConfig = [PBConfiguration sharedConfig];
+PBDefaultConfiguration *apiConfig = [PBDefaultConfiguration sharedConfig];
 
 // Configure OAuth2 access token for authorization: (authentication scheme: oAuth2Password)
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
 
 
-NSString* longitude = @"longitude_example"; // Longitude of the location.
-NSString* latitude = @"latitude_example"; // Latitude of the location.
-NSString* areaCodeInfo = @"False"; // Specifies whether area code information will be part of response.Allowed values True,False. (optional) (default to False)
-NSString* level = @"basic"; // Level (basic/detail).Allowed values detail,basic. (optional) (default to basic)
+NSString* longitude = @"longitude_example"; // Longitude of the location (optional)
+NSString* latitude = @"latitude_example"; // Latitude of the location (optional)
+NSString* areaCodeInfo = @"areaCodeInfo_example"; // Specifies whether area code information will be part of response.Allowed values True,False. (optional)
+NSString* level = @"level_example"; // Level (basic/detail).Allowed values detail,basic. (optional)
 
 PBTelecommInfoServiceApi*apiInstance = [[PBTelecommInfoServiceApi alloc] init];
 
@@ -122,10 +122,10 @@ PBTelecommInfoServiceApi*apiInstance = [[PBTelecommInfoServiceApi alloc] init];
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **longitude** | **NSString***| Longitude of the location. | 
- **latitude** | **NSString***| Latitude of the location. | 
- **areaCodeInfo** | **NSString***| Specifies whether area code information will be part of response.Allowed values True,False. | [optional] [default to False]
- **level** | **NSString***| Level (basic/detail).Allowed values detail,basic. | [optional] [default to basic]
+ **longitude** | **NSString***| Longitude of the location | [optional] 
+ **latitude** | **NSString***| Latitude of the location | [optional] 
+ **areaCodeInfo** | **NSString***| Specifies whether area code information will be part of response.Allowed values True,False. | [optional] 
+ **level** | **NSString***| Level (basic/detail).Allowed values detail,basic. | [optional] 
 
 ### Return type
 
@@ -137,8 +137,8 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json, application/xml
- - **Accept**: application/xml, application/json
+ - **Content-Type**: Not defined
+ - **Accept**: application/json, application/xml
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

@@ -17,7 +17,7 @@
  * This method is used by `JSONModel`.
  */
 + (JSONKeyMapper *)keyMapper {
-  return [[JSONKeyMapper alloc] initWithDictionary:@{ @"bufferRelation": @"bufferRelation", @"distanceToBorder": @"distanceToBorder" }];
+  return [[JSONKeyMapper alloc] initWithModelToJSONDictionary:@{ @"bufferRelation": @"bufferRelation", @"distanceToBorder": @"distanceToBorder" }];
 }
 
 /**

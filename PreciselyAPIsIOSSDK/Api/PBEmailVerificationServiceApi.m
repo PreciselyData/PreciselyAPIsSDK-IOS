@@ -1,12 +1,14 @@
 #import "PBEmailVerificationServiceApi.h"
 #import "PBQueryParamCollection.h"
+#import "PBApiClient.h"
+#import "PBErrorInfo.h"
 #import "PBValidateEmailAddressAPIRequest.h"
 #import "PBValidateEmailAddressAPIResponse.h"
 
 
 @interface PBEmailVerificationServiceApi ()
 
-@property (nonatomic, strong) NSMutableDictionary *defaultHeaders;
+@property (nonatomic, strong, readwrite) NSMutableDictionary *mutableDefaultHeaders;
 
 @end
 
@@ -20,52 +22,31 @@ NSInteger kPBEmailVerificationServiceApiMissingParamErrorCode = 234513;
 #pragma mark - Initialize methods
 
 - (instancetype) init {
-    self = [super init];
-    if (self) {
-        PBConfiguration *config = [PBConfiguration sharedConfig];
-        if (config.apiClient == nil) {
-            config.apiClient = [[PBApiClient alloc] init];
-        }
-        _apiClient = config.apiClient;
-        _defaultHeaders = [NSMutableDictionary dictionary];
-    }
-    return self;
+    return [self initWithApiClient:[PBApiClient sharedClient]];
 }
 
-- (id) initWithApiClient:(PBApiClient *)apiClient {
+
+-(instancetype) initWithApiClient:(PBApiClient *)apiClient {
     self = [super init];
     if (self) {
         _apiClient = apiClient;
-        _defaultHeaders = [NSMutableDictionary dictionary];
+        _mutableDefaultHeaders = [NSMutableDictionary dictionary];
     }
     return self;
 }
 
 #pragma mark -
 
-+ (instancetype)sharedAPI {
-    static PBEmailVerificationServiceApi *sharedAPI;
-    static dispatch_once_t once;
-    dispatch_once(&once, ^{
-        sharedAPI = [[self alloc] init];
-    });
-    return sharedAPI;
-}
-
 -(NSString*) defaultHeaderForKey:(NSString*)key {
-    return self.defaultHeaders[key];
-}
-
--(void) addHeader:(NSString*)value forKey:(NSString*)key {
-    [self setDefaultHeaderValue:value forKey:key];
+    return self.mutableDefaultHeaders[key];
 }
 
 -(void) setDefaultHeaderValue:(NSString*) value forKey:(NSString*)key {
-    [self.defaultHeaders setValue:value forKey:key];
+    [self.mutableDefaultHeaders setValue:value forKey:key];
 }
 
--(NSUInteger) requestQueueSize {
-    return [PBApiClient requestQueueSize];
+-(NSDictionary *)defaultHeaders {
+    return self.mutableDefaultHeaders;
 }
 
 #pragma mark - Api Methods
@@ -77,7 +58,7 @@ NSInteger kPBEmailVerificationServiceApiMissingParamErrorCode = 234513;
 ///
 ///  @returns PBValidateEmailAddressAPIResponse*
 ///
--(NSNumber*) validateEmailAddressWithInputEmailAddress: (PBValidateEmailAddressAPIRequest*) inputEmailAddress
+-(NSURLSessionTask*) validateEmailAddressWithInputEmailAddress: (PBValidateEmailAddressAPIRequest*) inputEmailAddress
     completionHandler: (void (^)(PBValidateEmailAddressAPIResponse* output, NSError* error)) handler {
     // verify the required parameter 'inputEmailAddress' is set
     if (inputEmailAddress == nil) {
@@ -92,16 +73,13 @@ NSInteger kPBEmailVerificationServiceApiMissingParamErrorCode = 234513;
 
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/emailverification/v1/validateemailaddress/results.json"];
 
-    // remove format in URL if needed
-    [resourcePath replaceOccurrencesOfString:@".{format}" withString:@".json" options:0 range:NSMakeRange(0,resourcePath.length)];
-
     NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
 
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
     NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.apiClient.configuration.defaultHeaders];
     [headerParams addEntriesFromDictionary:self.defaultHeaders];
     // HTTP header `Accept`
-    NSString *acceptHeader = [self.apiClient.sanitizer selectHeaderAccept:@[@"application/json"]];
+    NSString *acceptHeader = [self.apiClient.sanitizer selectHeaderAccept:@[@"application/json", @"application/xml"]];
     if(acceptHeader.length > 0) {
         headerParams[@"Accept"] = acceptHeader;
     }
@@ -136,8 +114,7 @@ NSInteger kPBEmailVerificationServiceApiMissingParamErrorCode = 234513;
                                 if(handler) {
                                     handler((PBValidateEmailAddressAPIResponse*)data, error);
                                 }
-                           }
-          ];
+                            }];
 }
 
 

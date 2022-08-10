@@ -17,7 +17,7 @@
  * This method is used by `JSONModel`.
  */
 + (JSONKeyMapper *)keyMapper {
-  return [[JSONKeyMapper alloc] initWithDictionary:@{ @"type": @"type", @"description": @"_description", @"risk50Rating": @"risk50Rating", @"frequency": @"frequency", @"nonburn": @"nonburn", @"pastFires": @"pastFires", @"severity": @"severity", @"continuity": @"continuity", @"adjustment": @"adjustment", @"aspect": @"aspect", @"crownFire": @"crownFire", @"vegetation": @"vegetation", @"foehn": @"foehn", @"golfCourse": @"golfCourse", @"roadDist": @"roadDist", @"slope": @"slope", @"waterDist": @"waterDist", @"tier": @"tier", @"tierDescription": @"tierDescription", @"distanceToFireStation": @"distanceToFireStation" }];
+  return [[JSONKeyMapper alloc] initWithModelToJSONDictionary:@{ @"type": @"type", @"_description": @"description", @"risk50Rating": @"risk50Rating", @"frequency": @"frequency", @"nonburn": @"nonburn", @"pastFires": @"pastFires", @"severity": @"severity", @"continuity": @"continuity", @"adjustment": @"adjustment", @"aspect": @"aspect", @"crownFire": @"crownFire", @"vegetation": @"vegetation", @"foehn": @"foehn", @"golfCourse": @"golfCourse", @"roadDist": @"roadDist", @"slope": @"slope", @"waterDist": @"waterDist", @"tier": @"tier", @"tierDescription": @"tierDescription", @"distanceToFireStation": @"distanceToFireStation" }];
 }
 
 /**

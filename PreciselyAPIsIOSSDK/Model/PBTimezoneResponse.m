@@ -17,7 +17,7 @@
  * This method is used by `JSONModel`.
  */
 + (JSONKeyMapper *)keyMapper {
-  return [[JSONKeyMapper alloc] initWithDictionary:@{ @"timezone": @"timezone" }];
+  return [[JSONKeyMapper alloc] initWithModelToJSONDictionary:@{ @"objectId": @"objectId", @"timezoneName": @"timezoneName", @"zoneType": @"zoneType", @"utcOffset": @"utcOffset", @"dstOffset": @"dstOffset", @"timestamp": @"timestamp", @"matchedAddress": @"matchedAddress", @"country": @"country", @"tzValidFrom": @"tzValidFrom", @"tzValidUntill": @"tzValidUntill", @"dstRule": @"dstRule", @"dstValidFrom": @"dstValidFrom", @"dstValidUntill": @"dstValidUntill", @"dstStartDateFormat": @"dstStartDateFormat", @"dstEndDateFormat": @"dstEndDateFormat", @"dstStartDate": @"dstStartDate", @"dstStartTime": @"dstStartTime", @"dstEndTime": @"dstEndTime", @"dstEndDate": @"dstEndDate" }];
 }
 
 /**
@@ -27,7 +27,7 @@
  */
 + (BOOL)propertyIsOptional:(NSString *)propertyName {
 
-  NSArray *optionalProperties = @[@"timezone"];
+  NSArray *optionalProperties = @[@"objectId", @"timezoneName", @"zoneType", @"utcOffset", @"dstOffset", @"timestamp", @"matchedAddress", @"country", @"tzValidFrom", @"tzValidUntill", @"dstRule", @"dstValidFrom", @"dstValidUntill", @"dstStartDateFormat", @"dstEndDateFormat", @"dstStartDate", @"dstStartTime", @"dstEndTime", @"dstEndDate"];
   return [optionalProperties containsObject:propertyName];
 }
 
