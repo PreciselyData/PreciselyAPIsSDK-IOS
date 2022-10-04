@@ -48,7 +48,6 @@ Name | Type | Description | Notes
 **buildgCount** | **NSString*** |  | [optional] 
 **buildgUnitNo** | **NSString*** |  | [optional] 
 **buildgFeaturesSqFt** | [**NSArray&lt;PBBuildgFeaturesSqft&gt;***](PBBuildgFeaturesSqft.md) |  | [optional] 
-**businessName** | **NSString*** |  | [optional] 
 **taxAddress** | **NSString*** |  | [optional] 
 **formattedTaxAddress** | [**PBFormattedTaxAddress***](PBFormattedTaxAddress.md) |  | [optional] 
 **situsAddress** | [**PBSitusAddress***](PBSitusAddress.md) |  | [optional] 
@@ -74,7 +73,6 @@ Name | Type | Description | Notes
 **elevator** | **NSString*** |  | [optional] 
 **propApnSequence** | **NSString*** |  | [optional] 
 **fipsCode** | **NSString*** |  | [optional] 
-**propCensusTract** | **NSString*** |  | [optional] 
 **propZoning** | **NSString*** |  | [optional] 
 **locCode** | [**PBLocCode***](PBLocCode.md) |  | [optional] 
 **legalMapRef** | **NSString*** |  | [optional] 
@@ -115,7 +113,7 @@ Name | Type | Description | Notes
 **waterType** | **NSString*** |  | [optional] 
 **amenities** | [**PBAmenities***](PBAmenities.md) |  | [optional] 
 **extraFeatureSqft** | [**NSArray&lt;PBExtraFeatureSqft&gt;***](PBExtraFeatureSqft.md) |  | [optional] 
-**buildgImprovArea** | [**NSArray&lt;PBBuildgImprovArea&gt;***](PBBuildgImprovArea.md) |  | [optional] 
+**buildgImproveArea** | [**NSArray&lt;PBBuildgImproveArea&gt;***](PBBuildgImproveArea.md) |  | [optional] 
 **taxAccountNumber** | **NSString*** |  | [optional] 
 **taxTapeCutDate** | **NSString*** |  | [optional] 
 **taxDocType** | [**PBTaxDocType***](PBTaxDocType.md) |  | [optional] 
@@ -132,6 +130,8 @@ Name | Type | Description | Notes
 **marketValueLand** | **NSString*** |  | [optional] 
 **appraisedValueLand** | **NSString*** |  | [optional] 
 **taxRateCode** | **NSString*** |  | [optional] 
+**propLinkId** | **NSString*** |  | [optional] 
+**geoId** | **NSString*** |  | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 
