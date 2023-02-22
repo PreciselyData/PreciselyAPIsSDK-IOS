@@ -4,7 +4,6 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **phoneNumber** | **NSString*** |  | [optional] 
-**locatable** | **NSString*** |  | [optional] 
 **network** | [**PBDeviceStatusNetwork***](PBDeviceStatusNetwork.md) |  | [optional] 
 **privacyConsentRequired** | **NSString*** |  | [optional] 
 
