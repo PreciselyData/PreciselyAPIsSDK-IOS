@@ -84,6 +84,8 @@ NSInteger kPBGeocodeServiceApiMissingParamErrorCode = 234513;
 ///
 ///  @param removeAccentMarks Specifies whether to Suppress accents and other diacritical marks. (optional, default to @"false")
 ///
+///  @param findDPV Specifies if Delivery Point Validation is required. Note: This parameter is only applicable for USA addresses. (optional, default to @"false")
+///
 ///  @returns PBGeocodeServiceResponse*
 ///
 -(NSURLSessionTask*) geocodeWithDatapackBundle: (NSString*) datapackBundle
@@ -98,6 +100,7 @@ NSInteger kPBGeocodeServiceApiMissingParamErrorCode = 234513;
     cornerOffset: (NSString*) cornerOffset
     cornerOffsetUnits: (NSString*) cornerOffsetUnits
     removeAccentMarks: (NSString*) removeAccentMarks
+    findDPV: (NSString*) findDPV
     completionHandler: (void (^)(PBGeocodeServiceResponse* output, NSError* error)) handler {
     // verify the required parameter 'datapackBundle' is set
     if (datapackBundle == nil) {
@@ -150,6 +153,9 @@ NSInteger kPBGeocodeServiceApiMissingParamErrorCode = 234513;
     }
     if (removeAccentMarks != nil) {
         queryParams[@"removeAccentMarks"] = removeAccentMarks;
+    }
+    if (findDPV != nil) {
+        queryParams[@"findDPV"] = findDPV;
     }
     NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.apiClient.configuration.defaultHeaders];
     [headerParams addEntriesFromDictionary:self.defaultHeaders];

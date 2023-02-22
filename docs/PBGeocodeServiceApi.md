@@ -28,6 +28,7 @@ Method | HTTP request | Description
     cornerOffset: (NSString*) cornerOffset
     cornerOffsetUnits: (NSString*) cornerOffsetUnits
     removeAccentMarks: (NSString*) removeAccentMarks
+    findDPV: (NSString*) findDPV
         completionHandler: (void (^)(PBGeocodeServiceResponse* output, NSError* error)) handler;
 ```
 
@@ -55,6 +56,7 @@ NSString* streetOffsetUnits = @"METERS"; // Specifies the unit of measurement fo
 NSString* cornerOffset = @"7"; // Specifies the distance to offset the street end points in street-level matching. (optional) (default to @"7")
 NSString* cornerOffsetUnits = @"METERS"; // Specifies the unit of measurement for the corner offset. (optional) (default to @"METERS")
 NSString* removeAccentMarks = @"false"; // Specifies whether to Suppress accents and other diacritical marks. (optional) (default to @"false")
+NSString* findDPV = @"false"; // Specifies if Delivery Point Validation is required. Note: This parameter is only applicable for USA addresses. (optional) (default to @"false")
 
 PBGeocodeServiceApi*apiInstance = [[PBGeocodeServiceApi alloc] init];
 
@@ -71,6 +73,7 @@ PBGeocodeServiceApi*apiInstance = [[PBGeocodeServiceApi alloc] init];
               cornerOffset:cornerOffset
               cornerOffsetUnits:cornerOffsetUnits
               removeAccentMarks:removeAccentMarks
+              findDPV:findDPV
           completionHandler: ^(PBGeocodeServiceResponse* output, NSError* error) {
                         if (output) {
                             NSLog(@"%@", output);
@@ -97,6 +100,7 @@ Name | Type | Description  | Notes
  **cornerOffset** | **NSString***| Specifies the distance to offset the street end points in street-level matching. | [optional] [default to @&quot;7&quot;]
  **cornerOffsetUnits** | **NSString***| Specifies the unit of measurement for the corner offset. | [optional] [default to @&quot;METERS&quot;]
  **removeAccentMarks** | **NSString***| Specifies whether to Suppress accents and other diacritical marks. | [optional] [default to @&quot;false&quot;]
+ **findDPV** | **NSString***| Specifies if Delivery Point Validation is required. Note: This parameter is only applicable for USA addresses. | [optional] [default to @&quot;false&quot;]
 
 ### Return type
 
