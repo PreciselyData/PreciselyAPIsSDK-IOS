@@ -4,19 +4,18 @@ All URIs are relative to *https://api.precisely.com*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**phoneVerification**](PBPhoneVerificationServiceApi.md#phoneverification) | **GET** /phoneverification/v1/phoneverification | Phone verification.
+[**validatephonenumber**](PBPhoneVerificationServiceApi.md#validatephonenumber) | **POST** /phoneverification/v2/validatephonenumber/results.json | Phone verification.
 
 
-# **phoneVerification**
+# **validatephonenumber**
 ```objc
--(NSURLSessionTask*) phoneVerificationWithPhoneNumber: (NSString*) phoneNumber
-    includeNetworkInfo: (NSString*) includeNetworkInfo
+-(NSURLSessionTask*) validatephonenumberWithValidatePhoneNumberAPIRequest: (PBValidatePhoneNumberAPIRequest*) validatePhoneNumberAPIRequest
         completionHandler: (void (^)(PBPhoneVerification* output, NSError* error)) handler;
 ```
 
 Phone verification.
 
-This service accepts a phone number as input and returns details distinguishing landline and wireless numbers and also checks if a wireless number can be located.
+This service accepts a phone number as input and returns details distinguishing landline and wireless numbers.
 
 ### Example
 ```objc
@@ -26,20 +25,18 @@ PBDefaultConfiguration *apiConfig = [PBDefaultConfiguration sharedConfig];
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
 
 
-NSString* phoneNumber = @"phoneNumber_example"; // E.164 formatted phone number. Accepts digits only. Country Code (1) optional for USA & CAN.
-NSString* includeNetworkInfo = @"includeNetworkInfo_example"; // Y or N (default is Y) – if it is N, then network/carrier details will not be added in the response. (optional)
+PBValidatePhoneNumberAPIRequest* validatePhoneNumberAPIRequest = [[PBValidatePhoneNumberAPIRequest alloc] init]; // 
 
 PBPhoneVerificationServiceApi*apiInstance = [[PBPhoneVerificationServiceApi alloc] init];
 
 // Phone verification.
-[apiInstance phoneVerificationWithPhoneNumber:phoneNumber
-              includeNetworkInfo:includeNetworkInfo
+[apiInstance validatephonenumberWithValidatePhoneNumberAPIRequest:validatePhoneNumberAPIRequest
           completionHandler: ^(PBPhoneVerification* output, NSError* error) {
                         if (output) {
                             NSLog(@"%@", output);
                         }
                         if (error) {
-                            NSLog(@"Error calling PBPhoneVerificationServiceApi->phoneVerification: %@", error);
+                            NSLog(@"Error calling PBPhoneVerificationServiceApi->validatephonenumber: %@", error);
                         }
                     }];
 ```
@@ -48,8 +45,7 @@ PBPhoneVerificationServiceApi*apiInstance = [[PBPhoneVerificationServiceApi allo
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **phoneNumber** | **NSString***| E.164 formatted phone number. Accepts digits only. Country Code (1) optional for USA &amp; CAN. | 
- **includeNetworkInfo** | **NSString***| Y or N (default is Y) – if it is N, then network/carrier details will not be added in the response. | [optional] 
+ **validatePhoneNumberAPIRequest** | [**PBValidatePhoneNumberAPIRequest***](PBValidatePhoneNumberAPIRequest.md)|  | 
 
 ### Return type
 
@@ -61,7 +57,7 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
+ - **Content-Type**: application/json
  - **Accept**: application/json, application/xml
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

@@ -1,6 +1,6 @@
-#import "PBGeoLocationFixedLineCountry.h"
+#import "PBValidatePhoneNumberAPIRequestInputRow.h"
 
-@implementation PBGeoLocationFixedLineCountry
+@implementation PBValidatePhoneNumberAPIRequestInputRow
 
 - (instancetype)init {
   self = [super init];
@@ -17,7 +17,7 @@
  * This method is used by `JSONModel`.
  */
 + (JSONKeyMapper *)keyMapper {
-  return [[JSONKeyMapper alloc] initWithModelToJSONDictionary:@{ @"code": @"code", @"value": @"value" }];
+  return [[JSONKeyMapper alloc] initWithModelToJSONDictionary:@{ @"phoneNumber": @"PhoneNumber", @"country": @"Country" }];
 }
 
 /**
@@ -27,7 +27,7 @@
  */
 + (BOOL)propertyIsOptional:(NSString *)propertyName {
 
-  NSArray *optionalProperties = @[@"code", @"value"];
+  NSArray *optionalProperties = @[@"phoneNumber", @"country"];
   return [optionalProperties containsObject:propertyName];
 }
 

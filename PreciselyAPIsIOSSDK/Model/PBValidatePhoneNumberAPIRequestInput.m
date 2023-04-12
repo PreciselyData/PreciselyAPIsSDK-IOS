@@ -1,6 +1,6 @@
-#import "PBDeviceStatusNetwork.h"
+#import "PBValidatePhoneNumberAPIRequestInput.h"
 
-@implementation PBDeviceStatusNetwork
+@implementation PBValidatePhoneNumberAPIRequestInput
 
 - (instancetype)init {
   self = [super init];
@@ -17,7 +17,7 @@
  * This method is used by `JSONModel`.
  */
 + (JSONKeyMapper *)keyMapper {
-  return [[JSONKeyMapper alloc] initWithModelToJSONDictionary:@{ @"carrier": @"carrier", @"callType": @"callType", @"locAccuracySupport": @"locAccuracySupport", @"nationalNumber": @"nationalNumber", @"country": @"country" }];
+  return [[JSONKeyMapper alloc] initWithModelToJSONDictionary:@{ @"row": @"Row" }];
 }
 
 /**
@@ -27,7 +27,7 @@
  */
 + (BOOL)propertyIsOptional:(NSString *)propertyName {
 
-  NSArray *optionalProperties = @[@"carrier", @"callType", @"locAccuracySupport", @"nationalNumber", @"country"];
+  NSArray *optionalProperties = @[@"row"];
   return [optionalProperties containsObject:propertyName];
 }
 

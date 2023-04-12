@@ -3,6 +3,7 @@
 #import "PBApiClient.h"
 #import "PBErrorInfo.h"
 #import "PBPhoneVerification.h"
+#import "PBValidatePhoneNumberAPIRequest.h"
 
 
 @interface PBPhoneVerificationServiceApi ()
@@ -52,38 +53,29 @@ NSInteger kPBPhoneVerificationServiceApiMissingParamErrorCode = 234513;
 
 ///
 /// Phone verification.
-/// This service accepts a phone number as input and returns details distinguishing landline and wireless numbers and also checks if a wireless number can be located.
-///  @param phoneNumber E.164 formatted phone number. Accepts digits only. Country Code (1) optional for USA & CAN. 
-///
-///  @param includeNetworkInfo Y or N (default is Y) – if it is N, then network/carrier details will not be added in the response. (optional)
+/// This service accepts a phone number as input and returns details distinguishing landline and wireless numbers.
+///  @param validatePhoneNumberAPIRequest  
 ///
 ///  @returns PBPhoneVerification*
 ///
--(NSURLSessionTask*) phoneVerificationWithPhoneNumber: (NSString*) phoneNumber
-    includeNetworkInfo: (NSString*) includeNetworkInfo
+-(NSURLSessionTask*) validatephonenumberWithValidatePhoneNumberAPIRequest: (PBValidatePhoneNumberAPIRequest*) validatePhoneNumberAPIRequest
     completionHandler: (void (^)(PBPhoneVerification* output, NSError* error)) handler {
-    // verify the required parameter 'phoneNumber' is set
-    if (phoneNumber == nil) {
-        NSParameterAssert(phoneNumber);
+    // verify the required parameter 'validatePhoneNumberAPIRequest' is set
+    if (validatePhoneNumberAPIRequest == nil) {
+        NSParameterAssert(validatePhoneNumberAPIRequest);
         if(handler) {
-            NSDictionary * userInfo = @{NSLocalizedDescriptionKey : [NSString stringWithFormat:NSLocalizedString(@"Missing required parameter '%@'", nil),@"phoneNumber"] };
+            NSDictionary * userInfo = @{NSLocalizedDescriptionKey : [NSString stringWithFormat:NSLocalizedString(@"Missing required parameter '%@'", nil),@"validatePhoneNumberAPIRequest"] };
             NSError* error = [NSError errorWithDomain:kPBPhoneVerificationServiceApiErrorDomain code:kPBPhoneVerificationServiceApiMissingParamErrorCode userInfo:userInfo];
             handler(nil, error);
         }
         return nil;
     }
 
-    NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/phoneverification/v1/phoneverification"];
+    NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/phoneverification/v2/validatephonenumber/results.json"];
 
     NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
 
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
-    if (phoneNumber != nil) {
-        queryParams[@"phoneNumber"] = phoneNumber;
-    }
-    if (includeNetworkInfo != nil) {
-        queryParams[@"includeNetworkInfo"] = includeNetworkInfo;
-    }
     NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.apiClient.configuration.defaultHeaders];
     [headerParams addEntriesFromDictionary:self.defaultHeaders];
     // HTTP header `Accept`
@@ -96,7 +88,7 @@ NSInteger kPBPhoneVerificationServiceApiMissingParamErrorCode = 234513;
     NSString *responseContentType = [[acceptHeader componentsSeparatedByString:@", "] firstObject] ?: @"";
 
     // request content type
-    NSString *requestContentType = [self.apiClient.sanitizer selectHeaderContentType:@[]];
+    NSString *requestContentType = [self.apiClient.sanitizer selectHeaderContentType:@[@"application/json"]];
 
     // Authentication setting
     NSArray *authSettings = @[@"oAuth2Password"];
@@ -104,9 +96,10 @@ NSInteger kPBPhoneVerificationServiceApiMissingParamErrorCode = 234513;
     id bodyParam = nil;
     NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
     NSMutableDictionary *localVarFiles = [[NSMutableDictionary alloc] init];
+    bodyParam = validatePhoneNumberAPIRequest;
 
     return [self.apiClient requestWithPath: resourcePath
-                                    method: @"GET"
+                                    method: @"POST"
                                 pathParams: pathParams
                                queryParams: queryParams
                                 formParams: formParams

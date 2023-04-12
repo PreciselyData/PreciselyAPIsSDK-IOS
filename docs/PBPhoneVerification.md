@@ -3,9 +3,7 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**phoneNumber** | **NSString*** |  | [optional] 
-**network** | [**PBDeviceStatusNetwork***](PBDeviceStatusNetwork.md) |  | [optional] 
-**privacyConsentRequired** | **NSString*** |  | [optional] 
+**output** | [**NSArray&lt;PBPhoneVerificationOutput&gt;***](PBPhoneVerificationOutput.md) |  | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 
