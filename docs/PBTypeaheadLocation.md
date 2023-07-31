@@ -5,7 +5,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **dataset** | **NSString*** |  | [optional] 
 **match** | [**PBMatch***](PBMatch.md) |  | [optional] 
-**address** | [**PBAddress***](PBAddress.md) |  | [optional] 
+**address** | [**PBAddress1***](PBAddress1.md) |  | [optional] 
 **poi** | [**PBPoi***](PBPoi.md) |  | [optional] 
 **distance** | [**PBDistance***](PBDistance.md) |  | [optional] 
 **unitTemp** | **NSString*** |  | [optional] 
