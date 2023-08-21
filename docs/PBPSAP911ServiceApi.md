@@ -8,6 +8,7 @@ Method | HTTP request | Description
 [**getAHJPlusPSAPByLocation**](PBPSAP911ServiceApi.md#getahjpluspsapbylocation) | **GET** /911/v1/ahj-psap/bylocation | AHJ &amp; PSAP By Location
 [**getPSAPByAddress**](PBPSAP911ServiceApi.md#getpsapbyaddress) | **GET** /911/v1/psap/byaddress | PSAP By Address.
 [**getPSAPByLocation**](PBPSAP911ServiceApi.md#getpsapbylocation) | **GET** /911/v1/psap/bylocation | PSAP By Location.
+[**searchByFccId**](PBPSAP911ServiceApi.md#searchbyfccid) | **GET** /911/v1/ahj-psap/byfccid | AHJ &amp; PSAP By Fccid
 
 
 # **getAHJPlusPSAPByAddress**
@@ -235,6 +236,61 @@ Name | Type | Description  | Notes
 
  - **Content-Type**: Not defined
  - **Accept**: application/json, application/xml
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **searchByFccId**
+```objc
+-(NSURLSessionTask*) searchByFccIdWithFccId: (NSString*) fccId
+        completionHandler: (void (^)(PBAHJPlusPSAPResponse* output, NSError* error)) handler;
+```
+
+AHJ & PSAP By Fccid
+
+Accepts fccid as input and Returns contact details for Authorities Having Jurisdiction (AHJ) on-behalf-of local Public Safety Answering Points (PSAP). 911/PSAP accepts a location coordinate and returns PSAP contact data plus contact data for an AHJ to communicate directly with a PSAP. Details include agency name, phone number, city name, coverage, contact person's details, site details and mailing addresses for EMS, Fire, and Police PSAP contacts.
+
+### Example
+```objc
+PBDefaultConfiguration *apiConfig = [PBDefaultConfiguration sharedConfig];
+
+// Configure OAuth2 access token for authorization: (authentication scheme: oAuth2Password)
+[apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
+
+
+NSString* fccId = @"fccId_example"; // fccId
+
+PBPSAP911ServiceApi*apiInstance = [[PBPSAP911ServiceApi alloc] init];
+
+// AHJ & PSAP By Fccid
+[apiInstance searchByFccIdWithFccId:fccId
+          completionHandler: ^(PBAHJPlusPSAPResponse* output, NSError* error) {
+                        if (output) {
+                            NSLog(@"%@", output);
+                        }
+                        if (error) {
+                            NSLog(@"Error calling PBPSAP911ServiceApi->searchByFccId: %@", error);
+                        }
+                    }];
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **fccId** | **NSString***| fccId | 
+
+### Return type
+
+[**PBAHJPlusPSAPResponse***](PBAHJPlusPSAPResponse.md)
+
+### Authorization
+
+[oAuth2Password](../README.md#oAuth2Password)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
