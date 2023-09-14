@@ -4,9 +4,181 @@ All URIs are relative to *https://api.precisely.com*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**getParcelBoundaryByAddress**](PBPropertyInformationServiceApi.md#getparcelboundarybyaddress) | **GET** /property/v2/parcelboundary/byaddress | Get Parcel Boundary By Address
+[**getParcelBoundaryByLocation**](PBPropertyInformationServiceApi.md#getparcelboundarybylocation) | **GET** /property/v2/parcelboundary/bylocation | Get Parcel Boundary By Location
+[**getParcelBoundaryByPreciselyID**](PBPropertyInformationServiceApi.md#getparcelboundarybypreciselyid) | **GET** /property/v2/parcelboundary/bypreciselyID | Get Parcel Boundary By PreciselyID
 [**getPropertyAttributesByAddress**](PBPropertyInformationServiceApi.md#getpropertyattributesbyaddress) | **GET** /property/v2/attributes/byaddress | PropertyV2 Attributes By Address.
 [**getPropertyAttributesByAddressBatch**](PBPropertyInformationServiceApi.md#getpropertyattributesbyaddressbatch) | **POST** /property/v2/attributes/byaddress | PropertyV2 Attributes By Address Batch.
 
+
+# **getParcelBoundaryByAddress**
+```objc
+-(NSURLSessionTask*) getParcelBoundaryByAddressWithAddress: (NSString*) address
+        completionHandler: (void (^)(PBParcelBoundaryV2* output, NSError* error)) handler;
+```
+
+Get Parcel Boundary By Address
+
+Accepts address as input and returns property parcel boundary around that address.
+
+### Example
+```objc
+PBDefaultConfiguration *apiConfig = [PBDefaultConfiguration sharedConfig];
+
+// Configure OAuth2 access token for authorization: (authentication scheme: oAuth2Password)
+[apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
+
+
+NSString* address = @"address_example"; // free form address text
+
+PBPropertyInformationServiceApi*apiInstance = [[PBPropertyInformationServiceApi alloc] init];
+
+// Get Parcel Boundary By Address
+[apiInstance getParcelBoundaryByAddressWithAddress:address
+          completionHandler: ^(PBParcelBoundaryV2* output, NSError* error) {
+                        if (output) {
+                            NSLog(@"%@", output);
+                        }
+                        if (error) {
+                            NSLog(@"Error calling PBPropertyInformationServiceApi->getParcelBoundaryByAddress: %@", error);
+                        }
+                    }];
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **address** | **NSString***| free form address text | 
+
+### Return type
+
+[**PBParcelBoundaryV2***](PBParcelBoundaryV2.md)
+
+### Authorization
+
+[oAuth2Password](../README.md#oAuth2Password)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **getParcelBoundaryByLocation**
+```objc
+-(NSURLSessionTask*) getParcelBoundaryByLocationWithLongitude: (NSString*) longitude
+    latitude: (NSString*) latitude
+        completionHandler: (void (^)(PBParcelBoundaryV2* output, NSError* error)) handler;
+```
+
+Get Parcel Boundary By Location
+
+Accepts latitude/longitude as input and returns property parcel boundary around that location.
+
+### Example
+```objc
+PBDefaultConfiguration *apiConfig = [PBDefaultConfiguration sharedConfig];
+
+// Configure OAuth2 access token for authorization: (authentication scheme: oAuth2Password)
+[apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
+
+
+NSString* longitude = @"longitude_example"; // Longitude of Location
+NSString* latitude = @"latitude_example"; // Latitude of Location
+
+PBPropertyInformationServiceApi*apiInstance = [[PBPropertyInformationServiceApi alloc] init];
+
+// Get Parcel Boundary By Location
+[apiInstance getParcelBoundaryByLocationWithLongitude:longitude
+              latitude:latitude
+          completionHandler: ^(PBParcelBoundaryV2* output, NSError* error) {
+                        if (output) {
+                            NSLog(@"%@", output);
+                        }
+                        if (error) {
+                            NSLog(@"Error calling PBPropertyInformationServiceApi->getParcelBoundaryByLocation: %@", error);
+                        }
+                    }];
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **longitude** | **NSString***| Longitude of Location | 
+ **latitude** | **NSString***| Latitude of Location | 
+
+### Return type
+
+[**PBParcelBoundaryV2***](PBParcelBoundaryV2.md)
+
+### Authorization
+
+[oAuth2Password](../README.md#oAuth2Password)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **getParcelBoundaryByPreciselyID**
+```objc
+-(NSURLSessionTask*) getParcelBoundaryByPreciselyIDWithPreciselyID: (NSString*) preciselyID
+        completionHandler: (void (^)(PBParcelBoundaryV2* output, NSError* error)) handler;
+```
+
+Get Parcel Boundary By PreciselyID
+
+Accepts PB key as input and returns property attributes for the matched address.
+
+### Example
+```objc
+PBDefaultConfiguration *apiConfig = [PBDefaultConfiguration sharedConfig];
+
+// Configure OAuth2 access token for authorization: (authentication scheme: oAuth2Password)
+[apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
+
+
+NSString* preciselyID = @"preciselyID_example"; // precisely ID
+
+PBPropertyInformationServiceApi*apiInstance = [[PBPropertyInformationServiceApi alloc] init];
+
+// Get Parcel Boundary By PreciselyID
+[apiInstance getParcelBoundaryByPreciselyIDWithPreciselyID:preciselyID
+          completionHandler: ^(PBParcelBoundaryV2* output, NSError* error) {
+                        if (output) {
+                            NSLog(@"%@", output);
+                        }
+                        if (error) {
+                            NSLog(@"Error calling PBPropertyInformationServiceApi->getParcelBoundaryByPreciselyID: %@", error);
+                        }
+                    }];
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **preciselyID** | **NSString***| precisely ID | 
+
+### Return type
+
+[**PBParcelBoundaryV2***](PBParcelBoundaryV2.md)
+
+### Authorization
+
+[oAuth2Password](../README.md#oAuth2Password)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **getPropertyAttributesByAddress**
 ```objc

@@ -28,6 +28,7 @@ Method | HTTP request | Description
     includeRangesDetails: (NSString*) includeRangesDetails
     searchType: (NSString*) searchType
     searchOnAddressNumber: (NSString*) searchOnAddressNumber
+    searchOnUnitInfo: (NSString*) searchOnUnitInfo
         completionHandler: (void (^)(PBTypeaheadLocations* output, NSError* error)) handler;
 ```
 
@@ -59,6 +60,7 @@ NSString* returnAdminAreasOnly = @"returnAdminAreasOnly_example"; // if value se
 NSString* includeRangesDetails = @"includeRangesDetails_example"; // if value set 'Y' then display all unit info of ranges, if value set 'N' then don't show ranges (optional)
 NSString* searchType = @"searchType_example"; // Preference to control search type of interactive requests. (optional)
 NSString* searchOnAddressNumber = @"searchOnAddressNumber_example"; // Preference to search on address number. (optional)
+NSString* searchOnUnitInfo = @"searchOnUnitInfo_example"; // Preference to search on unit info. (optional)
 
 PBAddressAutocompleteEnterpriseServiceApi*apiInstance = [[PBAddressAutocompleteEnterpriseServiceApi alloc] init];
 
@@ -80,6 +82,7 @@ PBAddressAutocompleteEnterpriseServiceApi*apiInstance = [[PBAddressAutocompleteE
               includeRangesDetails:includeRangesDetails
               searchType:searchType
               searchOnAddressNumber:searchOnAddressNumber
+              searchOnUnitInfo:searchOnUnitInfo
           completionHandler: ^(PBTypeaheadLocations* output, NSError* error) {
                         if (output) {
                             NSLog(@"%@", output);
@@ -112,6 +115,7 @@ Name | Type | Description  | Notes
  **includeRangesDetails** | **NSString***| if value set &#39;Y&#39; then display all unit info of ranges, if value set &#39;N&#39; then don&#39;t show ranges | [optional] 
  **searchType** | **NSString***| Preference to control search type of interactive requests. | [optional] 
  **searchOnAddressNumber** | **NSString***| Preference to search on address number. | [optional] 
+ **searchOnUnitInfo** | **NSString***| Preference to search on unit info. | [optional] 
 
 ### Return type
 

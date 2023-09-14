@@ -87,6 +87,8 @@ NSInteger kPBAddressAutocompleteServiceApiMissingParamErrorCode = 234513;
 ///
 ///  @param searchOnAddressNumber Preference to search on address number. (optional)
 ///
+///  @param searchOnUnitInfo Preference to search on unit info. (optional)
+///
 ///  @returns PBTypeaheadLocations*
 ///
 -(NSURLSessionTask*) searchV2WithSearchText: (NSString*) searchText
@@ -106,6 +108,7 @@ NSInteger kPBAddressAutocompleteServiceApiMissingParamErrorCode = 234513;
     includeRangesDetails: (NSString*) includeRangesDetails
     searchType: (NSString*) searchType
     searchOnAddressNumber: (NSString*) searchOnAddressNumber
+    searchOnUnitInfo: (NSString*) searchOnUnitInfo
     completionHandler: (void (^)(PBTypeaheadLocations* output, NSError* error)) handler {
     // verify the required parameter 'searchText' is set
     if (searchText == nil) {
@@ -173,6 +176,9 @@ NSInteger kPBAddressAutocompleteServiceApiMissingParamErrorCode = 234513;
     }
     if (searchOnAddressNumber != nil) {
         queryParams[@"searchOnAddressNumber"] = searchOnAddressNumber;
+    }
+    if (searchOnUnitInfo != nil) {
+        queryParams[@"searchOnUnitInfo"] = searchOnUnitInfo;
     }
     NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.apiClient.configuration.defaultHeaders];
     [headerParams addEntriesFromDictionary:self.defaultHeaders];
