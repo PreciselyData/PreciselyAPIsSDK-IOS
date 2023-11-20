@@ -18,10 +18,15 @@ Method | HTTP request | Description
 [**getEarthquakeRiskByLocation**](PBRisksServiceApi.md#getearthquakeriskbylocation) | **GET** /risks/v1/earthquake/bylocation | Get Earthquake Risk By Location
 [**getEarthquakeRiskByLocationBatch**](PBRisksServiceApi.md#getearthquakeriskbylocationbatch) | **POST** /risks/v1/earthquake/bylocation | Post Earthquake Risk By Location
 [**getFireHistory**](PBRisksServiceApi.md#getfirehistory) | **GET** /risks/v1/firehistory | Get Fire History
+[**getFireHistoryV2**](PBRisksServiceApi.md#getfirehistoryv2) | **GET** /risks/v2/firehistory | Get Fire History
 [**getFireRiskByAddress**](PBRisksServiceApi.md#getfireriskbyaddress) | **GET** /risks/v1/fire/byaddress | Get Fire Risk By Address
 [**getFireRiskByAddressBatch**](PBRisksServiceApi.md#getfireriskbyaddressbatch) | **POST** /risks/v1/fire/byaddress | Post Fire Risk By Address
 [**getFireRiskByLocation**](PBRisksServiceApi.md#getfireriskbylocation) | **GET** /risks/v1/fire/bylocation | Get Fire Risk By Location
 [**getFireRiskByLocationBatch**](PBRisksServiceApi.md#getfireriskbylocationbatch) | **POST** /risks/v1/fire/bylocation | Post Fire Risk By Location
+[**getFireRiskV2ByAddress**](PBRisksServiceApi.md#getfireriskv2byaddress) | **GET** /risks/v2/fire/byaddress | Get Fire Risk By Address
+[**getFireRiskV2ByAddressBatch**](PBRisksServiceApi.md#getfireriskv2byaddressbatch) | **POST** /risks/v2/fire/byaddress | Post Fire Risk By Address
+[**getFireRiskV2ByLocation**](PBRisksServiceApi.md#getfireriskv2bylocation) | **GET** /risks/v2/fire/bylocation | Get Fire Risk By Location
+[**getFireRiskV2ByLocationBatch**](PBRisksServiceApi.md#getfireriskv2bylocationbatch) | **POST** /risks/v2/fire/bylocation | Post Fire Risk By Location
 [**getFireStationByAddress**](PBRisksServiceApi.md#getfirestationbyaddress) | **GET** /risks/v1/firestation/byaddress | Get Fire Station By Address
 [**getFireStationByLocation**](PBRisksServiceApi.md#getfirestationbylocation) | **GET** /risks/v1/firestation/bylocation | Get Fire Station By Location
 [**getFloodRiskByAddress**](PBRisksServiceApi.md#getfloodriskbyaddress) | **GET** /risks/v1/flood/byaddress | Get Flood Risk By Address
@@ -908,6 +913,73 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **getFireHistoryV2**
+```objc
+-(NSURLSessionTask*) getFireHistoryV2WithPostCode: (NSString*) postCode
+    startDate: (NSString*) startDate
+    endDate: (NSString*) endDate
+    maxCandidates: (NSString*) maxCandidates
+        completionHandler: (void (^)(PBFireHistoryV2* output, NSError* error)) handler;
+```
+
+Get Fire History
+
+Accepts postcode as input and Returns fire event details for a particular postcode.
+
+### Example
+```objc
+PBDefaultConfiguration *apiConfig = [PBDefaultConfiguration sharedConfig];
+
+// Configure OAuth2 access token for authorization: (authentication scheme: oAuth2Password)
+[apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
+
+
+NSString* postCode = @"postCode_example"; // 5 digit Postal code to search
+NSString* startDate = @"startDate_example"; // Start time in milliseconds(UTC) (optional)
+NSString* endDate = @"endDate_example"; // End time in milliseconds(UTC) (optional)
+NSString* maxCandidates = @"maxCandidates_example"; // Maximum response events (optional)
+
+PBRisksServiceApi*apiInstance = [[PBRisksServiceApi alloc] init];
+
+// Get Fire History
+[apiInstance getFireHistoryV2WithPostCode:postCode
+              startDate:startDate
+              endDate:endDate
+              maxCandidates:maxCandidates
+          completionHandler: ^(PBFireHistoryV2* output, NSError* error) {
+                        if (output) {
+                            NSLog(@"%@", output);
+                        }
+                        if (error) {
+                            NSLog(@"Error calling PBRisksServiceApi->getFireHistoryV2: %@", error);
+                        }
+                    }];
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **postCode** | **NSString***| 5 digit Postal code to search | 
+ **startDate** | **NSString***| Start time in milliseconds(UTC) | [optional] 
+ **endDate** | **NSString***| End time in milliseconds(UTC) | [optional] 
+ **maxCandidates** | **NSString***| Maximum response events | [optional] 
+
+### Return type
+
+[**PBFireHistoryV2***](PBFireHistoryV2.md)
+
+### Authorization
+
+[oAuth2Password](../README.md#oAuth2Password)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **getFireRiskByAddress**
 ```objc
 -(NSURLSessionTask*) getFireRiskByAddressWithAddress: (NSString*) address
@@ -1137,6 +1209,238 @@ Name | Type | Description  | Notes
 
  - **Content-Type**: application/json
  - **Accept**: application/json, application/xml
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **getFireRiskV2ByAddress**
+```objc
+-(NSURLSessionTask*) getFireRiskV2ByAddressWithAddress: (NSString*) address
+    includeGeometry: (NSString*) includeGeometry
+        completionHandler: (void (^)(PBFireRiskV2Response* output, NSError* error)) handler;
+```
+
+Get Fire Risk By Address
+
+Accepts addresses as input and Returns fire risk data by risk types.
+
+### Example
+```objc
+PBDefaultConfiguration *apiConfig = [PBDefaultConfiguration sharedConfig];
+
+// Configure OAuth2 access token for authorization: (authentication scheme: oAuth2Password)
+[apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
+
+
+NSString* address = @"address_example"; // Free form address text
+NSString* includeGeometry = @"includeGeometry_example"; // Flag to return Geometry default is N (optional)
+
+PBRisksServiceApi*apiInstance = [[PBRisksServiceApi alloc] init];
+
+// Get Fire Risk By Address
+[apiInstance getFireRiskV2ByAddressWithAddress:address
+              includeGeometry:includeGeometry
+          completionHandler: ^(PBFireRiskV2Response* output, NSError* error) {
+                        if (output) {
+                            NSLog(@"%@", output);
+                        }
+                        if (error) {
+                            NSLog(@"Error calling PBRisksServiceApi->getFireRiskV2ByAddress: %@", error);
+                        }
+                    }];
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **address** | **NSString***| Free form address text | 
+ **includeGeometry** | **NSString***| Flag to return Geometry default is N | [optional] 
+
+### Return type
+
+[**PBFireRiskV2Response***](PBFireRiskV2Response.md)
+
+### Authorization
+
+[oAuth2Password](../README.md#oAuth2Password)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **getFireRiskV2ByAddressBatch**
+```objc
+-(NSURLSessionTask*) getFireRiskV2ByAddressBatchWithFireRiskByAddressRequest: (PBFireRiskByAddressRequest*) fireRiskByAddressRequest
+        completionHandler: (void (^)(PBFireRiskV2ResponseList* output, NSError* error)) handler;
+```
+
+Post Fire Risk By Address
+
+This is a Batch offering for 'Fire Risk By Address' service. It accepts a single address or a list of addresses and retrieve fire risk data by risk types.
+
+### Example
+```objc
+PBDefaultConfiguration *apiConfig = [PBDefaultConfiguration sharedConfig];
+
+// Configure OAuth2 access token for authorization: (authentication scheme: oAuth2Password)
+[apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
+
+
+PBFireRiskByAddressRequest* fireRiskByAddressRequest = [[PBFireRiskByAddressRequest alloc] init]; // 
+
+PBRisksServiceApi*apiInstance = [[PBRisksServiceApi alloc] init];
+
+// Post Fire Risk By Address
+[apiInstance getFireRiskV2ByAddressBatchWithFireRiskByAddressRequest:fireRiskByAddressRequest
+          completionHandler: ^(PBFireRiskV2ResponseList* output, NSError* error) {
+                        if (output) {
+                            NSLog(@"%@", output);
+                        }
+                        if (error) {
+                            NSLog(@"Error calling PBRisksServiceApi->getFireRiskV2ByAddressBatch: %@", error);
+                        }
+                    }];
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **fireRiskByAddressRequest** | [**PBFireRiskByAddressRequest***](PBFireRiskByAddressRequest.md)|  | 
+
+### Return type
+
+[**PBFireRiskV2ResponseList***](PBFireRiskV2ResponseList.md)
+
+### Authorization
+
+[oAuth2Password](../README.md#oAuth2Password)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **getFireRiskV2ByLocation**
+```objc
+-(NSURLSessionTask*) getFireRiskV2ByLocationWithLongitude: (NSString*) longitude
+    latitude: (NSString*) latitude
+    includeGeometry: (NSString*) includeGeometry
+        completionHandler: (void (^)(PBFireRiskV2Response* output, NSError* error)) handler;
+```
+
+Get Fire Risk By Location
+
+Accepts latitude & longitude as input and Returns fire risk data by risk types.
+
+### Example
+```objc
+PBDefaultConfiguration *apiConfig = [PBDefaultConfiguration sharedConfig];
+
+// Configure OAuth2 access token for authorization: (authentication scheme: oAuth2Password)
+[apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
+
+
+NSString* longitude = @"longitude_example"; // Longitude of Location
+NSString* latitude = @"latitude_example"; // Latitude of Location
+NSString* includeGeometry = @"includeGeometry_example"; // Flag to return Geometry default is N (optional)
+
+PBRisksServiceApi*apiInstance = [[PBRisksServiceApi alloc] init];
+
+// Get Fire Risk By Location
+[apiInstance getFireRiskV2ByLocationWithLongitude:longitude
+              latitude:latitude
+              includeGeometry:includeGeometry
+          completionHandler: ^(PBFireRiskV2Response* output, NSError* error) {
+                        if (output) {
+                            NSLog(@"%@", output);
+                        }
+                        if (error) {
+                            NSLog(@"Error calling PBRisksServiceApi->getFireRiskV2ByLocation: %@", error);
+                        }
+                    }];
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **longitude** | **NSString***| Longitude of Location | 
+ **latitude** | **NSString***| Latitude of Location | 
+ **includeGeometry** | **NSString***| Flag to return Geometry default is N | [optional] 
+
+### Return type
+
+[**PBFireRiskV2Response***](PBFireRiskV2Response.md)
+
+### Authorization
+
+[oAuth2Password](../README.md#oAuth2Password)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **getFireRiskV2ByLocationBatch**
+```objc
+-(NSURLSessionTask*) getFireRiskV2ByLocationBatchWithFireRiskByLocationRequest: (PBFireRiskByLocationRequest*) fireRiskByLocationRequest
+        completionHandler: (void (^)(PBFireRiskV2ResponseList* output, NSError* error)) handler;
+```
+
+Post Fire Risk By Location
+
+This is a Batch offering for 'Fire Risk By Location' service. It accepts a single location coordinate or a list of location coordinates and retrieve fire risk data by risk types.
+
+### Example
+```objc
+PBDefaultConfiguration *apiConfig = [PBDefaultConfiguration sharedConfig];
+
+// Configure OAuth2 access token for authorization: (authentication scheme: oAuth2Password)
+[apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
+
+
+PBFireRiskByLocationRequest* fireRiskByLocationRequest = [[PBFireRiskByLocationRequest alloc] init]; // 
+
+PBRisksServiceApi*apiInstance = [[PBRisksServiceApi alloc] init];
+
+// Post Fire Risk By Location
+[apiInstance getFireRiskV2ByLocationBatchWithFireRiskByLocationRequest:fireRiskByLocationRequest
+          completionHandler: ^(PBFireRiskV2ResponseList* output, NSError* error) {
+                        if (output) {
+                            NSLog(@"%@", output);
+                        }
+                        if (error) {
+                            NSLog(@"Error calling PBRisksServiceApi->getFireRiskV2ByLocationBatch: %@", error);
+                        }
+                    }];
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **fireRiskByLocationRequest** | [**PBFireRiskByLocationRequest***](PBFireRiskByLocationRequest.md)|  | 
+
+### Return type
+
+[**PBFireRiskV2ResponseList***](PBFireRiskV2ResponseList.md)
+
+### Authorization
+
+[oAuth2Password](../README.md#oAuth2Password)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

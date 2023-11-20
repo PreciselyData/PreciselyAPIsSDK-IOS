@@ -15,10 +15,13 @@
 #import "PBEarthquakeRiskResponseList.h"
 #import "PBErrorInfo.h"
 #import "PBFireHistory.h"
+#import "PBFireHistoryV2.h"
 #import "PBFireRiskByAddressRequest.h"
 #import "PBFireRiskByLocationRequest.h"
 #import "PBFireRiskResponse.h"
 #import "PBFireRiskResponseList.h"
+#import "PBFireRiskV2Response.h"
+#import "PBFireRiskV2ResponseList.h"
 #import "PBFireStations.h"
 #import "PBFloodRiskByAddressRequest.h"
 #import "PBFloodRiskByLocationRequest.h"
@@ -1175,6 +1178,92 @@ NSInteger kPBRisksServiceApiMissingParamErrorCode = 234513;
 }
 
 ///
+/// Get Fire History
+/// Accepts postcode as input and Returns fire event details for a particular postcode.
+///  @param postCode 5 digit Postal code to search 
+///
+///  @param startDate Start time in milliseconds(UTC) (optional)
+///
+///  @param endDate End time in milliseconds(UTC) (optional)
+///
+///  @param maxCandidates Maximum response events (optional)
+///
+///  @returns PBFireHistoryV2*
+///
+-(NSURLSessionTask*) getFireHistoryV2WithPostCode: (NSString*) postCode
+    startDate: (NSString*) startDate
+    endDate: (NSString*) endDate
+    maxCandidates: (NSString*) maxCandidates
+    completionHandler: (void (^)(PBFireHistoryV2* output, NSError* error)) handler {
+    // verify the required parameter 'postCode' is set
+    if (postCode == nil) {
+        NSParameterAssert(postCode);
+        if(handler) {
+            NSDictionary * userInfo = @{NSLocalizedDescriptionKey : [NSString stringWithFormat:NSLocalizedString(@"Missing required parameter '%@'", nil),@"postCode"] };
+            NSError* error = [NSError errorWithDomain:kPBRisksServiceApiErrorDomain code:kPBRisksServiceApiMissingParamErrorCode userInfo:userInfo];
+            handler(nil, error);
+        }
+        return nil;
+    }
+
+    NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/risks/v2/firehistory"];
+
+    NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
+
+    NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
+    if (postCode != nil) {
+        queryParams[@"postCode"] = postCode;
+    }
+    if (startDate != nil) {
+        queryParams[@"startDate"] = startDate;
+    }
+    if (endDate != nil) {
+        queryParams[@"endDate"] = endDate;
+    }
+    if (maxCandidates != nil) {
+        queryParams[@"maxCandidates"] = maxCandidates;
+    }
+    NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.apiClient.configuration.defaultHeaders];
+    [headerParams addEntriesFromDictionary:self.defaultHeaders];
+    // HTTP header `Accept`
+    NSString *acceptHeader = [self.apiClient.sanitizer selectHeaderAccept:@[@"application/json"]];
+    if(acceptHeader.length > 0) {
+        headerParams[@"Accept"] = acceptHeader;
+    }
+
+    // response content type
+    NSString *responseContentType = [[acceptHeader componentsSeparatedByString:@", "] firstObject] ?: @"";
+
+    // request content type
+    NSString *requestContentType = [self.apiClient.sanitizer selectHeaderContentType:@[]];
+
+    // Authentication setting
+    NSArray *authSettings = @[@"oAuth2Password"];
+
+    id bodyParam = nil;
+    NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *localVarFiles = [[NSMutableDictionary alloc] init];
+
+    return [self.apiClient requestWithPath: resourcePath
+                                    method: @"GET"
+                                pathParams: pathParams
+                               queryParams: queryParams
+                                formParams: formParams
+                                     files: localVarFiles
+                                      body: bodyParam
+                              headerParams: headerParams
+                              authSettings: authSettings
+                        requestContentType: requestContentType
+                       responseContentType: responseContentType
+                              responseType: @"PBFireHistoryV2*"
+                           completionBlock: ^(id data, NSError *error) {
+                                if(handler) {
+                                    handler((PBFireHistoryV2*)data, error);
+                                }
+                            }];
+}
+
+///
 /// Get Fire Risk By Address
 /// Accepts addresses as input and Returns fire risk data by risk types.
 ///  @param address Free form address text 
@@ -1467,6 +1556,303 @@ NSInteger kPBRisksServiceApiMissingParamErrorCode = 234513;
                            completionBlock: ^(id data, NSError *error) {
                                 if(handler) {
                                     handler((PBFireRiskResponseList*)data, error);
+                                }
+                            }];
+}
+
+///
+/// Get Fire Risk By Address
+/// Accepts addresses as input and Returns fire risk data by risk types.
+///  @param address Free form address text 
+///
+///  @param includeGeometry Flag to return Geometry default is N (optional)
+///
+///  @returns PBFireRiskV2Response*
+///
+-(NSURLSessionTask*) getFireRiskV2ByAddressWithAddress: (NSString*) address
+    includeGeometry: (NSString*) includeGeometry
+    completionHandler: (void (^)(PBFireRiskV2Response* output, NSError* error)) handler {
+    // verify the required parameter 'address' is set
+    if (address == nil) {
+        NSParameterAssert(address);
+        if(handler) {
+            NSDictionary * userInfo = @{NSLocalizedDescriptionKey : [NSString stringWithFormat:NSLocalizedString(@"Missing required parameter '%@'", nil),@"address"] };
+            NSError* error = [NSError errorWithDomain:kPBRisksServiceApiErrorDomain code:kPBRisksServiceApiMissingParamErrorCode userInfo:userInfo];
+            handler(nil, error);
+        }
+        return nil;
+    }
+
+    NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/risks/v2/fire/byaddress"];
+
+    NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
+
+    NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
+    if (address != nil) {
+        queryParams[@"address"] = address;
+    }
+    if (includeGeometry != nil) {
+        queryParams[@"includeGeometry"] = includeGeometry;
+    }
+    NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.apiClient.configuration.defaultHeaders];
+    [headerParams addEntriesFromDictionary:self.defaultHeaders];
+    // HTTP header `Accept`
+    NSString *acceptHeader = [self.apiClient.sanitizer selectHeaderAccept:@[@"application/json"]];
+    if(acceptHeader.length > 0) {
+        headerParams[@"Accept"] = acceptHeader;
+    }
+
+    // response content type
+    NSString *responseContentType = [[acceptHeader componentsSeparatedByString:@", "] firstObject] ?: @"";
+
+    // request content type
+    NSString *requestContentType = [self.apiClient.sanitizer selectHeaderContentType:@[]];
+
+    // Authentication setting
+    NSArray *authSettings = @[@"oAuth2Password"];
+
+    id bodyParam = nil;
+    NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *localVarFiles = [[NSMutableDictionary alloc] init];
+
+    return [self.apiClient requestWithPath: resourcePath
+                                    method: @"GET"
+                                pathParams: pathParams
+                               queryParams: queryParams
+                                formParams: formParams
+                                     files: localVarFiles
+                                      body: bodyParam
+                              headerParams: headerParams
+                              authSettings: authSettings
+                        requestContentType: requestContentType
+                       responseContentType: responseContentType
+                              responseType: @"PBFireRiskV2Response*"
+                           completionBlock: ^(id data, NSError *error) {
+                                if(handler) {
+                                    handler((PBFireRiskV2Response*)data, error);
+                                }
+                            }];
+}
+
+///
+/// Post Fire Risk By Address
+/// This is a Batch offering for 'Fire Risk By Address' service. It accepts a single address or a list of addresses and retrieve fire risk data by risk types.
+///  @param fireRiskByAddressRequest  
+///
+///  @returns PBFireRiskV2ResponseList*
+///
+-(NSURLSessionTask*) getFireRiskV2ByAddressBatchWithFireRiskByAddressRequest: (PBFireRiskByAddressRequest*) fireRiskByAddressRequest
+    completionHandler: (void (^)(PBFireRiskV2ResponseList* output, NSError* error)) handler {
+    // verify the required parameter 'fireRiskByAddressRequest' is set
+    if (fireRiskByAddressRequest == nil) {
+        NSParameterAssert(fireRiskByAddressRequest);
+        if(handler) {
+            NSDictionary * userInfo = @{NSLocalizedDescriptionKey : [NSString stringWithFormat:NSLocalizedString(@"Missing required parameter '%@'", nil),@"fireRiskByAddressRequest"] };
+            NSError* error = [NSError errorWithDomain:kPBRisksServiceApiErrorDomain code:kPBRisksServiceApiMissingParamErrorCode userInfo:userInfo];
+            handler(nil, error);
+        }
+        return nil;
+    }
+
+    NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/risks/v2/fire/byaddress"];
+
+    NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
+
+    NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.apiClient.configuration.defaultHeaders];
+    [headerParams addEntriesFromDictionary:self.defaultHeaders];
+    // HTTP header `Accept`
+    NSString *acceptHeader = [self.apiClient.sanitizer selectHeaderAccept:@[@"application/json"]];
+    if(acceptHeader.length > 0) {
+        headerParams[@"Accept"] = acceptHeader;
+    }
+
+    // response content type
+    NSString *responseContentType = [[acceptHeader componentsSeparatedByString:@", "] firstObject] ?: @"";
+
+    // request content type
+    NSString *requestContentType = [self.apiClient.sanitizer selectHeaderContentType:@[@"application/json"]];
+
+    // Authentication setting
+    NSArray *authSettings = @[@"oAuth2Password"];
+
+    id bodyParam = nil;
+    NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *localVarFiles = [[NSMutableDictionary alloc] init];
+    bodyParam = fireRiskByAddressRequest;
+
+    return [self.apiClient requestWithPath: resourcePath
+                                    method: @"POST"
+                                pathParams: pathParams
+                               queryParams: queryParams
+                                formParams: formParams
+                                     files: localVarFiles
+                                      body: bodyParam
+                              headerParams: headerParams
+                              authSettings: authSettings
+                        requestContentType: requestContentType
+                       responseContentType: responseContentType
+                              responseType: @"PBFireRiskV2ResponseList*"
+                           completionBlock: ^(id data, NSError *error) {
+                                if(handler) {
+                                    handler((PBFireRiskV2ResponseList*)data, error);
+                                }
+                            }];
+}
+
+///
+/// Get Fire Risk By Location
+/// Accepts latitude & longitude as input and Returns fire risk data by risk types.
+///  @param longitude Longitude of Location 
+///
+///  @param latitude Latitude of Location 
+///
+///  @param includeGeometry Flag to return Geometry default is N (optional)
+///
+///  @returns PBFireRiskV2Response*
+///
+-(NSURLSessionTask*) getFireRiskV2ByLocationWithLongitude: (NSString*) longitude
+    latitude: (NSString*) latitude
+    includeGeometry: (NSString*) includeGeometry
+    completionHandler: (void (^)(PBFireRiskV2Response* output, NSError* error)) handler {
+    // verify the required parameter 'longitude' is set
+    if (longitude == nil) {
+        NSParameterAssert(longitude);
+        if(handler) {
+            NSDictionary * userInfo = @{NSLocalizedDescriptionKey : [NSString stringWithFormat:NSLocalizedString(@"Missing required parameter '%@'", nil),@"longitude"] };
+            NSError* error = [NSError errorWithDomain:kPBRisksServiceApiErrorDomain code:kPBRisksServiceApiMissingParamErrorCode userInfo:userInfo];
+            handler(nil, error);
+        }
+        return nil;
+    }
+
+    // verify the required parameter 'latitude' is set
+    if (latitude == nil) {
+        NSParameterAssert(latitude);
+        if(handler) {
+            NSDictionary * userInfo = @{NSLocalizedDescriptionKey : [NSString stringWithFormat:NSLocalizedString(@"Missing required parameter '%@'", nil),@"latitude"] };
+            NSError* error = [NSError errorWithDomain:kPBRisksServiceApiErrorDomain code:kPBRisksServiceApiMissingParamErrorCode userInfo:userInfo];
+            handler(nil, error);
+        }
+        return nil;
+    }
+
+    NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/risks/v2/fire/bylocation"];
+
+    NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
+
+    NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
+    if (longitude != nil) {
+        queryParams[@"longitude"] = longitude;
+    }
+    if (latitude != nil) {
+        queryParams[@"latitude"] = latitude;
+    }
+    if (includeGeometry != nil) {
+        queryParams[@"includeGeometry"] = includeGeometry;
+    }
+    NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.apiClient.configuration.defaultHeaders];
+    [headerParams addEntriesFromDictionary:self.defaultHeaders];
+    // HTTP header `Accept`
+    NSString *acceptHeader = [self.apiClient.sanitizer selectHeaderAccept:@[@"application/json"]];
+    if(acceptHeader.length > 0) {
+        headerParams[@"Accept"] = acceptHeader;
+    }
+
+    // response content type
+    NSString *responseContentType = [[acceptHeader componentsSeparatedByString:@", "] firstObject] ?: @"";
+
+    // request content type
+    NSString *requestContentType = [self.apiClient.sanitizer selectHeaderContentType:@[]];
+
+    // Authentication setting
+    NSArray *authSettings = @[@"oAuth2Password"];
+
+    id bodyParam = nil;
+    NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *localVarFiles = [[NSMutableDictionary alloc] init];
+
+    return [self.apiClient requestWithPath: resourcePath
+                                    method: @"GET"
+                                pathParams: pathParams
+                               queryParams: queryParams
+                                formParams: formParams
+                                     files: localVarFiles
+                                      body: bodyParam
+                              headerParams: headerParams
+                              authSettings: authSettings
+                        requestContentType: requestContentType
+                       responseContentType: responseContentType
+                              responseType: @"PBFireRiskV2Response*"
+                           completionBlock: ^(id data, NSError *error) {
+                                if(handler) {
+                                    handler((PBFireRiskV2Response*)data, error);
+                                }
+                            }];
+}
+
+///
+/// Post Fire Risk By Location
+/// This is a Batch offering for 'Fire Risk By Location' service. It accepts a single location coordinate or a list of location coordinates and retrieve fire risk data by risk types.
+///  @param fireRiskByLocationRequest  
+///
+///  @returns PBFireRiskV2ResponseList*
+///
+-(NSURLSessionTask*) getFireRiskV2ByLocationBatchWithFireRiskByLocationRequest: (PBFireRiskByLocationRequest*) fireRiskByLocationRequest
+    completionHandler: (void (^)(PBFireRiskV2ResponseList* output, NSError* error)) handler {
+    // verify the required parameter 'fireRiskByLocationRequest' is set
+    if (fireRiskByLocationRequest == nil) {
+        NSParameterAssert(fireRiskByLocationRequest);
+        if(handler) {
+            NSDictionary * userInfo = @{NSLocalizedDescriptionKey : [NSString stringWithFormat:NSLocalizedString(@"Missing required parameter '%@'", nil),@"fireRiskByLocationRequest"] };
+            NSError* error = [NSError errorWithDomain:kPBRisksServiceApiErrorDomain code:kPBRisksServiceApiMissingParamErrorCode userInfo:userInfo];
+            handler(nil, error);
+        }
+        return nil;
+    }
+
+    NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/risks/v2/fire/bylocation"];
+
+    NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
+
+    NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.apiClient.configuration.defaultHeaders];
+    [headerParams addEntriesFromDictionary:self.defaultHeaders];
+    // HTTP header `Accept`
+    NSString *acceptHeader = [self.apiClient.sanitizer selectHeaderAccept:@[@"application/json"]];
+    if(acceptHeader.length > 0) {
+        headerParams[@"Accept"] = acceptHeader;
+    }
+
+    // response content type
+    NSString *responseContentType = [[acceptHeader componentsSeparatedByString:@", "] firstObject] ?: @"";
+
+    // request content type
+    NSString *requestContentType = [self.apiClient.sanitizer selectHeaderContentType:@[@"application/json"]];
+
+    // Authentication setting
+    NSArray *authSettings = @[@"oAuth2Password"];
+
+    id bodyParam = nil;
+    NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *localVarFiles = [[NSMutableDictionary alloc] init];
+    bodyParam = fireRiskByLocationRequest;
+
+    return [self.apiClient requestWithPath: resourcePath
+                                    method: @"POST"
+                                pathParams: pathParams
+                               queryParams: queryParams
+                                formParams: formParams
+                                     files: localVarFiles
+                                      body: bodyParam
+                              headerParams: headerParams
+                              authSettings: authSettings
+                        requestContentType: requestContentType
+                       responseContentType: responseContentType
+                              responseType: @"PBFireRiskV2ResponseList*"
+                           completionBlock: ^(id data, NSError *error) {
+                                if(handler) {
+                                    handler((PBFireRiskV2ResponseList*)data, error);
                                 }
                             }];
 }
