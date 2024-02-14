@@ -27,6 +27,7 @@ Method | HTTP request | Description
     searchType: (NSString*) searchType
     searchOnAddressNumber: (NSString*) searchOnAddressNumber
     searchOnUnitInfo: (NSString*) searchOnUnitInfo
+    searchOnPOBox: (NSString*) searchOnPOBox
         completionHandler: (void (^)(PBTypeaheadLocations* output, NSError* error)) handler;
 ```
 
@@ -60,6 +61,7 @@ NSString* includeRangesDetails = @"includeRangesDetails_example"; // if value se
 NSString* searchType = @"searchType_example"; // Preference to control search type of interactive requests. (optional)
 NSString* searchOnAddressNumber = @"searchOnAddressNumber_example"; // Preference to search on address number. (optional)
 NSString* searchOnUnitInfo = @"searchOnUnitInfo_example"; // Preference to search on unit info. (optional)
+NSString* searchOnPOBox = @"searchOnPOBox_example"; // Specifies whether to enable search for matching on PO Box. (optional)
 
 PBAddressAutocompleteServiceApi*apiInstance = [[PBAddressAutocompleteServiceApi alloc] init];
 
@@ -82,6 +84,7 @@ PBAddressAutocompleteServiceApi*apiInstance = [[PBAddressAutocompleteServiceApi 
               searchType:searchType
               searchOnAddressNumber:searchOnAddressNumber
               searchOnUnitInfo:searchOnUnitInfo
+              searchOnPOBox:searchOnPOBox
           completionHandler: ^(PBTypeaheadLocations* output, NSError* error) {
                         if (output) {
                             NSLog(@"%@", output);
@@ -114,6 +117,7 @@ Name | Type | Description  | Notes
  **searchType** | **NSString***| Preference to control search type of interactive requests. | [optional] 
  **searchOnAddressNumber** | **NSString***| Preference to search on address number. | [optional] 
  **searchOnUnitInfo** | **NSString***| Preference to search on unit info. | [optional] 
+ **searchOnPOBox** | **NSString***| Specifies whether to enable search for matching on PO Box. | [optional] 
 
 ### Return type
 

@@ -3,7 +3,7 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**address** | [**PBAddress***](PBAddress.md) |  | [optional] 
+**address** | [**PBAddress1***](PBAddress1.md) |  | [optional] 
 **phone** | **NSString*** |  | [optional] 
 **fax** | **NSString*** |  | [optional] 
 **countryAccessCode** | **NSString*** |  | [optional] 

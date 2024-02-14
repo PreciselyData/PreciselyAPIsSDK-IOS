@@ -9,7 +9,7 @@ Name | Type | Description | Notes
 **phone** | **NSString*** |  | [optional] 
 **website** | **NSString*** |  | [optional] 
 **addressType** | **NSString*** |  | [optional] 
-**address** | [**PBAddress***](PBAddress.md) |  | [optional] 
+**address** | [**PBAddress1***](PBAddress1.md) |  | [optional] 
 **lowestGrade** | **NSString*** |  | [optional] 
 **highestGrade** | **NSString*** |  | [optional] 
 **schoolType** | **NSString*** |  | [optional] 

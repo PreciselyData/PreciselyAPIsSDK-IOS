@@ -1,7 +1,7 @@
 #import "PBNeighborhoodsServiceApi.h"
 #import "PBQueryParamCollection.h"
 #import "PBApiClient.h"
-#import "PBErrorInfo.h"
+#import "PBErrorInfo1.h"
 #import "PBNeighborhoodsResponse.h"
 
 
@@ -82,7 +82,7 @@ NSInteger kPBNeighborhoodsServiceApiMissingParamErrorCode = 234513;
     NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.apiClient.configuration.defaultHeaders];
     [headerParams addEntriesFromDictionary:self.defaultHeaders];
     // HTTP header `Accept`
-    NSString *acceptHeader = [self.apiClient.sanitizer selectHeaderAccept:@[@"application/json", @"application/xml"]];
+    NSString *acceptHeader = [self.apiClient.sanitizer selectHeaderAccept:@[@"application/json"]];
     if(acceptHeader.length > 0) {
         headerParams[@"Accept"] = acceptHeader;
     }

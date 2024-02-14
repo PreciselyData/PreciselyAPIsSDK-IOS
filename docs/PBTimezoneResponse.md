@@ -9,7 +9,7 @@ Name | Type | Description | Notes
 **utcOffset** | **NSNumber*** |  | [optional] 
 **dstOffset** | **NSNumber*** |  | [optional] 
 **timestamp** | **NSNumber*** |  | [optional] 
-**matchedAddress** | [**PBAddress***](PBAddress.md) |  | [optional] 
+**matchedAddress** | [**PBAddress1***](PBAddress1.md) |  | [optional] 
 **country** | **NSString*** |  | [optional] 
 **tzValidFrom** | **NSString*** |  | [optional] 
 **tzValidUntill** | **NSString*** |  | [optional] 

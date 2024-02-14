@@ -9,7 +9,7 @@ Name | Type | Description | Notes
 **areaName1** | **NSString*** |  | [optional] 
 **geometry** | [**PBGeometry***](PBGeometry.md) |  | [optional] 
 **areaCodeInfoList** | [**NSArray&lt;PBAreaCodeInfo&gt;***](PBAreaCodeInfo.md) |  | [optional] 
-**matchedAddress** | [**PBAddress***](PBAddress.md) |  | [optional] 
+**matchedAddress** | [**PBAddress1***](PBAddress1.md) |  | [optional] 
 **match** | [**PBMatch***](PBMatch.md) |  | [optional] 
 **county** | [**PBCounty***](PBCounty.md) |  | [optional] 
 **count** | **NSNumber*** |  | [optional] 
