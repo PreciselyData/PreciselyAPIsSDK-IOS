@@ -9,7 +9,7 @@
 
 Pod::Spec.new do |s|
     s.name             = "PreciselyAPIsIOSSDK"
-    s.version          = "18.0.0"
+    s.version          = "18.1.0"
 
     s.summary          = "Precisely APIs"
     s.description      = <<-DESC
